@@ -8,7 +8,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-8 d-flex align-items-center">
-                        <h2 class="text-uppercase text-dark font-weight-bold">
+                        <h2 class="text-uppercase text-dark font-weight-bold custom_h_size">
                             All Products Information
                         </h2>
                     </div>
@@ -44,7 +44,7 @@
                                 <th>Packing</th>
                                 <th>Quantity</th>
                                 <th>Alert Stock</th>
-                                <th>Status</th>
+                                {{-- <th>Status</th> --}}
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -71,11 +71,11 @@
                                         </span>
                                         @endif
                                     </td>
-                                    <td>{{ $product->product_status }}</td>
+                                    {{-- <td>{{ $product->product_status }}</td> --}}
                                     <td class="text-center">
-                                        <a class="text-dark mx-1" href="{{ url('/admin/products/view/'.$product->product_slug) }}" data-toggle="tooltip" data-placement="top" title="View Task"><i class="fas fa-eye fa-lg"></i></a>
-                                        <a class="text-info mx-1" href="{{ url('/admin/products/edit/'.$product->product_slug) }}"><i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit Task"></i></a>
-                                        <a class="text-danger mx-1 delete-confirm" href="{{ url('/admin/products/soft-delete/'.$product->product_slug) }}"><i class="fas fa-trash fa-lg" data-toggle="tooltip" data-placement="top" title="Remove Task"></i></a>
+                                        <a class="text-dark mx-1" href="{{ url('/admin/products/view/'.$product->product_slug) }}" data-toggle="tooltip" data-placement="top" title="View Task"><i class="fas fa-eye"></i></a>
+                                        <a class="text-info mx-1" href="{{ url('/admin/products/edit/'.$product->product_slug) }}"><i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Edit Task"></i></a>
+                                        <a class="text-danger mx-1 delete-confirm" href="{{ url('/admin/products/soft-delete/'.$product->product_slug) }}"><i class="fas fa-trash" data-toggle="tooltip" data-placement="top" title="Remove Task"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

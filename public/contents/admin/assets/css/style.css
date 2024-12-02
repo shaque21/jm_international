@@ -65,8 +65,9 @@ img{
     color: blue!important;
 }
 .profile_img{
-    height: 250px;
-    width: 250px;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
 }
 .custom_h_size{
     font-size: 1rem!important;
@@ -76,4 +77,12 @@ img{
     padding: 0.3rem;
     font-size: 0.8rem;
     white-space: nowrap;
+}
+.alert-danger{
+    color:#fd6363!important;
+    font-size: x-small;
+}
+
+.table td, .table th{
+    font-size: 0.75rem!important;
 }
