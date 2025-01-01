@@ -21,15 +21,11 @@
                         <span>
                             {{ Auth::user()->name }}
                             <span class="user-level">
-                                {{-- @if ($data->user_role->role_name == 'Admin')
-                                <span class="badge badge-success">
-                                    {{ $data->user_role->role_name }}
+                                @if (Auth::user()->role_id == 1)
+                                <span class="badge badge-success px-4">
+                                    {{-- {{ $data->user_role->role_name }} --}} Admin 
                                 </span>
-                                @else
-                                <span class="badge badge-secondary">
-                                    {{ $data->user_role->role_name }}
-                                </span> 
-                                @endif --}}
+                                @endif
                             </span>
                         </span>
                     </a>
@@ -56,15 +52,21 @@
                         <p>Profile</p>
                     </a>
                 </li>
+                <li class="nav-item {{ (request()->segment(2) == 'customers') ? 'active' : '' }}">
+                    <a href="{{ url('/admin/customers'.Auth::user()->slug) }}">
+                        <i class="fas fa-user-tie"></i>
+                        <p>Customers</p>
+                    </a>
+                </li>
                 <li class="nav-item {{ (request()->segment(2) == 'users') ? 'active' : '' }}">
-                    <a href="{{ url('/admin/users') }}">
-                        <i class="fas fa-users"></i>
-                        <p>Users</p>
+                    <a href="{{ url('/admin/employees') }}">
+                        <i class="fas fa-address-book"></i>
+                        <p>Employees</p>
                     </a>
                 </li>
                 <li class="nav-item {{ (request()->segment(2) == 'products') ? 'active' : '' }}">
                     <a href="{{ url('/admin/products') }}">
-                        <i class="fas fa-gift"></i>
+                        <i class="fas fa-hospital"></i>
                         <p>Products</p>
                     </a>
                 </li>

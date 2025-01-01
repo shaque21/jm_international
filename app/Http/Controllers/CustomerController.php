@@ -113,7 +113,70 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $request->validate([
+            'name'=>'required|max:70|min:5',
+            'mobile'=>'required|min:11|max:15',
+            'email' => 'required|string|email|max:255|unique:users',
+            //'password' => 'required|string|min:8',
+            'shop_name' => 'required',
+            'address' => 'required',
+
+            'photo'=>'mimes:jpeg,jpg,png,gif',
+        ],[
+            'name.required'=>'The name field is required!'
+        ]);
+
+        $slug = Str::of($request->name)->slug('-');
+
+        $data = array(
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'mobile'=>$request->mobile,
+            'shop_name'=>$request->shop_name,
+            'address'=>$request->address,
+            //'password' => Hash::make($request->password),
+            'slug'=>$slug,
+            'updated_at'=>Carbon::now()->toDateTimeString(),
+        );
+        if ($request->hasFile('photo')) {
+            // Get the file from the request
+            $image = $request->file('photo');
+    
+            // Generate a unique name for the file
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+    
+            // Store the file in the 'public/uploads/customers' directory
+            $path = $image->move(public_path('/uploads/customers'), $fileName);
+            $data['photo'] = $fileName;
+            
+        }
+        $update = DB::table('customers')->where('id',$request->id)->where('status',1)->update($data);
+        if($update){
+            Session::flash('update_success','Customer Information Updated Successfully !');
+            return redirect('/admin/customers/view/'.$slug);
+        }
+        else{
+            Session::flash('update_error','The Customer Information is not Updated !');
+            return redirect('/admin/customers/edit/'.$slug);
+        }
+
+
+    }
+
+    public function soft_delete($slug){
+        $soft_delete=Customer::where('status',1)->where('slug',$slug)
+        ->update([
+            'status'=>0,
+            'updated_at'=>Carbon::now()->toDateTimeString(),
+        ]);
+        if($soft_delete){
+            Session::flash('delete_success','This customer moves to Restore');
+            return redirect('/admin/customers');
+        }
+        else{
+            Session::flash('delete_error','This customer can not moves to Restore');
+            return redirect('/admin/customers');
+        }
     }
 
     /**

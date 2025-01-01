@@ -26,7 +26,7 @@
                         <div class="col-md-8 d-flex align-items-center">
                             <h2 class="text-uppercase text-dark font-weight-bold custom_h_size">
                                 Add Customer Information
-                            </h2>
+                            </h2> 
                         </div>
                         <div class="col-md-4 d-flex justify-content-end">
                             <a href="{{ url('/admin/customers') }}" class="btn btn-sm btn-secondary font-weight-bold text-uppercase">

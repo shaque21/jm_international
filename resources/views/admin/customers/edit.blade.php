@@ -4,7 +4,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <form method="POST" action="{{ url('/admin/products/update')}}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url('/admin/customers/update')}}" enctype="multipart/form-data">
             @csrf
             <div class="card">
                 <div class="card-header">
@@ -59,7 +59,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 <label for="password" class="col-sm-2 col-form-label custom_form_label">
                                     Password :<span class="req_star">*</span>
                                 </label>
@@ -68,6 +68,20 @@
                                     @error('password')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
+                                </div>
+                            </div> --}}
+
+                            <div class="form-group row border">
+                                <label for="address" class="col-sm-2 col-form-label custom_form_label">
+                                    Address :<span class="req_star">*</span>
+                                </label>
+                                <div class="col-sm-10">
+                                  <textarea name="address" id="address" cols="10" rows="3" class="form-control custom_textarea custom_form_control" placeholder="Address">
+                                    {{ $data['address'] }}
+                                  </textarea>
+                                  @error('address')
+                                        <span class="alert alert-danger">{{ $message }}</span>
+                                 @enderror
                                 </div>
                             </div>
                         </div>
@@ -115,19 +129,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-group row border">
-                        <label for="address" class="col-sm-2 col-form-label custom_form_label">
-                            Address :<span class="req_star">*</span>
-                        </label>
-                        <div class="col-sm-10">
-                          <textarea name="address" id="address" cols="10" rows="3" class="form-control custom_textarea custom_form_control" placeholder="Address">
-                            {{ $data['address'] }}
-                          </textarea>
-                          @error('address')
-                                <span class="alert alert-danger">{{ $message }}</span>
-                         @enderror
-                        </div>
-                    </div>
+                    
                     
                 </div>
 

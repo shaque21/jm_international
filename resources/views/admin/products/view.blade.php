@@ -30,7 +30,7 @@
             <div class="card-body">
 
                 <div class="row border">
-                    <div class="col-md-4 border d-flex justify-content-center align-items-center">
+                    <div class="view_img_container col-md-4 border d-flex justify-content-center align-items-center">
                         <img src="{{asset('/uploads/products/'.$data['0']->product_img)}}" alt="..." class="container-fluid avatar-img rounded profile_img">
                     </div>
                     <div class="col-md-8 border d-flex justify-content-center align-items-center">
