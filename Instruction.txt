@@ -1,0 +1,77 @@
+1. warehouses
+    -id,name
+2. warehouse_stock
+    -id,warehouse_id,product_id,qty,supplier,created,update,user
+3. warehouse_logs
+    -id,date,warehouse_id,product_id,qty,stock_type,supplier,user,timestap
+    - 1,1,1,10,'in_stock',1,1,2024-12-31 12:05:12
+    - 1,1,1,5,'out_stock',1,1,2024-12-31
+
+4. Depo 
+    -id,name,warehouse_id
+5.depo_stock
+    - id, depo_id,product_id,qty,supplier,created,update,user
+6. depo_logs
+
+public function createEmployee(){
+    try{
+
+        
+        DB::trasction();
+
+        // pen ->10
+        $wStock = WareHouseStock::where(['product_id' => 'pen','warehouse_id' => 'w11'])->get();
+        $wStock->qty += request()->qty;
+        $wStock->save();
+
+        WareHouseLog $log  = new WareHouseLog();
+
+
+        DB::commit()
+    
+    }
+    catch(Exception $e){
+        DB::rollback();
+    
+    }
+    
+
+}
+
+******************STatus****************
+[pending,active,inactive,delivered]
+order_master
+-ID
+-DATE(2025-01-01[date(Y-m-d)])
+-INVOICE_NO(ORD20241231_)[$ord = 'ORD'.$now().'_'.$ID.'_'.rand(5)][unique]
+-CUSTOMER_ID
+-USER_ID
+-NUM_OF_ITEM
+-DEPO_ID
+-WAREHOUSE_ID
+-TIMESTAMP
+-STATUS
+
+order_details
+-ID
+-ORDER_MASTER_ID
+-PRODUCT_ID
+-ORDER_QTY
+-DELIVER_QTY
+-TIMESTAMP
+
+Select 
+t1.id ORDER_MASTER_ID,t2.ID ORDER_DETAILS_ID
+t6.id PRODUCT_ID,
+
+
+From order_master t1
+INNER JOIN order_details t2 ON t1.ID = t2.ORDER_MASTER_ID
+INNER JOIN customer t3 ON t1.customer_id = t3.id
+LEFT JOIN warehouse t4 ON t1.warehouse_id = t4.id
+LEFT JOIN depo t5 ON t1.depo_id = t5.id
+INNER JOIN products t6 ON t2.product_id = t6.id
+
+WHERE t1.status = 1
+
+$status = empty(depo_id) && empty(warehouse_id) ? 0:1;
