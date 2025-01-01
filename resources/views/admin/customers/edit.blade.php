@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-12">
         <form method="POST" action="{{ url('/admin/customers/update')}}" enctype="multipart/form-data">
-            @csrf
+            @csrf 
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -76,7 +76,7 @@
                                     Address :<span class="req_star">*</span>
                                 </label>
                                 <div class="col-sm-10">
-                                  <textarea name="address" id="address" cols="10" rows="3" class="form-control custom_textarea custom_form_control" placeholder="Address">
+                                  <textarea class="form-control custom_form_control" name="address" id="address" cols="6" rows="3"  placeholder="Address">
                                     {{ $data['address'] }}
                                   </textarea>
                                   @error('address')
