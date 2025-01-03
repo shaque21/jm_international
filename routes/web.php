@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,6 +43,25 @@ Route::get('/admin/customers/soft-delete/{slug}',[CustomerController::class,'sof
 /*--------------------------------------------------------------------------------- 
 End Route for customer 
 -----------------------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------------------------------
+Start Route for users
+--------------------------------------------------------------------------------------------*/
+
+    Route::get('/admin/users',[UserController::class,'index']);
+    Route::get('/admin/users/add',[UserController::class,'add']);
+    Route::get('/admin/users/view/{slug}',[UserController::class,'view']);
+    Route::get('/admin/users/edit/{slug}',[UserController::class,'edit']);
+    Route::post('/admin/users/update',[UserController::class,'update']);
+    Route::get('/admin/users/soft-delete/{slug}',[UserController::class,'soft_delete']);
+    Route::post('/admin/users/submit',[UserController::class,'insert']);
+    Route::get('/admin/restore/users',[UserController::class,'trash_user']);
+    Route::get('/admin/restore/users/{slug}',[UserController::class,'restore_user']);
+    Route::get('/admin/restore/users/delete/{slug}',[UserController::class,'destroy']);
+/*------------------------------------------------------------------------------------------
+End Route for users
+--------------------------------------------------------------------------------------------*/
+
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard.index');
 })->middleware(['auth', 'verified'])->name('dashboard');

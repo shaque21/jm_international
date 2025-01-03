@@ -53,15 +53,15 @@
                     </a>
                 </li>
                 <li class="nav-item {{ (request()->segment(2) == 'customers') ? 'active' : '' }}">
-                    <a href="{{ url('/admin/customers'.Auth::user()->slug) }}">
+                    <a href="{{ url('/admin/customers') }}">
                         <i class="fas fa-user-tie"></i>
                         <p>Customers</p>
                     </a>
                 </li>
                 <li class="nav-item {{ (request()->segment(2) == 'users') ? 'active' : '' }}">
-                    <a href="{{ url('/admin/employees') }}">
+                    <a href="{{ url('/admin/users') }}">
                         <i class="fas fa-address-book"></i>
-                        <p>Employees</p>
+                        <p>Users</p>
                     </a>
                 </li>
                 <li class="nav-item {{ (request()->segment(2) == 'products') ? 'active' : '' }}">
