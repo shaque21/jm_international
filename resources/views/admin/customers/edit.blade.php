@@ -59,7 +59,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            {{-- <div class="form-group row">
+                            {{-- <div class="form-group row"> 
                                 <label for="password" class="col-sm-2 col-form-label custom_form_label">
                                     Password :<span class="req_star">*</span>
                                 </label>
@@ -88,7 +88,7 @@
 
 
                         <div class="col-md-6 border">
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="email" class="col-sm-2 col-form-label custom_form_label">
                                     Email :<span class="req_star">*</span>
                                 </label>
@@ -99,7 +99,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="shop_name" class="col-sm-2 col-form-label custom_form_label">
                                     Shop_name :<span class="req_star">*</span>
                                 </label>
@@ -110,19 +110,21 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="photo" class="col-sm-2 col-form-label custom_form_label">
                                     Image :<span class="req_star">*</span>
                                 </label>
                                 <div class="col-sm-10">
-                                  <input type="file" id="photo" class="form-control custom_form_control" name="photo" value="{{ old('photo') }}">
+                                  {{-- <input type="file" id="photo" class="form-control custom_form_control" name="photo" value="{{ old('photo') }}">
                                   @error('photo')
                                         <span class="alert alert-danger">{{ $message }}</span>
-                                 @enderror
-                                </div>
+                                 @enderror --}}
 
-                                <div style="height: 200px; width:200px;">
-                                    <img class="profile_img" src="{{ asset('uploads/customers/'.$data['photo']) }}" alt="">
+                                    <input type="file" class="form-control custom_form_control mb-2"  name="photo" onchange="previewFile(this);">
+                                    <img id="previewImg" class=" custom_form_control " src="{{ asset('uploads/customers/'.$data['photo']) }}" alt="Photo" width="150px">
+                                    @error('photo')
+                                            <span class="alert alert-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 
                             </div>
@@ -141,4 +143,21 @@
         </form>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    function previewFile(input){
+        var file = $("input[type=file]").get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#previewImg").attr("src", reader.result);
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 @endsection

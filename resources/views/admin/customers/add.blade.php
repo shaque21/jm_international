@@ -2,7 +2,7 @@
 @section('page_title','Add New Customer')
 @section('page-heading','Customerss')
 @section('content')
-<div class="row">
+<div class="row"> 
     <div class="col-md-12">
         <form method="POST" id="addCustomerForm" action="{{ url('/admin/customers/submit') }}" enctype="multipart/form-data">
             @csrf

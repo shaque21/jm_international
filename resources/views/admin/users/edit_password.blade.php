@@ -10,12 +10,12 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-8 d-flex align-items-center">
-                            <h2 class="text-uppercase text-dark font-weight-bold">
+                            <h2 class="text-uppercase text-dark font-weight-bold custom_h_size">
                                 Update My Information
                             </h2>
                         </div>
                         <div class="col-md-4 d-flex justify-content-end">
-                            <a href="{{ url('/admin/profile/user_profile/'.$users->slug) }}" class="btn btn-dark font-weight-bold text-uppercase">
+                            <a href="{{ url('/admin/profile/user_profile/'.$users->slug) }}" class="btn btn-sm btn-secondary font-weight-bold text-uppercase">
                                 <i class="fas fa-user-alt"></i>&nbsp; 
                                 My Profile 
                             </a>
@@ -38,7 +38,7 @@
                         <label for="c_password" class="col-sm-2 col-form-label custom_form_label">
                             Current Password :<span class="req_star">*</span>
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                           <input type="password" class="form-control custom_form_control" name="c_password" placeholder="Old Password">
                           @error('c_password')
                                 <span class="alert alert-danger">{{ $message }}</span>
@@ -49,7 +49,7 @@
                         <label for="password" class="col-sm-2 col-form-label custom_form_label">
                             New Password :<span class="req_star">*</span>
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                           <input type="password" class="form-control custom_form_control" name="password" placeholder="New Password">
                           @error('password')
                                 <span class="alert alert-danger">{{ $message }}</span>
@@ -58,9 +58,9 @@
                     </div>
                     <div class="form-group row">
                         <label for="password_confirmation" class="col-sm-2 col-form-label custom_form_label">
-                            Confirm-password :
+                            Confirm-password :<span class="req_star">*</span>
                         </label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                           <input type="password" id="password_confirmation" class="form-control custom_form_control" name="password_confirmation" placeholder="Confirm-Password">
                           @error('password_confirmation')
                                 <span class="alert alert-danger">{{ $message }}</span>
@@ -69,7 +69,7 @@
                     </div> 
                 </div>
                 <div class="card-footer text-center">
-                    <button class="btn btn-success font-weight-bold text-uppercase" type="submit">submit</button>
+                    <button class="btn btn-sm btn-success font-weight-bold text-uppercase" type="submit">submit</button>
                 </div>
             </div>
         </form>

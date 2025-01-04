@@ -48,7 +48,7 @@
                 <li class="nav-item dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                         <div class="avatar-sm">
-                            {{-- @php
+                            @php
                                 $uid = Auth()->user()->id;
                                 $data = App\Models\User::where('status',1)->where('id',$uid)->firstOrFail();
                             @endphp
@@ -56,30 +56,37 @@
                                 <img src="{{ asset('uploads/users/'.$data->photo) }}" alt="Photo" class="avatar-img rounded-circle">
                             @else
                                 <img src="{{ asset('uploads/users/avarter.jpg') }}" alt="Photo" class="avatar-img rounded-circle">
-                            @endif --}}
-                            <img src="{{asset('contents/admin')}}/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                            @endif
+                            {{-- <img src="{{asset('contents/admin')}}/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle"> --}}
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
                         <li>
                             <div class="user-box">
                                 <div class="avatar-lg">
-                                    {{-- @if ($data->photo != '')
+                                    @if ($data->photo != '')
                                         <img src="{{ asset('uploads/users/'.$data->photo) }}" alt="Photo" class="avatar-img rounded">
                                     @else
                                         <img src="{{ asset('uploads/users/avarter.jpg') }}" alt="Photo" class="avatar-img rounded">
-                                    @endif --}}
-                                    <img src="{{asset('contents/admin')}}/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded">
+                                    @endif
+                                    {{-- <img src="{{asset('contents/admin')}}/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"> --}}
                                 </div>
                                 <div class="u-text">
-                                    <h4>sdfsd</h4>
-                                    <p class="text-muted">dsd</p><a href="" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                                    <h4>{{ $data->name}}</h4>
+                                    <p class="text-muted">
+                                        @if ($data->role_id == 1)
+                                            Admin
+                                        @else
+                                            Employee
+                                        @endif
+                                    </p>
+                                    {{-- <a href="{{ url('/admin/profile/user_profile/'.$data->slug) }}" class="btn px-4 btn-rounded btn-secondary btn-sm">View Profile</a> --}}
                                 </div>
                             </div>
                         </li>
                         <li>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="">
+                            <a class="dropdown-item" href="{{ url('/admin/profile/user_profile/'.$data->slug) }}">
                                 <i class="fas fa-user-alt"></i> &nbsp
                                 My Profile
                             </a>

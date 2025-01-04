@@ -62,6 +62,20 @@ Start Route for users
 End Route for users
 --------------------------------------------------------------------------------------------*/
 
+/*------------------------------------------------------------------------------------------
+Start Route for profile
+--------------------------------------------------------------------------------------------*/
+Route::get('/admin/profile/user_profile/{slug}',[UserController::class,'user_profile']);
+Route::get('/admin/profile/edit_user_password/{slug}',[UserController::class,'edit_user_password']);
+Route::get('/admin/profile/edit_user_profile/{slug}',[UserController::class,'edit_user_profile']);
+Route::post('/admin/profile/profile_update',[UserController::class,'profile_update']);
+Route::post('/admin/profile/password_update',[UserController::class,'password_update']);
+
+/*------------------------------------------------------------------------------------------
+End Route for profile
+--------------------------------------------------------------------------------------------*/
+
+
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard.index');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -74,8 +74,8 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <a class="text-dark mx-1" href="{{ url('/admin/users/view/'.$item->slug) }}" data-toggle="tooltip" data-placement="top" title="View"><i class="fas fa-eye fa-lg"></i></a>
-                                        <a class="text-info mx-1" href="{{ url('/admin/users/edit/'.$item->slug) }}"><i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
+                                        <a class="text-dark  mx-1" href="{{ url('/admin/users/view/'.$item->slug) }}" data-toggle="tooltip" data-placement="top" title="View"><i class="fas fa-eye fa-lg"></i></a>
+                                        <a class="text-info  mx-1" href="{{ url('/admin/users/edit/'.$item->slug) }}"><i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
                                         <a class="text-danger mx-1 delete-confirm" href="{{ url('/admin/users/soft-delete/'.$item->slug) }}"><i class="fas fa-trash fa-lg" data-toggle="tooltip" data-placement="top" title="Remove"></i></a>
                                     </td>
                                 </tr>

@@ -37,7 +37,7 @@
 
                     <div class="row">
                         <div class="col-md-6 border">
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="product_name" class="col-sm-2 col-form-label custom_form_label">
                                     Product Name :<span class="req_star">*</span>
                                 </label>
@@ -48,7 +48,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="quantity" class="col-sm-2 col-form-label custom_form_label">
                                     Quantity :<span class="req_star">*</span>
                                 </label>
@@ -59,7 +59,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="alert_stock" class="col-sm-2 col-form-label custom_form_label">
                                     Alert Stock :<span class="req_star">*</span>
                                 </label>
@@ -74,7 +74,7 @@
 
 
                         <div class="col-md-6 border">
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="generic_name" class="col-sm-2 col-form-label custom_form_label">
                                     Generic Name :<span class="req_star">*</span>
                                 </label>
@@ -85,7 +85,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="packing" class="col-sm-2 col-form-label custom_form_label">
                                     Packing :<span class="req_star">*</span>
                                 </label>
@@ -96,23 +96,29 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="product_img" class="col-sm-2 col-form-label custom_form_label">
                                     Product Image :<span class="req_star">*</span>
                                 </label>
                                 <div class="col-sm-10">
-                                  <input type="file" id="product_img" class="form-control custom_form_control" name="product_img" value="{{ old('product_img') }}">
+                                  {{-- <input type="file" id="product_img" class="form-control custom_form_control" name="product_img" value="{{ old('product_img') }}">
                                   @error('product_img')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                  @enderror
-                                 {{-- {{ dd(old('product_img')) }} --}}
-                                 <img src="{{ asset('uploads/products/'.$data['product_img']) }}" height="auto" width="200px" alt="">
+                                 
+                                 <img src="{{ asset('uploads/products/'.$data['product_img']) }}" height="auto" width="200px" alt=""> --}}
+                                 <input type="file" class="form-control custom_form_control mb-2"  name="product_img" onchange="previewFile(this);">
+                                 <img id="previewImg" class=" custom_form_control " src="{{ asset('uploads/products/'.$data['product_img']) }}" alt="Photo" width="150px">
+                                 @error('product_img')
+                                         <span class="alert alert-danger">{{ $message }}</span>
+                                 @enderror
+                                
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="form-group row border">
+                    <div class="form-group row border border">
                         <label for="specification" class="col-sm-2 col-form-label custom_form_label">
                             Specification :<span class="req_star">*</span>
                         </label>
@@ -135,4 +141,21 @@
         </form>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    function previewFile(input){
+        var file = $("input[type=file]").get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#previewImg").attr("src", reader.result);
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 @endsection

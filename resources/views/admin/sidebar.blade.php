@@ -5,16 +5,16 @@
         <div class="sidebar-content">
             <div class="user">
                 <div class="avatar-sm float-left mr-2">
-                    {{-- @php
+                    @php
                         $uid = Auth()->user()->id;
                         $data = App\Models\User::where('status',1)->where('id',$uid)->firstOrFail();
-                    @endphp --}}
-                    {{-- @if ($data->photo != '')
+                    @endphp
+                    @if ($data->photo != '')
                         <img src="{{ asset('uploads/users/'.$data->photo) }}" alt="Photo" class="avatar-img rounded-circle">
                     @else
                         <img src="{{ asset('uploads/users/avarter.jpg') }}" alt="Photo" class="avatar-img rounded-circle">
-                    @endif --}}
-                    <img src="{{asset('contents/admin')}}/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                    @endif
+                    {{-- <img src="{{asset('contents/admin')}}/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle"> --}}
                 </div>
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">

@@ -15,9 +15,16 @@
                     
                     <div class="col col-stats ml-3 ml-sm-0">
                         <div class="numbers">
+                            @php
+                                $totalUsers = App\Models\User::where('status',1)->count();
+                            @endphp
                             <p class="card-category">Users</p>
                             <h4 class="card-title">
-                                sdfs
+                                @if ($totalUsers<10)
+                                    0{{ $totalUsers }}
+                                @else
+                                    {{ $totalUsers }}
+                                @endif
                             </h4>
                         </div>
                     </div>
