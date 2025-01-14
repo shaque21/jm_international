@@ -1,6 +1,6 @@
 @extends('layouts.admin')
-@section('page_title','View Customers Information')
-@section('page-heading','Customers')
+@section('page_title','View Suppliers Information')
+@section('page-heading','Suppliers')
 @section('content')
 <div class="row">
     <div class="col-md-12">
@@ -9,13 +9,13 @@
                 <div class="row">
                     <div class="col-md-8 d-flex align-items-center">
                         <h2 class="text-uppercase text-dark font-weight-bold custom_h_size">
-                            View Customer Information
+                            View Supplier Information
                         </h2>
                     </div>
                     <div class="col-md-4 d-flex justify-content-end">
-                        <a href="{{ url('/admin/customers/edit/'.$data['0']->slug) }}" class="btn btn-secondary btn-sm font-weight-bold text-uppercase">
+                        <a href="{{ url('/admin/suppliers/edit/'.$data['0']->sup_slug) }}" class="btn btn-secondary btn-sm font-weight-bold text-uppercase">
                             <i class="fas fa-wrench"></i>&nbsp 
-                            Update customers Information
+                            Update Suppliers Information
                         </a>
                     </div>
                 </div>
@@ -31,19 +31,19 @@
 
                 <div class="row border">
                     <div class="view_img_container col-md-4 border d-flex justify-content-center align-items-center">
-                        <img src="{{asset('/uploads/customers/'.$data['0']->photo)}}" alt="..." class="container-fluid avatar-img rounded profile_img">
+                        <img src="{{asset('/uploads/suppliers/'.$data['0']->sup_photo)}}" alt="..." class="container-fluid avatar-img rounded profile_img">
                     </div>
                     <div class="col-md-8 border d-flex justify-content-center align-items-center">
                         <table class="mt-4 table table-bordered table-hover table-striped custom_view_table">
                             <tr>
-                                <td>Customer Name</td>
+                                <td>Supplier Name</td>
                                 <td>:</td>
-                                <td>{{ $data['0']->name }}</td>
+                                <td>{{ $data['0']->sup_name }}</td>
                             </tr>
                             <tr>
-                                <td>Shop Name</td>
+                                <td>Company Name</td>
                                 <td>:</td>
-                                <td>{{ $data['0']->shop_name }}</td>
+                                <td>{{ $data['0']->company_name }}</td>
                             </tr>
                             <tr>
                                 <td>Mobile</td>
@@ -55,6 +55,18 @@
                                 <td>:</td>
                                 <td>{{ $data['0']->email }}</td>
                             </tr>
+                            <tr>
+                                <td>Create Time</td>
+                                <td>:</td>
+                                <td>{{ $data[0]->created_at->format('d M Y | h:i A') }}</td>
+                            </tr>
+                            @if (isset($data[0]->updated_at))
+                                <tr>
+                                    <td>Updated Time</td>
+                                    <td>:</td>
+                                    <td>{{ $data[0]->updated_at->format('d M Y | h:i A') }}</td>
+                                </tr>
+                            @endif
                             
                         </table>
                     </div>

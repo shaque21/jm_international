@@ -88,6 +88,7 @@ class CustomerController extends Controller
 
     public function view($slug){
         $data=Customer::where('status',1)->where('slug',$slug)->get();
+        // return $data->created_at;
         return view('admin.customers.view',compact('data'));
     }
 

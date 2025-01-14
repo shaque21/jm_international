@@ -98,6 +98,7 @@
         $('#basic-datatables').DataTable({
             ordering: false,
             responsive: true,
+            autoWidth: false,
         });
     });
     

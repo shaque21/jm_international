@@ -55,6 +55,19 @@
                                 <td>:</td>
                                 <td>{{ $data['0']->email }}</td>
                             </tr>
+                            <tr>
+                                <td>Create Time</td>
+                                <td>:</td>
+                                <td>{{ $data[0]->created_at->format('d M Y | h:i A') }}</td>
+                            </tr>
+                            @if (isset($data[0]->updated_at))
+                                <tr>
+                                    <td>Updated Time</td>
+                                    <td>:</td>
+                                    <td>{{ $data[0]->updated_at->format('d M Y | h:i A') }}</td>
+                                </tr>
+                            @endif
+                            
                             
                         </table>
                     </div>
