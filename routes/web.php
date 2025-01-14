@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UserController;
 
@@ -25,6 +26,23 @@ Route::get('/admin/products/soft-delete/{slug}',[ProductController::class,'soft_
 
 /*--------------------------------------------------------------------------------- 
 End Route for product 
+-----------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------- 
+Start Route for warehouses 
+-----------------------------------------------------------------------------------*/
+Route::get('/admin/warehouses',[WarehouseController::class,'index']);
+Route::get('/admin/warehouses/create',[WarehouseController::class,'create']);
+Route::post('/admin/warehouses/submit',[WarehouseController::class,'store'])->name('products.store');
+Route::get('/admin/warehouses/view/{slug}',[WarehouseController::class,'view']);
+Route::get('/admin/warehouses/edit/{slug}',[WarehouseController::class,'edit']);
+Route::post('/admin/warehouses/update',[WarehouseController::class,'update']);
+Route::get('/admin/warehouses/soft-delete/{slug}',[WarehouseController::class,'soft_delete']);
+
+
+
+/*--------------------------------------------------------------------------------- 
+End Route for warehouses 
 -----------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------------------------------------- 

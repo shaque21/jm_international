@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-// use Intervention\Image\Facades\Image;
+// use Intervention\Image\Facades\Image; 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -132,7 +132,7 @@ class ProductController extends Controller
     {
         //return $request->all();
         $request->validate([
-'product_name'=>'required|max:70',
+            'product_name'=>'required|max:70',
             'generic_name'=>'required',
             'packing'=>'required',
             'quantity'=>'required',
