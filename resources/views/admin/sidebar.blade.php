@@ -66,7 +66,7 @@
                 </li>
                 <li class="nav-item {{ (request()->segment(2) == 'products') ? 'active' : '' }}">
                     <a href="{{ url('/admin/products') }}">
-                        <i class="fas fa-hospital"></i>
+                        <i class="fas fa-tablets"></i>
                         <p>Products</p>
                     </a>
                 </li>

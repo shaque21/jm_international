@@ -1,10 +1,10 @@
 @extends('layouts.admin')
-@section('page_title','Add New Customer')
-@section('page-heading','Customers')
+@section('page_title','Add New Suppliers')
+@section('page-heading','Suppliers')
 @section('content')
 <div class="row"> 
     <div class="col-md-12">
-        <form method="POST" id="addCustomerForm" action="{{ url('/admin/customers/submit') }}" enctype="multipart/form-data">
+        <form method="POST" id="addSupplierForm" action="{{ url('/admin/suppliers/submit') }}" enctype="multipart/form-data">
             @csrf
             <div class="card">
                 @if (Session::has('success'))
@@ -25,13 +25,13 @@
                     <div class="row">
                         <div class="col-md-8 d-flex align-items-center">
                             <h2 class="text-uppercase text-dark font-weight-bold custom_h_size">
-                                Add Customer Information
+                                Add Supplier Information
                             </h2> 
                         </div>
                         <div class="col-md-4 d-flex justify-content-end">
-                            <a href="{{ url('/admin/customers') }}" class="btn btn-sm btn-secondary font-weight-bold text-uppercase">
+                            <a href="{{ url('/admin/suppliers') }}" class="btn btn-sm btn-secondary font-weight-bold text-uppercase">
                                 <i class="fas fa-globe"></i>&nbsp; 
-                                All Available Customers 
+                                All Available Suppliers 
                             </a>
                         </div>
                     </div>
@@ -40,18 +40,18 @@
 
                     <div class="row">
                         <div class="col-md-6 border">
-                            <div class="form-group row">
-                                <label for="name" class="col-sm-2 col-form-label custom_form_label">
-                                    Name :<span class="req_star">*</span>
+                            <div class="form-group row border">
+                                <label for="sup_name" class="col-sm-2 col-form-label custom_form_label">
+                                    Supplier Name :<span class="req_star">*</span>
                                 </label>
                                 <div class="col-sm-10">
-                                  <input type="text" id="name" class="form-control custom_form_control" name="name" placeholder="Customer Name">
-                                    @error('name')
+                                  <input type="text" id="sup_name" class="form-control custom_form_control" name="sup_name" placeholder="Supplier Name">
+                                    @error('sup_name')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="mobile" class="col-sm-2 col-form-label custom_form_label">
                                     Mobile :<span class="req_star">*</span>
                                 </label>
@@ -62,13 +62,13 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="password" class="col-sm-2 col-form-label custom_form_label">
-                                    Password :<span class="req_star">*</span>
+                            <div class="form-group row border">
+                                <label for="company_name" class="col-sm-2 col-form-label custom_form_label">
+                                    Company Name:<span class="req_star">*</span>
                                 </label>
                                 <div class="col-sm-10">
-                                  <input type="password" id="password" class="form-control custom_form_control" name="password" placeholder="Password">
-                                    @error('password')
+                                  <input type="text" id="company_name" class="form-control custom_form_control" name="company_name" placeholder="Company Name">
+                                    @error('company_name')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -77,7 +77,7 @@
 
 
                         <div class="col-md-6 border">
-                            <div class="form-group row">
+                            <div class="form-group row border">
                                 <label for="email" class="col-sm-2 col-form-label custom_form_label">
                                     Email :<span class="req_star">*</span>
                                 </label>
@@ -88,24 +88,15 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="shop_name" class="col-sm-2 col-form-label custom_form_label">
-                                    Shop_name :<span class="req_star">*</span>
-                                </label>
-                                <div class="col-sm-10">
-                                  <input type="text" id="shop_name" class="form-control custom_form_control" name="shop_name" placeholder="Shop Name">
-                                    @error('shop_name')
-                                        <span class="alert alert-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="photo" class="col-sm-2 col-form-label custom_form_label">
+                            
+                            <div class="form-group row border">
+                                <label for="sup_photo" class="col-sm-2 col-form-label custom_form_label">
                                     Image :<span class="req_star">*</span>
                                 </label>
                                 <div class="col-sm-10">
-                                  <input type="file" id="photo" class="form-control custom_form_control" name="photo" value="{{ old('photo') }}">
-                                  @error('photo')
+                                  <input type="file" id="photo" class="form-control custom_form_control" name="sup_photo" value="{{ old('photo') }}" onchange="previewFile(this);">
+                                  <img id="previewImg" src="{{ asset('uploads/users/avarter.jpg') }}" class="mt-2 border custom_form_control" alt="Photo" width="150px">
+                                  @error('sup_photo')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                  @enderror
                                 </div>
@@ -133,4 +124,21 @@
         </form>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    function previewFile(input){
+        var file = $("input[type=file]").get(0).files[0];
+ 
+        if(file){
+            var reader = new FileReader();
+ 
+            reader.onload = function(){
+                $("#previewImg").attr("src", reader.result);
+            }
+ 
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 @endsection

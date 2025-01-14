@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -60,6 +61,22 @@ Route::get('/admin/customers/soft-delete/{slug}',[CustomerController::class,'sof
 
 /*--------------------------------------------------------------------------------- 
 End Route for customer 
+-----------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------- 
+Start Route for Supplier 
+-----------------------------------------------------------------------------------*/
+Route::get('/admin/suppliers',[SupplierController::class,'index']);
+Route::get('/admin/suppliers/create',[SupplierController::class,'create']);
+Route::post('/admin/suppliers/submit',[SupplierController::class,'store'])->name('customers.store');
+Route::get('/admin/suppliers/view/{slug}',[SupplierController::class,'view']);
+Route::get('/admin/suppliers/edit/{slug}',[SupplierController::class,'edit']);
+Route::post('/admin/suppliers/update',[SupplierController::class,'update']);
+Route::get('/admin/suppliers/soft-delete/{slug}',[SupplierController::class,'soft_delete']);
+
+
+
+/*--------------------------------------------------------------------------------- 
+End Route for Supplier 
 -----------------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------------------

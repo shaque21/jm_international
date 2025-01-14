@@ -48,7 +48,7 @@ class CustomerController extends Controller
             'name.required'=>'The name field is required!'
         ]);
 
-        
+         
         if ($request->hasFile('photo')) {
             // Get the file from the request
             $image = $request->file('photo');
