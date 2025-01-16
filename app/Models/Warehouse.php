@@ -11,4 +11,9 @@ class Warehouse extends Model
         'warehouse_status',
         'warehouse_slug',
     ];
+
+    public function stocks()
+    {
+        return $this->hasMany(WarehouseStock::class);
+    }
 }

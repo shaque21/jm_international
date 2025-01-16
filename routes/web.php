@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\WarehouseStockController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -77,6 +78,22 @@ Route::get('/admin/suppliers/soft-delete/{slug}',[SupplierController::class,'sof
 
 /*--------------------------------------------------------------------------------- 
 End Route for Supplier 
+-----------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------- 
+Start Route for Warehouse stock 
+-----------------------------------------------------------------------------------*/
+Route::get('/admin/warehouse_stocks',[WarehouseStockController::class,'index']);
+Route::get('/admin/warehouse_stocks/create',[WarehouseStockController::class,'create']);
+Route::post('/admin/warehouse_stocks/submit',[WarehouseStockController::class,'store'])->middleware('auth')->name('warehouse_stocks.store');
+Route::get('/admin/warehouse_stocks/view/{slug}',[WarehouseStockController::class,'view']);
+Route::get('/admin/warehouse_stocks/edit/{slug}',[WarehouseStockController::class,'edit']);
+Route::post('/admin/warehouse_stocks/update',[WarehouseStockController::class,'update']);
+Route::get('/admin/warehouse_stocks/soft-delete/{slug}',[WarehouseStockController::class,'soft_delete']);
+
+
+
+/*--------------------------------------------------------------------------------- 
+End Route for Warehouse stock 
 -----------------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------------------

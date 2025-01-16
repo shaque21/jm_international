@@ -13,5 +13,9 @@ class Product extends Model
         'product_name', 'generic_name', 'packing', 'specification', 'quantity',
         'product_img', 'alert_stock', 'product_slug', 'product_status'
     ];
+    public function stocks()
+    {
+        return $this->hasMany(WarehouseStock::class);
+    }
 }
 

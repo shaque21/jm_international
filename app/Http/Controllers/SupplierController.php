@@ -157,7 +157,7 @@ class SupplierController extends Controller
             return redirect('/admin/suppliers/edit/'.$slug);
         }
     }
-
+ 
     public function soft_delete($slug){
         $soft_delete=Supplier::where('sup_status',1)->where('sup_slug',$slug)
         ->update([

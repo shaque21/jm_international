@@ -76,6 +76,12 @@
                         <p>Warehouses</p>
                     </a>
                 </li>
+                <li class="nav-item {{ (request()->segment(2) == 'warehouse_stocks') ? 'active' : '' }}">
+                    <a href="{{ url('/admin/warehouse_stocks') }}">
+                        <i class="fas fa-database"></i>
+                        <p>Warehouse Stocks</p>
+                    </a>
+                </li>
                 <li class="nav-item {{ (request()->segment(2) == 'orders') ? 'active' : '' }}">
                     <a href="{{ url('/admin/orders') }}">
                         <i class="fas fa-laptop"></i>

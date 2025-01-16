@@ -86,3 +86,7 @@ img{
 .table td, .table th{
     font-size: 0.75rem!important;
 }
+.table-responsive-sm {
+    width: 100%;
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+}
