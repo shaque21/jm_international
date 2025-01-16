@@ -82,7 +82,7 @@ class WarehouseStockController extends Controller
             return redirect('/admin/warehouse_stocks/create');
         }
     }
-
+        
     public function view($slug){
         // $data=Supplier::where('sup_status',1)->where('sup_slug',$slug)->get();
         // return view('admin.suppliers.view',compact('data'));
@@ -93,6 +93,9 @@ class WarehouseStockController extends Controller
         // Pass data to the view
         return view('admin.warehouse_stocks.view', compact('data'));
     }
+    
+
+    
 
     /**
      * Display the specified resource.
@@ -105,9 +108,10 @@ class WarehouseStockController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(WarehouseStock $warehouseStock)
+    public function edit(WarehouseStock $warehouseStock,$slug)
     {
-        //
+        $data=WarehouseStock::where('wr_status',1)->where('wr_slug',$slug)->firstOrFail();
+        return view('admin.warehouse_stocks.edit',compact('data'));
     }
 
     /**

@@ -1,23 +1,23 @@
 @extends('layouts.admin')
-@section('page_title','Edit Suppliers')
-@section('page-heading','Suppliers')
+@section('page_title','Edit Warehouse Stock')
+@section('page-heading','Warehouse Stock')
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <form method="POST" action="{{ url('/admin/suppliers/update')}}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url('/admin/warehouse_stocks/update')}}" enctype="multipart/form-data">
             @csrf 
             <div class="card">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-8 d-flex align-items-center">
                             <h2 class="text-uppercase text-dark font-weight-bold custom_h_size">
-                                Update Supplier's Information
+                                Update Warehouse Stock's Information
                             </h2>
                         </div>
                         <div class="col-md-4 d-flex justify-content-end">
-                            <a href="{{ url('/admin/suppliers') }}" class="btn btn-sm btn-secondary font-weight-bold text-uppercase">
+                            <a href="{{ url('/admin/warehouse_stocks') }}" class="btn btn-sm btn-secondary font-weight-bold text-uppercase">
                                 <i class="fas fa-globe"></i>&nbsp; 
-                                All Suppliers Information 
+                                All Warehouse Stocks Information 
                             </a>
                         </div>
                     </div>
@@ -33,85 +33,95 @@
 
                     <input type="hidden" name="id" value="{{ $data['id'] }}">
                     {{-- <input type="hidden" name="product_code" value="{{ $data['product_code'] }}"> --}}
-                    <input type="hidden" name="sup_slug" value="{{ $data['sup_slug'] }}">
+                    <input type="hidden" name="wr_slug" value="{{ $data['wr_slug'] }}">
 
                     <div class="row">
-                        <div class="col-md-7 border">
+                        <div class="col-md-12">
                             <div class="form-group row border">
-                                <label for="sup_name" class="col-sm-2 col-form-label custom_form_label">
-                                    Supplier Name :<span class="req_star">*</span>
+                                <label for="warehouse_id" class="col-sm-2 col-form-label custom_form_label">
+                                    Warehouse Name : <span class="req_star">*</span> 
                                 </label>
-                                <div class="col-sm-10">
-                                  <input type="text" id="sup_name" class="form-control custom_form_control" name="sup_name" value="{{$data['sup_name']}}">
-                                    @error('sup_name')
+                                <div class="col-sm-6">
+                                    @php
+                                        $warehouse = App\Models\Warehouse::where('warehouse_status', 1)->get();
+                                    @endphp
+                                    <select name="warehouse_id" id="warehouse_id" class="form-control custom_form_control">
+                                        <option value="" selected disabled>Select Warehouse</option>
+                                        @foreach ($warehouse as $item)
+                                            <option value="{{ $item->id }}" {{($data->warehouse_id == $item->id) ? 'selected' : ''}}>
+                                                {{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('warehouse_id')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="form-group row border">
-                                <label for="mobile" class="col-sm-2 col-form-label custom_form_label">
-                                    Mobile :<span class="req_star">*</span>
+                                <label for="supplier_id" class="col-sm-2 col-form-label custom_form_label">
+                                    Supplier Name : <span class="req_star">*</span> 
                                 </label>
-                                <div class="col-sm-10">
-                                  <input type="text" id="mobile" class="form-control custom_form_control" name="mobile" value="{{$data['mobile']}}">
-                                    @error('mobile')
+                                <div class="col-sm-6">
+                                    @php
+                                        $supplier = App\Models\Supplier::where('sup_status', 1)->get();
+                                    @endphp
+                                    <select name="supplier_id" id="supplier_id" class="form-control custom_form_control">
+                                        <option value="" selected disabled>Select Supplier</option>
+                                        @foreach ($supplier as $item)
+                                            <option value="{{ $item->id }}" {{($data->supplier_id == $item->id) ? 'selected' : ''}}>
+                                                {{ $item->sup_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('supplier_id')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="form-group row border">
-                                <label for="company_name" class="col-sm-2 col-form-label custom_form_label">
-                                    Company Name:<span class="req_star">*</span>
+                                <label for="product_id" class="col-sm-2 col-form-label custom_form_label">
+                                    Product's Name : <span class="req_star">*</span> 
                                 </label>
-                                <div class="col-sm-10">
-                                  <input type="text" id="company_name" class="form-control custom_form_control" name="company_name" value="{{$data['company_name']}}">
-                                    @error('company_name')
+                                <div class="col-sm-6">
+                                    @php
+                                        $product = App\Models\Product::where('product_status', 1)->get();
+                                    @endphp
+                                    <select name="product_id" id="product_id" class="form-control custom_form_control">
+                                        <option value="" selected disabled>Select Product</option>
+                                        @foreach ($product as $item)
+                                            <option value="{{ $item->id }}" {{($data->product_id == $item->id) ? 'selected' : ''}}>
+                                                {{ $item->product_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('product_id')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-
-                        <div class="col-md-5 border">
                             <div class="form-group row border">
-                                <label for="email" class="col-sm-2 col-form-label custom_form_label">
-                                    Email :<span class="req_star">*</span>
+                                <label for="quantity" class="col-sm-2 col-form-label custom_form_label">
+                                    Quantity : <span class="req_star">*</span>
                                 </label>
-                                <div class="col-sm-10">
-                                  <input type="email" id="email" class="form-control custom_form_control" name="email" value="{{$data['email']}}">
-                                    @error('email')
+                                <div class="col-sm-6">
+                                  <input type="number" id="quantity" class="form-control custom_form_control" name="quantity" value="{{ $data->quantity }}">
+                                    @error('quantity')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-                            
                             <div class="form-group row border">
-                                <label for="sup_photo" class="col-sm-2 col-form-label custom_form_label">
-                                    Image :<span class="req_star">*</span>
+                                <label for="alert_stock" class="col-sm-2 col-form-label custom_form_label">
+                                    Alert Stock : <span class="req_star">*</span>
                                 </label>
-                                <div class="col-sm-10">
-                                  <input type="file" id="photo" class="form-control custom_form_control" name="sup_photo" value="{{ old('photo') }}" onchange="previewFile(this);">
-                                  <img id="previewImg" src="{{ asset('uploads/suppliers/'.$data['sup_photo']) }}" class="mt-2 border custom_form_control" alt="Photo" width="150px">
-                                  @error('sup_photo')
+                                <div class="col-sm-6">
+                                  <input type="number" id="alert_stock" class="form-control custom_form_control" name="alert_stock" value="{{ $data->alert_stock }}">
+                                    @error('alert_stock')
                                         <span class="alert alert-danger">{{ $message }}</span>
-                                 @enderror
+                                    @enderror
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group row border">
-                        <label for="address" class="col-sm-2 col-form-label custom_form_label">
-                            Address :<span class="req_star">*</span>
-                        </label>
-                        <div class="col-sm-10">
-                          <textarea name="address" id="address" cols="10" rows="3" class="form-control custom_textarea custom_form_control">
-                            {{$data['address']}}
-                          </textarea>
-                          @error('address')
-                                <span class="alert alert-danger">{{ $message }}</span>
-                         @enderror
                         </div>
                     </div>
                     
