@@ -51,7 +51,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 <label for="quantity" class="col-sm-2 col-form-label custom_form_label">
                                     Quantity :<span class="req_star">*</span>
                                 </label>
@@ -72,7 +72,7 @@
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
 

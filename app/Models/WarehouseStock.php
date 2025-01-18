@@ -12,8 +12,9 @@ class WarehouseStock extends Model
         'supplier_id',
         'product_id',
         'quantity',
-        'alert_stock',
+        // 'alert_stock',
         'wr_status',
+        'wr_slug',
     ];
     // Relationship with Warehouse
     public function warehouse()

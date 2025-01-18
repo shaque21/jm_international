@@ -108,7 +108,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row border">
+                            {{-- <div class="form-group row border">
                                 <label for="alert_stock" class="col-sm-2 col-form-label custom_form_label">
                                     Alert Stock : <span class="req_star">*</span>
                                 </label>
@@ -118,7 +118,7 @@
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     

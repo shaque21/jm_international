@@ -31,7 +31,13 @@
 
                 <div class="row border">
                     <div class="view_img_container col-md-4 border d-flex justify-content-center align-items-center">
-                        <img src="{{asset('/uploads/products/'.$data['0']->product_img)}}" alt="..." class="container-fluid avatar-img rounded profile_img">
+                        @if ($data['0']->product_img && file_exists(public_path('uploads/products/'.$data['0']->product_img)))
+                            <img alt="..." class="container-fluid avatar-img rounded profile_img" src="{{ asset('uploads/products/'.$data['0']->product_img) }}" alt="Photo" >
+                        @else
+                            <img alt="..." class="container-fluid avatar-img rounded profile_img" src="{{ asset('uploads/products/product.jpg') }}" alt="Photo" >
+                        @endif
+                        
+                        {{-- <img src="{{asset('/uploads/products/'.$data['0']->product_img)}}" alt="..." class="container-fluid avatar-img rounded profile_img"> --}}
                     </div>
                     <div class="col-md-8 border d-flex justify-content-center align-items-center">
                         <table class="mt-4 table table-bordered table-hover table-striped custom_view_table">
@@ -50,27 +56,7 @@
                                 <td>:</td>
                                 <td>{{ $data['0']->packing }}</td>
                             </tr>
-                            <tr>
-                                <td>Quantity</td>
-                                <td>:</td>
-                                <td>{{ $data['0']->quantity }}</td>
-                            </tr>
-                            <tr>
-                                <td>Alert Stocks</td>
-                                <td>:</td>
-                                <td>
-                                    @if ($data['0']->alert_stock >= $data['0']->quantity)
-                                        <span class="badge badge-danger">
-                                            Low Stock ( {{ $data['0']->quantity }} )  >  {{ $data['0']->alert_stock }}
-                                        </span>
-                                    @else
-                                        <span class="badge badge-success">
-                                            {{ $data['0']->alert_stock }}
-                                        </span>
-                                    @endif
-                                </td>
-                            </tr>
-                
+                            
                             <tr>
                                 <td>Create Time</td>
                                 <td>:</td>

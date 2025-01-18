@@ -41,9 +41,11 @@
                             <tr>
                                 <th>#</th>
                                 <th>Product Name</th>
+                                <th>Generic Name</th>
                                 <th>Packing</th>
-                                <th>Quantity</th>
-                                <th>Alert Stock</th>
+                                <th>Image</th>
+                                {{-- <th>Quantity</th> --}}
+                                {{-- <th>Alert Stock</th> --}}
                                 {{-- <th>Status</th> --}}
                                 <th class="text-center">Action</th>
                             </tr>
@@ -53,24 +55,24 @@
                                 <tr class="text-center">
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $product->product_name }}</td>
+                                    <td>{{ $product->generic_name }}</td>
                                     <td>{{ $product->packing }}</td>
-                                    <td>{{ $product->quantity }}</td>
-                                    <td>
-                                        @if ($product->alert_stock >= $product->quantity)
-                                            <span class="badge badge-danger">
-                                                Low Stock ( {{ $product->quantity }} ) > {{ $product->alert_stock }}
-                                            </span>
+                                    {{-- <td>{{ $product->product_img }}</td> --}}
+                                    {{-- <td>
+                                        @if ($product->photo != '')
+                                            <img height="30px" src="{{ asset('/uploads/products/'.$product->product_img) }}" alt="Photo" >
                                         @else
-                                        <span class="badge badge-success">
-                                            @if ($product->alert_stock < 10)
-                                            0{{ $product->alert_stock }}
-                                            @else
-                                            {{ $product->alert_stock }}
-                                            @endif
-                                            
-                                        </span>
+                                            <img height="30px" src="{{ asset('uploads/products/product.jpg') }}" alt="Photo" >
+                                        @endif
+                                    </td> --}}
+                                    <td>
+                                        @if ($product->product_img && file_exists(public_path('uploads/products/'.$product->product_img)))
+                                            <img height="30px" src="{{ asset('uploads/products/'.$product->product_img) }}" alt="Photo" >
+                                        @else
+                                            <img height="30px" src="{{ asset('uploads/products/product.jpg') }}" alt="Photo" >
                                         @endif
                                     </td>
+                                    
                                     {{-- <td>{{ $product->product_status }}</td> --}}
                                     <td class="text-center">
                                         <a class="text-dark mx-1" href="{{ url('/admin/products/view/'.$product->product_slug) }}" data-toggle="tooltip" data-placement="top" title="View Task"><i class="fas fa-eye"></i></a>

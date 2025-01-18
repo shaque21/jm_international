@@ -49,32 +49,6 @@
                                 </div>
                             </div>
                             <div class="form-group row border">
-                                <label for="quantity" class="col-sm-2 col-form-label custom_form_label">
-                                    Quantity :<span class="req_star">*</span>
-                                </label>
-                                <div class="col-sm-10">
-                                  <input type="number" id="quantity" value="{{$data['quantity']}}" class="form-control custom_form_control" name="quantity" value="{{ old('quantity') }}">
-                                    @error('quantity')
-                                        <span class="alert alert-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row border">
-                                <label for="alert_stock" class="col-sm-2 col-form-label custom_form_label">
-                                    Alert Stock :<span class="req_star">*</span>
-                                </label>
-                                <div class="col-sm-10">
-                                  <input type="number" id="alert_stock" value="{{$data['alert_stock']}}" class="form-control custom_form_control" name="alert_stock" value="{{ old('alert_stock') }}">
-                                    @error('alert_stock')
-                                        <span class="alert alert-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-6 border">
-                            <div class="form-group row border">
                                 <label for="generic_name" class="col-sm-2 col-form-label custom_form_label">
                                     Generic Name :<span class="req_star">*</span>
                                 </label>
@@ -85,6 +59,11 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+
+                        <div class="col-md-6 border">
+                            
                             <div class="form-group row border">
                                 <label for="packing" class="col-sm-2 col-form-label custom_form_label">
                                     Packing :<span class="req_star">*</span>

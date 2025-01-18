@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warehouse_stocks', function (Blueprint $table) {
+        Schema::create('warehouse_product_stocks', function (Blueprint $table) {
             $table->id();
             $table->integer('warehouse_id');
-            $table->integer('user_id');
-            $table->integer('supplier_id');
             $table->integer('product_id');
-            $table->integer('quantity');
-            // $table->integer('alert_stock');
-            $table->string('wr_slug')->unique();
-            $table->integer('wr_status')->default(1);
+            $table->integer('total_stock');
+            $table->integer('alert_stock')->default(100);
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warehouse_stocks');
+        Schema::dropIfExists('warehouse_product_stocks');
     }
 };

@@ -72,7 +72,7 @@
                                         <span class="badge badge-success">
                                             {{ $data['0']->alert_stock }}
                                         </span>
-                                    @endif
+                                    @endif 
                                 </td>
                             </tr>
                             <tr>

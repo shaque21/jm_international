@@ -111,17 +111,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row border">
-                                <label for="alert_stock" class="col-sm-2 col-form-label custom_form_label">
-                                    Alert Stock : <span class="req_star">*</span>
-                                </label>
-                                <div class="col-sm-6">
-                                  <input type="number" id="alert_stock" class="form-control custom_form_control" name="alert_stock" value="{{ $data->alert_stock }}">
-                                    @error('alert_stock')
-                                        <span class="alert alert-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                     
