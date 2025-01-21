@@ -8,15 +8,14 @@
     - 1,1,1,5,'out_stock',1,1,2024-12-31
 
 4. Depo 
-    -id,depo_name,warehouse_id,depo_slug,depo_stutus
+    -id,depo_name,depo_slug,depo_stutus
 5.depo_stock
-    - id, depo_id,product_id,qty,supplier,created,update,user,employee_id
+    - id, depo_id,product_id,warehouse_id,qty,created,update,user,employee_id
 6. depo_logs
 
 public function createEmployee(){
     try{
 
-        
         DB::trasction();
 
         // pen ->10

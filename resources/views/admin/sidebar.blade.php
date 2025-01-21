@@ -82,6 +82,18 @@
                         <p>Warehouse Stocks</p>
                     </a>
                 </li>
+                <li class="nav-item {{ (request()->segment(2) == 'depos') ? 'active' : '' }}">
+                    <a href="{{ url('/admin/depos') }}">
+                        <i class="fas fa-book"></i>
+                        <p>Depo Section</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ (request()->segment(2) == 'depo_stocks') ? 'active' : '' }}">
+                    <a href="{{ url('/admin/depo_stocks') }}">
+                        <i class="fas fa-book-open"></i>
+                        <p>Every Depo Stocks</p>
+                    </a>
+                </li>
                 <li class="nav-item {{ (request()->segment(2) == 'orders') ? 'active' : '' }}">
                     <a href="{{ url('/admin/orders') }}">
                         <i class="fas fa-laptop"></i>

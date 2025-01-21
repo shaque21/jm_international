@@ -4,9 +4,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\DepoController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WarehouseStockController;
+use App\Http\Controllers\DepoStockController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
@@ -30,22 +32,7 @@ Route::get('/admin/products/soft-delete/{slug}',[ProductController::class,'soft_
 End Route for product 
 -----------------------------------------------------------------------------------*/
 
-/*--------------------------------------------------------------------------------- 
-Start Route for warehouses 
------------------------------------------------------------------------------------*/
-Route::get('/admin/warehouses',[WarehouseController::class,'index']);
-Route::get('/admin/warehouses/create',[WarehouseController::class,'create']);
-Route::post('/admin/warehouses/submit',[WarehouseController::class,'store'])->name('products.store');
-Route::get('/admin/warehouses/view/{slug}',[WarehouseController::class,'view']);
-Route::get('/admin/warehouses/edit/{slug}',[WarehouseController::class,'edit']);
-Route::post('/admin/warehouses/update',[WarehouseController::class,'update']);
-Route::get('/admin/warehouses/soft-delete/{slug}',[WarehouseController::class,'soft_delete']);
 
-
-
-/*--------------------------------------------------------------------------------- 
-End Route for warehouses 
------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------------------------------------- 
 Start Route for customer 
@@ -80,6 +67,23 @@ Route::get('/admin/suppliers/soft-delete/{slug}',[SupplierController::class,'sof
 End Route for Supplier 
 -----------------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------------- 
+Start Route for warehouses 
+-----------------------------------------------------------------------------------*/
+Route::get('/admin/warehouses',[WarehouseController::class,'index']);
+Route::get('/admin/warehouses/create',[WarehouseController::class,'create']);
+Route::post('/admin/warehouses/submit',[WarehouseController::class,'store'])->name('products.store');
+Route::get('/admin/warehouses/view/{slug}',[WarehouseController::class,'view']);
+Route::get('/admin/warehouses/edit/{slug}',[WarehouseController::class,'edit']);
+Route::post('/admin/warehouses/update',[WarehouseController::class,'update']);
+Route::get('/admin/warehouses/soft-delete/{slug}',[WarehouseController::class,'soft_delete']);
+
+
+
+/*--------------------------------------------------------------------------------- 
+End Route for warehouses 
+-----------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------- 
 Start Route for Warehouse stock 
 -----------------------------------------------------------------------------------*/
 Route::get('/admin/warehouse_stocks',[WarehouseStockController::class,'index']);
@@ -90,10 +94,38 @@ Route::get('/admin/warehouse_stocks/edit/{slug}',[WarehouseStockController::clas
 Route::post('/admin/warehouse_stocks/update',[WarehouseStockController::class,'update']);
 Route::get('/admin/warehouse_stocks/soft-delete/{slug}',[WarehouseStockController::class,'soft_delete']);
 
+/*--------------------------------------------------------------------------------- 
+End Route for Warehouse stock 
+-----------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------- 
+Start Route for depo 
+-----------------------------------------------------------------------------------*/
+Route::get('/admin/depos',[DepoController::class,'index']);
+Route::get('/admin/depos/create',[DepoController::class,'create']);
+Route::post('/admin/depos/submit',[DepoController::class,'store'])->name('products.store');
+Route::get('/admin/depos/view/{slug}',[DepoController::class,'view']);
+Route::get('/admin/depos/edit/{slug}',[DepoController::class,'edit']);
+Route::post('/admin/depos/update',[DepoController::class,'update']);
+Route::get('/admin/depos/soft-delete/{slug}',[DepoController::class,'soft_delete']);
+
 
 
 /*--------------------------------------------------------------------------------- 
-End Route for Warehouse stock 
+End Route for depo 
+-----------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------- 
+Start Route for Depo stock 
+-----------------------------------------------------------------------------------*/
+Route::get('/admin/depo_stocks',[DepoStockController::class,'index']);
+Route::get('/admin/depo_stocks/create',[DepoStockController::class,'create']);
+Route::post('/admin/depo_stocks/submit',[DepoStockController::class,'store'])->middleware('auth')->name('warehouse_stocks.store');
+Route::get('/admin/depo_stocks/view/{slug}',[DepoStockController::class,'view']);
+Route::get('/admin/depo_stocks/edit/{slug}',[DepoStockController::class,'edit']);
+Route::post('/admin/depo_stocks/update',[DepoStockController::class,'update']);
+Route::get('/admin/depo_stocks/soft-delete/{slug}',[DepoStockController::class,'soft_delete']);
+
+/*--------------------------------------------------------------------------------- 
+End Route for Depo stock 
 -----------------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------------------
