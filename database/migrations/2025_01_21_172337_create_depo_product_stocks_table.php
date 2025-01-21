@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('depo_stocks', function (Blueprint $table) {
+        Schema::create('depo_product_stocks', function (Blueprint $table) {
             $table->id();
             $table->integer('depo_id');
-            $table->integer('warehouse_id');
             $table->integer('product_id');
-            $table->integer('user_id');
-            $table->integer('employee_id');
-            $table->integer('quantity');
-            $table->string('ds_slug')->unique();
-            $table->integer('ds_status')->default(1);
+            $table->integer('total_stock');
+            $table->integer('alert_stock')->default(20);
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('depo_stocks');
+        Schema::dropIfExists('depo_product_stocks');
     }
 };

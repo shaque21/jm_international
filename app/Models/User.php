@@ -27,6 +27,26 @@ class User extends Authenticatable
         'slug',
         'role_id',
     ];
+    public function isAdmin()
+    {
+        return $this->role_id == 1;
+    }
+
+    public function isEmployee()
+    {
+        return $this->role_id == 2;
+    }
+
+    public function isCustomer()
+    {
+        return $this->role_id == 3;
+    }
+
+
+    public function depoStocks()
+    {
+        return $this->hasMany(DepoStock::class, 'employee_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

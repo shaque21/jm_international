@@ -60,7 +60,7 @@
                                 <td>:</td>
                                 <td>{{ $data['0']->quantity }}</td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td>Alert Stocks</td>
                                 <td>:</td>
                                 <td>
@@ -74,7 +74,7 @@
                                         </span>
                                     @endif 
                                 </td>
-                            </tr>
+                            </tr> --}}
                             <tr>
                                 <td>Create Time</td>
                                 <td>:</td>

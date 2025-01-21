@@ -110,6 +110,26 @@
                                 </div>
                             </div>
                             <div class="form-group row border">
+                                <label for="employee_id" class="col-sm-2 col-form-label custom_form_label">
+                                    Delivered To : <span class="req_star">*</span> 
+                                </label>
+                                <div class="col-sm-6">
+                                    @php
+                                        $emp = App\Models\User::where('status', 1)
+                                        ->where('role_id',2)->get();
+                                    @endphp
+                                    <select name="employee_id" id="employee_id" class="form-control custom_form_control">
+                                        <option value="" selected disabled>Select Employee</option>
+                                        @foreach ($emp as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('employee_id')
+                                        <span class="alert alert-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row border">
                                 <label for="quantity" class="col-sm-2 col-form-label custom_form_label">
                                     Quantity : <span class="req_star">*</span>
                                 </label>

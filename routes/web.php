@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\DepoController;
+use App\Http\Controllers\OrderMasterController;
+use App\Http\Controllers\OrderDetailsController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WarehouseStockController;
@@ -128,6 +130,16 @@ Route::get('/admin/depo_stocks/soft-delete/{slug}',[DepoStockController::class,'
 End Route for Depo stock 
 -----------------------------------------------------------------------------------*/
 
+/*--------------------------------------------------------------------------------- 
+Start Route for OrderMaster 
+-----------------------------------------------------------------------------------*/
+
+Route::get('/admin/orders',[OrderMasterController::class,'index']);
+Route::post('/admin/orders/submit',[OrderMasterController::class,'store']);
+
+/*--------------------------------------------------------------------------------- 
+End Route for OrderMaster 
+-----------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------
 Start Route for users
 --------------------------------------------------------------------------------------------*/

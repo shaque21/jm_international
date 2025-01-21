@@ -78,6 +78,7 @@
                                         <option value="" selected disabled>Select Role</option>
                                         <option value="1" {{ $users->role_id == 1 ? 'selected' : '' }}>Admin</option>
                                         <option value="2" {{ $users->role_id == 2 ? 'selected' : '' }}>Employee</option>
+                                        <option value="3" {{ $users->role_id == 3 ? 'selected' : '' }}>Customer</option>
                                     </select>
                                     
                                 </div>

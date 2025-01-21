@@ -1,6 +1,6 @@
 @extends('layouts.admin')
-@section('page_title','View Warehouse Stocks Information')
-@section('page-heading','Warehouse Stocks')
+@section('page_title','View Depo Stocks Information')
+@section('page-heading','Depo Stocks')
 @section('content')
 <div class="row">
     <div class="col-md-12">
@@ -9,13 +9,13 @@
                 <div class="row">
                     <div class="col-md-8 d-flex align-items-center">
                         <h2 class="text-uppercase text-dark font-weight-bold custom_h_size">
-                            View Warehouse Stock Information
+                            View Depo Stock Information
                         </h2>
                     </div>
                     <div class="col-md-4 d-flex justify-content-end">
-                        <a href="{{ url('/admin/warehouse_stocks/edit/'.$data['0']->wr_slug) }}" class="btn btn-secondary btn-sm font-weight-bold text-uppercase">
+                        <a href="{{ url('/admin/depo_stocks/edit/'.$data['0']->ds_slug) }}" class="btn btn-secondary btn-sm font-weight-bold text-uppercase">
                             <i class="fas fa-wrench"></i>&nbsp 
-                            Update Warehouse Stock Information
+                            Update Depo Stock Information
                         </a>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
 
                 <div class="row border">
                     <div class="view_img_container col-md-4 border p-2 d-flex justify-content-center align-items-center">
-                        <img src="{{asset('/uploads/users/warehouse_stocks.jpg')}}" alt="..." class="container-fluid avatar-img rounded profile_img">
+                        <img src="{{asset('/uploads/users/depo_stocks.jpg')}}" alt="..." class="container-fluid avatar-img rounded profile_img">
                     </div>
                     <div class="col-md-8 border d-flex justify-content-center align-items-center">
                         <table class="mt-4 table table-bordered table-hover table-striped custom_view_table">
@@ -41,9 +41,9 @@
                                 <td>{{ $data['0']->warehouse->name }}</td>
                             </tr>
                             <tr>
-                                <td>Supplier Name</td>
+                                <td>Depo Name</td>
                                 <td>:</td>
-                                <td>{{ $data['0']->supplier->sup_name }}</td>
+                                <td>{{ $data['0']->depo->depo_name }}</td>
                             </tr>
                             <tr>
                                 <td>Product's Name</td>
@@ -51,16 +51,21 @@
                                 <td>{{ $data['0']->product->product_name }}</td>
                             </tr>
                             <tr>
-                                <td>User Name</td>
+                                <td>Delevered By</td>
                                 <td>:</td>
                                 <td>{{ $data['0']->user->name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Received By</td>
+                                <td>:</td>
+                                <td>{{ $data['0']->employee->name }}</td>
                             </tr>
                             <tr>
                                 <td>Quantity</td>
                                 <td>:</td>
                                 <td>{{ $data['0']->quantity }}</td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td>Alert Stocks</td>
                                 <td>:</td>
                                 <td>
@@ -74,7 +79,7 @@
                                         </span>
                                     @endif 
                                 </td>
-                            </tr>
+                            </tr> --}}
                             <tr>
                                 <td>Create Time</td>
                                 <td>:</td>

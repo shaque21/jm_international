@@ -52,8 +52,10 @@
                                         <span class="badge badge-secondary px-4">
                                             @if (Auth::user()->role_id == 1)
                                                 Admin
-                                            @else
+                                            @elseif(Auth::user()->role_id == 2)
                                                 Employee
+                                            @else
+                                                Customer
                                             @endif
                                             {{-- {{ Auth::user()->user_role->role_name }} --}}
                                         </span>
@@ -96,9 +98,13 @@
                                         <span class="badge badge-success">
                                             Admin
                                         </span>
-                                    @else
+                                    @elseif($data->role_id == 2)
                                         <span class="badge badge-secondary">
                                             Employee
+                                        </span>
+                                    @else
+                                        <span class="badge badge-warning">
+                                            Customer
                                         </span>
                                     @endif
                                 </td>

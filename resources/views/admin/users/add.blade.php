@@ -83,6 +83,7 @@
                                         <option value="" selected disabled>Select Role</option>
                                         <option value="1">Admin</option>
                                         <option value="2">Employee</option>
+                                        <option value="3">Customer</option>
                                         {{-- @foreach ($use_roles as $role)
                                         <option value="{{ $role->role_id }}">{{ $role->role_name }}</option>
                                         @endforeach --}}
@@ -123,7 +124,7 @@
                                 </label>
                                 <div class="col-sm-10">
                                   <input type="file" id="photo" class="form-control custom_form_control" name="photo" value="{{ old('photo') }}" onchange="previewFile(this);">
-                                  <img id="previewImg" src="{{ asset('uploads/users/avarter.jpg') }}" alt="Photo" width="150px">
+                                  <img id="previewImg" class="mt-2 custom_form_control" src="{{ asset('uploads/users/avarter.jpg') }}" alt="Photo" width="150px">
                                   @error('photo')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                  @enderror

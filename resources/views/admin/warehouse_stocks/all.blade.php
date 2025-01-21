@@ -39,7 +39,7 @@
                     <div class="col-md-8 d-flex align-items-center">
                         <h2 class="text-uppercase text-dark font-weight-bold custom_h_size">
                             @php
-                                $time = Carbon\Carbon::now()->format('d M Y | h:i:A');
+                                $time = Carbon\Carbon::now()->format('d M Y | h:i  A');
                             @endphp
                             Total Product quantity in warehouse 
                             <span style="color:rgba(0, 128, 0, 0.396); font-size:1.5rem; font-style:italic;">

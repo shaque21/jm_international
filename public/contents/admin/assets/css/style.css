@@ -90,3 +90,25 @@ img{
     width: 100%;
     overflow-x: auto; /* Allow horizontal scrolling if needed */
 }
+.table{
+    border: 2px solid #ebedf2!important;
+}
+.table .thead-dark th{
+    background-color: #716aca2b;
+    color:#000000b5;
+}
+.custom_form_control_order{
+    margin-left: 0;
+    width: 98%;
+    border-radius: 0;
+}
+.badge-success{
+    background-color: #0e7673!important;
+}
+.bg-success{
+    background-color: #0e7673!important;
+}
+/* .btn-success{
+    background-color: #0e7673!important;
+    border: 1px solid #0e7673;
+} */

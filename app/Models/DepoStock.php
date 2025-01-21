@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class DepoStock extends Model
 {
     protected $fillable = ['depo_id', 'warehouse_id', 'product_id', 'quantity','user_id',
-        'ds_slug'
+        'ds_slug','employee_id'
 ];
 
     public function depo()
@@ -27,6 +27,10 @@ class DepoStock extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function employee()
+    {
+        return $this->belongsTo(User::class, 'employee_id');
     }
 
 }
