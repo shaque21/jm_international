@@ -6,8 +6,11 @@ use App\Models\OrderMaster;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\OrderDetail;
+use App\Models\OrderDetails;
+use App\Models\WarehouseProductStock;
+use App\Models\DepoProductStock;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,98 +38,172 @@ class OrderMasterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    
     public function store(Request $request)
     {
-        // return $request->all();
-        // Validate the order input
+        // Validate the input
         $validated = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'ordered_qty' => 'required|min:1',
-            'delivered_qty' => 'required|min:1',
+            'product_id' => 'required|array',
+            'product_id.*' => 'exists:products,id',
+            'ordered_qty' => 'required|array',
+            'ordered_qty.*' => 'min:1',
+            'delivered_qty' => 'required|array',
+            'delivered_qty.*' => 'min:1',
             'customer_id' => 'required|exists:users,id',
         ]);
-        
+
         $user = Auth::user();
         $order_date = Carbon::now()->format('Y-m-d');
         $invoiceNo = 'ORD-' . date('Ymd') . '_' . $request->customer_id . '_' . rand(10000, 99999);
+        $num_of_item = array_sum($request->delivered_qty);
 
-        echo $invoiceNo;die();
-
-        // Start a database transaction
         DB::beginTransaction();
-
         try {
-            // Create a new order master
+            Log::info("Starting transaction for order creation.");
+
+            // Create a new OrderMaster
             $orderMaster = new OrderMaster();
             $orderMaster->user_id = $user->id;
-            if($user->isAmin() || $user->isEmployee())
-            {
-                $orderMaster->order_status = 1;
-            }
-            else
-            {
-                $orderMaster->order_status = 0;  // Order status 0 (Pending)
-            }
+            $orderMaster->customer_id = $request->customer_id;
+            $orderMaster->warehouse_id = $request->warehouse_id;
+            $orderMaster->depo_id = $request->depo_id;
+            $orderMaster->invoice_no = $invoiceNo;
+            $orderMaster->date = $order_date;
+            $orderMaster->num_of_item = $num_of_item;
+            $orderMaster->order_status = ($user->role_id == 1 || $user->role_id == 2) ? 1 : 0; // Set status
             $orderMaster->save();
+            Log::info("OrderMaster created with ID: {$orderMaster->id}");
 
-            // Loop through each order detail and create OrderDetail
-            foreach ($validated['order_details'] as $detail) {
-                $orderDetail = new OrderDetail();
-                $orderDetail->order_master_id = $orderMaster->id;
-                $orderDetail->product_id = $detail['product_id'];
-                $orderDetail->quantity = $detail['quantity'];
-                $orderDetail->save();
+            // Loop through products and handle order details
+            foreach ($request->product_id as $index => $productId) {
+                $orderedQty = $request->ordered_qty[$index];
+                $deliveredQty = $request->delivered_qty[$index];
 
-                // Deduct stock based on the user role (Admin or Employee)
-                if ($user->isAdmin()) {
-                    // Deduct from WarehouseProductStock
-                    $warehouseStock = WarehouseProductStock::where('product_id', $detail['product_id'])->first();
-                    if ($warehouseStock && $warehouseStock->quantity >= $detail['quantity']) {
-                        $warehouseStock->quantity -= $detail['quantity'];
+                // Create OrderDetails
+                $orderDetails = new OrderDetails();
+                $orderDetails->order_master_id = $orderMaster->id;
+                $orderDetails->product_id = $productId;
+                $orderDetails->ordered_qty = $orderedQty;
+                $orderDetails->delivered_qty = $deliveredQty;
+                $orderDetails->save();
+                Log::info("OrderDetails created for product ID: {$productId}");
+
+                // Stock Deduction Logic
+                if ($user->role_id == 1) {
+                    $warehouseStock = WarehouseProductStock::where('product_id', $productId)->first();
+                    if ($warehouseStock && $warehouseStock->total_stock >= $deliveredQty) {
+                        $warehouseStock->total_stock -= $deliveredQty;
                         $warehouseStock->save();
                     } else {
-                        // If stock is not sufficient, rollback and return error
-                        DB::rollBack();
-                        return back()->with('error', 'Not enough stock in the warehouse.');
+                        throw new \Exception("Not enough stock in the warehouse for product ID: {$productId}");
                     }
-                } elseif ($user->isEmployee()) {
-                    // Deduct from DepoProductStock
-                    $depoStock = DepoProductStock::where('product_id', $detail['product_id'])
-                                                ->where('depo_id', $user->depo_id)
-                                                ->first();
-                    if ($depoStock && $depoStock->quantity >= $detail['quantity']) {
-                        $depoStock->quantity -= $detail['quantity'];
+                } elseif ($user->role_id == 2) {
+                    $depoStock = DepoProductStock::where('product_id', $productId)
+                        ->where('depo_id', $request->depo_id)
+                        ->first();
+                    if ($depoStock && $depoStock->total_stock >= $deliveredQty) {
+                        $depoStock->total_stock -= $deliveredQty;
                         $depoStock->save();
                     } else {
-                        // If stock is not sufficient, rollback and return error
-                        DB::rollBack();
-                        return back()->with('error', 'Not enough stock in the depo.');
+                        throw new \Exception("Not enough stock in the depo for product ID: {$productId}");
                     }
                 } else {
-                    // If user role is invalid, rollback and return error
-                    DB::rollBack();
-                    return back()->with('error', 'Invalid user role for stock deduction.');
+                    throw new \Exception("Invalid user role: {$user->role_id}");
                 }
             }
 
-            // Commit the transaction
             DB::commit();
+            Log::info("Transaction committed successfully for OrderMaster ID: {$orderMaster->id}");
 
-            // Return success message
-            $request->session()->flash('success', 'Order placed successfully.!');
+            $request->session()->flash('success', 'Order placed successfully!');
             return redirect('/admin/orders');
-            // return redirect()->route('orders.index')->with('success', 'Order placed successfully.');
         } catch (\Exception $e) {
-            // Rollback if any exception occurs
             DB::rollBack();
-            // Log the exception for debugging (optional)
-            $request->session()->flash('error', 'Something went wrong. Please try again.');
-            return redirect('/admin/orders');
-            // Log::error('Order placement failed: ' . $e->getMessage());
-            // return back()->with('error', 'Something went wrong. Please try again.');
+            Log::error("Transaction failed: {$e->getMessage()}", ['stack' => $e->getTraceAsString()]);
+            $request->session()->flash('error', 'An error occurred: ' . $e->getMessage());
+            return back()->withInput();
+        }
+    }
+
+    //Get Last Order History
+    // public function getLastOrderHistory(Request $request)
+    // {
+    //     // Fetch the last order ID and its details
+    //     $lastOrderId = $request->input('last_order_id');
+        
+    //     // If no order ID is provided, fetch the max order ID
+    //     $lastOrderId = $lastOrderId ?? OrderDetails::max('order_master_id');
+
+    //     $orderReceipt = OrderDetails::where('order_master_id', $lastOrderId)->get();
+
+    //     if ($orderReceipt->isEmpty()) {
+    //         return response()->json(['message' => 'No order history found'], 404);
+    //     }
+
+    //     // Render the view with the fetched data
+    //     $html = view('admin.orders.index', compact('orderReceipt'))->render();
+
+    //     return response()->json($html);
+    // }
+    public function getLastOrderHistory(Request $request)
+    {
+        // Fetch the last order ID (or use max order ID if none provided)
+        $lastOrderId = $request->input('last_order_id') ?? OrderDetails::max('order_master_id');
+        $orderReceipt = OrderDetails::where('order_master_id', $lastOrderId)->get();
+
+        // If no order found, return a message
+        if ($orderReceipt->isEmpty()) {
+            return response('<p>No order history found.</p>', 200, ['Content-Type' => 'text/html']);
         }
 
+        // Generate the HTML for the table
+        $html = '
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Qty</th>
+                        <th>Ordered By</th>
+                        <th>Delivered By</th>
+                        <th>Delivered From</th>
+                        <th>Order Status</th>
+                    </tr>
+                </thead>
+                <tbody>';
+                // echo $orderReceipt->orderMaster->user_id; die();
+                foreach ($orderReceipt as $key => $order) {
+                    $statusBadge = '';
+                    if ($order->orderMaster->order_status == 1) {
+                        $statusBadge = '<span class="badge badge-success">Success</span>';
+                    } else {
+                        $statusBadge = '<span class="badge badge-warning">Pending</span>';
+                    }
+                
+                    $html .= '
+                        <tr>
+                            <td>' . ($key + 1) . '</td>
+                            <td>' . $order->product->product_name . '</td>
+                            <td>' . $order->delivered_qty . '</td>
+                            <td>' . $order->orderMaster->customer->name ?? 'N/A' . '</td>
+                            <td>' . $order->orderMaster->creator->name ?? 'N/A'. '</td>
+                            <td>' . $order->orderMaster->warehouse->name ?? 'N/A'. '</td>
+                            <td>' . $statusBadge . '</td>
+                        </tr>';
+                }
+                
+
+        $html .= '
+                </tbody>
+            </table>
+        </div>';
+
+        return response($html, 200, ['Content-Type' => 'text/html']);
     }
+
+
+
 
     /**
      * Display the specified resource.

@@ -18,4 +18,23 @@ class OrderMaster extends Model
     {
         return $this->hasMany(OrderDetail::class, 'order_master_id');
     }
+    // Relationship with User (Customer)
+    public function customer()
+    {
+        return $this->belongsTo(User::class, 'customer_id');
+    }
+    
+
+    // Relationship with User (Creator/Employee/Admin)
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Relationship with Warehouse
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id');
+    }
+
 }

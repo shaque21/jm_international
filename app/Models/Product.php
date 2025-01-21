@@ -17,5 +17,10 @@ class Product extends Model
     {
         return $this->hasMany(WarehouseStock::class);
     }
+    // Relationship with OrderDetails
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetails::class, 'product_id');
+    }
 }
 

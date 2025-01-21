@@ -136,6 +136,8 @@ Start Route for OrderMaster
 
 Route::get('/admin/orders',[OrderMasterController::class,'index']);
 Route::post('/admin/orders/submit',[OrderMasterController::class,'store']);
+Route::post('/admin/orders/get-last-order-history', [OrderMasterController::class, 'getLastOrderHistory']);
+
 
 /*--------------------------------------------------------------------------------- 
 End Route for OrderMaster 

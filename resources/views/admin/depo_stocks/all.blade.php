@@ -127,7 +127,7 @@
             
             <div class="card-body">
                 <div class="table-responsive-sm">
-                    <table id="basic-datatables" class="table table-bordered table-striped table-hover">
+                    <table id="basic-datatables-all" class="table table-bordered table-striped table-hover">
                         <thead class="">
                             <tr>
                                 <th>#</th>
@@ -189,6 +189,11 @@
         // $('#basic-datatables').DataTable({
 		// });
         $('#basic-datatables').DataTable({
+            ordering: false,
+            responsive: true,
+            autoWidth: false,
+        });
+        $('#basic-datatables-all').DataTable({
             ordering: false,
             responsive: true,
             autoWidth: false,

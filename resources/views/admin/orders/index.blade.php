@@ -121,25 +121,31 @@
                 <div class="col mt-2">
                     <table class="table">
                         <tr>
-                            <td>
-                                @php
-                                  $customers = App\Models\User::where('status',1)->where('role_id',3)->get();
-                                  
-                                @endphp
-                                <label class="font-weight-bold" for="customer_id">Customer Name : </label><span class="order_req_star"> *</span>
-                                <select name="customer_id" id="customer_id" class="form-control  custom_form_control_order">
-                                    <option value="" selected disabled>Select Customer</option>
-                                    @foreach ($customers as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('customer_id')
-                                    <span class="alert alert-danger">{{ $message }}</span>
-                                @enderror
-                                {{-- <label class="font-weight-bold" for="customer_name">Customer Name</label>
-                                <input type="text" name="customer_name" id="customer_name"
-                                class="form-control form-control-sm"> --}}
-                            </td>
+                            @php
+                                $user = Auth::user(); // Assuming the logged-in user is relevant
+                            @endphp
+                            @if($user && $user->role_id == 1 || $user && $user->role_id == 2)
+                                <td>  
+                                    @php
+                                    $customers = App\Models\User::where('status',1)->where('role_id',3)->get();
+                                    
+                                    @endphp
+                                    <label class="font-weight-bold" for="customer_id">Customer Name : </label><span class="order_req_star"> *</span>
+                                    <select name="customer_id" id="customer_id" class="form-control  custom_form_control_order">
+                                        <option value="" selected disabled>Select Customer</option>
+                                        @foreach ($customers as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('customer_id')
+                                        <span class="alert alert-danger">{{ $message }}</span>
+                                    @enderror
+                                    {{-- <label class="font-weight-bold" for="customer_name">Customer Name</label>
+                                    <input type="text" name="customer_name" id="customer_name"
+                                    class="form-control form-control-sm"> --}}
+                                </td>
+                            @endif
+                            
                             
                             {{-- <td>
                                 <label class="font-weight-bold" for="customer_mobile">Phone</label>
@@ -207,19 +213,19 @@
     </div>
 </div>
 <!-- Start The Modal For show history-->
-<div class="modal fade" id="historyModal">
+{{-- <div class="modal fade" id="historyModal">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
       <div class="modal-content">
       
-        {{-- @php
-            $last_order_id = App\Models\OrderDetail::max('order_master_id');
-            $order_receipt = App\Models\OrderDetail::where('order_master_id',$last_order_id)->get();
-        @endphp --}}
+        @php
+            $last_order_id = App\Models\OrderDetails::max('order_master_id');
+            $order_receipt = App\Models\OrderDetails::where('order_master_id',$last_order_id)->get();
+        @endphp
         <!-- Modal Header -->
         <div class="modal-header">
-            {{-- <h4 class="modal-title text-uppercase font-weight-bold">
+            <h4 class="modal-title text-uppercase font-weight-bold">
                 Last Order History ( {{ $order_receipt['0']->created_at->format('Y M d | h:i A') }} )
-            </h4> --}}
+            </h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -233,32 +239,28 @@
                             <th>#</th>
                             <th>Product Name</th>
                             <th>Qty</th>
-                            <th>Available Qty</th>
-                            <th>Alert Stock</th>
-                            <th>Unit Price</th>
-                            <th>Disc (%)</th>
-                            <th>Method</th>
-                            <th>Amount</th>
+                            <th>Ordered By</th>
+                            <th>Delivered By</th>
+                            <th>Location</th>
+                            <th>Order Status</th>
                         </tr>
                     </thead>
-                    {{-- <tbody>
-                        
-                        @foreach ($order_receipt as $key=>$order)
+                    <tbody>
+                        @foreach ($orderReceipt as $key => $order)
                             <tr>
-                                <td>{{ $key+1 }}</td>
-                                <td>{{ $order->products->product_name }}</td>
-                                <td>{{ $order->quantity }}</td>
-                                <td>{{ $order->products->quantity }}</td>
-                                <td>{{ $order->products->alert_stock }}</td>
-                                <td>{{ number_format($order->unit_price,2) }}</td>
-                                <td>{{ number_format($order->discount,2) }} %</td>
-                                <td>{{ $order->transaction->payment_method }}</td>
-                                <td>{{ number_format($order->amount,2) }}</td>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $order->product->product_name }}</td>
+                                <td>{{ $order->delivered_qty }}</td>
+                                <td>{{ $order->orderMaster->customer->name }}</td>
+                                <td>{{ $order->orderMaster->creator->name }}</td>
+                                <td>{{ $order->orderMaster->warehouse->name }}</td>
+                                <td>{{ $order->orderMaster->order_status }}</td>
                             </tr>
                         @endforeach
-                    </tbody> --}}
+                    </tbody>
                 </table>
             </div>
+            
         </div>
         
         <!-- Modal footer -->
@@ -268,7 +270,29 @@
         
       </div>
     </div>
+</div> --}}
+<div class="modal fade" id="historyModal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title text-uppercase font-weight-bold">Last Order History</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <p>Loading order history...</p>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm btn-block" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 <!-- End The Modal For show history-->
 <!-- Start The Modal For daily report-->
 <div class="modal fade" id="dailyReportModal">
@@ -416,21 +440,24 @@
 
             // Fetch last order history
             document.querySelector("#order_history").addEventListener("click", function () {
-                const lastOrderId = this.dataset.id;
-                fetch("{{ url('/admin/orders/get-last-order-history') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ last_order_id: lastOrderId }),
+            const lastOrderId = this.dataset.id;
+
+            fetch("{{ url('/admin/orders/get-last-order-history') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ last_order_id: lastOrderId }),
+            })
+                .then((response) => response.text())
+                .then((data) => {
+                    // Insert the HTML into the modal body
+                    document.querySelector("#historyModal .modal-body").innerHTML = data;
                 })
-                    .then((response) => response.text())
-                    .then((data) => {
-                        document.querySelector("#historyModal .modal-body").innerHTML = data;
-                    })
-                    .catch((error) => console.error("Error:", error));
-            });
+                .catch((error) => console.error("Error:", error));
+        });
+
 
             
 

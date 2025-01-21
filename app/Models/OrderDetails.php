@@ -22,10 +22,19 @@ class OrderDetails extends Model
     {
         return $this->belongsTo(WarehouseProductStock::class, 'product_id');
     }
+    // Relationship with Product
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 
     public function depoProductStock()
     {
         return $this->belongsTo(DepoProductStock::class, 'product_id');
+    }
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id');
     }
 
 }
