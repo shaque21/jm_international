@@ -163,6 +163,7 @@
                                 <th>Delivered By</th>
                                 <th>Delivered From</th>
                                 <th>Order Status</th>
+                                <th>Order Date</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -174,6 +175,7 @@
                                 <th>Delivered By</th>
                                 <th>Delivered From</th>
                                 <th>Order Status</th>
+                                <th>Order Date</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -206,6 +208,7 @@
                                                 </span>
                                             @endif
                                         </td>
+                                        <td>{{$order->date}}</td>
                                     </tr>
                                 @endforeach
                             @endforeach

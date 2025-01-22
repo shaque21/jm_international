@@ -47,7 +47,7 @@
                     </span>
                     <h4 class="text-section">NAVBAR</h4>
                 </li>
-                {{-- @if (Auth::user()->role_id == 1) --}}
+                @if (Auth::user()->role_id == 1)
                 <li class="nav-item {{ (request()->segment(2) == 'dashboard') ? 'active' : '' }} ">
                     <a href="{{ url('/admin/dashboard') }}">
                         <i class="fas fa-home"></i>
@@ -145,7 +145,15 @@
                         <p class="text-danger">Logout</p>
                     </a>
                 </li>
-                {{-- @endif --}}
+                @endif
+                @if (Auth::user()->role_id == 2)
+                    <li class="nav-item {{ (request()->segment(2) == 'orders') ? 'active' : '' }}">
+                        <a href="{{ url('/admin/orders') }}">
+                            <i class="fas fa-laptop"></i>
+                            <p>Place Order</p>
+                        </a>
+                    </li>
+                @endif
 
             </ul>
         </div>

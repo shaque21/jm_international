@@ -39,8 +39,8 @@
                         @if ($reportType === 'daily') Date : @elseif ($reportType === 'monthly') Month : @else Year : @endif
                         {{ $key }}
                     </h2>
-                    <div class="table-responsive">
-                        <table id="basic-datatables" class="table table-bordered table-striped">
+                    <div class="table-responsive mb-2">
+                        <table id="basic-datatables.{{$key}}" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -50,6 +50,7 @@
                                     <th>Delivered By</th>
                                     <th>Location</th>
                                     <th>Status</th>
+                                    <th>Order Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,7 +60,7 @@
                                         <td>{{ $order->product->product_name }}</td>
                                         <td>{{ $order->delivered_qty }}</td>
                                         <td>{{ $order->orderMaster->customer->name ?? 'N/A' }}</td>
-                                        <td>{{ $order->orderMaster->creator->name ?? 'N/A' }}</td>
+                                        <td><span class="badge badge-success">{{ $order->orderMaster->creator->name ?? 'N/A' }}</span></td>
                                         {{-- <td>{{ $order->orderMaster->warehouse->name ?? 'N/A' }}</td> --}}
                                         <td>{{ $order->orderMaster->warehouse->name ?? $order->orderMaster->depo->depo_name ?? 'N/A'}}</td>
                                         <td>
@@ -69,6 +70,7 @@
                                                 <span class="badge badge-warning">Pending</span>
                                             @endif
                                         </td>
+                                        <td>{{$order->orderMaster->date}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -83,7 +85,7 @@
 @section('script')
     <script>
         $(document).ready(function(){
-        $('#basic-datatables').DataTable({
+        $('#basic-datatables.{{$key}}').DataTable({
             ordering: false,
             responsive: true,
             autoWidth: false,

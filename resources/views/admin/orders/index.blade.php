@@ -206,7 +206,7 @@
                     <label class="font-weight-bold" for="order_date">Date :</label>
                     <input type="date"  readonly class="form-control" value="{{ Carbon::now()->toDateString() }}">
                 </div>
-                <button class="btn btn-sm btn-block btn-success" type="submit">Save</button>
+                <button class="btn font-weight-bold btn-sm btn-block btn-secondary" type="submit">Confirm Order</button>
             </div>
         </div>
     </form>
