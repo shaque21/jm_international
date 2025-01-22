@@ -6,7 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\DepoController;
 use App\Http\Controllers\OrderMasterController;
-use App\Http\Controllers\OrderDetailsController;
+use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WarehouseStockController;
@@ -142,12 +142,24 @@ Route::post('/admin/orders/get-last-order-history', [OrderMasterController::clas
 /*--------------------------------------------------------------------------------- 
 End Route for OrderMaster 
 -----------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------- 
+Start Route for Report 
+-----------------------------------------------------------------------------------*/
+Route::get('/admin/reports', [OrderDetailController::class, 'generateReports'])->name('reports.index');
+
+// Route::get('/admin/reports',[OrderDetailController::class,'index']);
+Route::post('/admin/reports/check',[OrderDetailController::class,'check_report']);
+
+/*--------------------------------------------------------------------------------- 
+End Route for Report 
+-----------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------
 Start Route for users
 --------------------------------------------------------------------------------------------*/
 
     Route::get('/admin/users',[UserController::class,'index']);
-    Route::get('/admin/users/add',[UserController::class,'add']);
+    Route::get('/admin/users/add',[UserController::class,'add'])->name('admin.users.add');
     Route::get('/admin/users/view/{slug}',[UserController::class,'view']);
     Route::get('/admin/users/edit/{slug}',[UserController::class,'edit']);
     Route::post('/admin/users/update',[UserController::class,'update']);
@@ -156,6 +168,9 @@ Start Route for users
     Route::get('/admin/restore/users',[UserController::class,'trash_user']);
     Route::get('/admin/restore/users/{slug}',[UserController::class,'restore_user']);
     Route::get('/admin/restore/users/delete/{slug}',[UserController::class,'destroy']);
+    Route::get('/admin/users/verify-otp', [UserController::class, 'showOtpForm'])->name('admin.users.verify_otp');
+    Route::post('/admin/users/verify-otp', [UserController::class, 'verifyOtp'])->name('admin.users.verify_otp.post');
+
 /*------------------------------------------------------------------------------------------
 End Route for users
 --------------------------------------------------------------------------------------------*/

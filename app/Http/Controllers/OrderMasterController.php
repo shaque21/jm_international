@@ -72,7 +72,7 @@ class OrderMasterController extends Controller
             $orderMaster->date = $order_date;
             $orderMaster->num_of_item = $num_of_item;
             $orderMaster->order_status = ($user->role_id == 1 || $user->role_id == 2) ? 1 : 0; // Set status
-            $orderMaster->is_approved = ($user->role_id == 1 || $user->role_id == 2) ? 1 : 0; // Set status
+            
             $orderMaster->save();
             // dd($orderMaster);
             Log::info("OrderMaster created with ID: {$orderMaster->id}");
@@ -113,7 +113,7 @@ class OrderMasterController extends Controller
                     }
                 } elseif ($user->role_id == 3) {
                     // For role_id 3, set is_approved to 0 and skip stock deduction
-                    $orderMaster->is_approved = 0; // Assuming $orderMaster is the instance of OrderMaster
+                    $orderMaster->order_status = 0; // Assuming $orderMaster is the instance of OrderMaster
                     $orderMaster->save();
                 } 
                  else {
@@ -178,7 +178,7 @@ class OrderMasterController extends Controller
 
         foreach ($orderReceipt as $key => $order) {
             $statusBadge = '';
-            if ($order->is_approved == 1) {
+            if ($order->order_status == 1) {
                 $statusBadge = '<span class="badge badge-success">Approved</span>';
             } else {
                 $statusBadge = '<span class="badge badge-warning">Pending</span>';
@@ -187,12 +187,12 @@ class OrderMasterController extends Controller
             // Loop through order details
             foreach ($order->orderDetails as $detail) {
                 $html .= '
-                    <tr>
+                    <tr class="text-center">
                         <td>' . ($key + 1) . '</td>
                         <td>' . ($detail->product->product_name ?? 'N/A') . '</td>
                         <td>' . $detail->delivered_qty . '</td>
                         <td>' . ($order->customer->name ?? 'N/A') . '</td>
-                        <td>' . ($order->creator->name ?? 'N/A') . '</td>
+                        <td><span class="badge badge-success">' . ($order->creator->name ?? 'N/A') . '</span></td>
                         <td>' . ($order->warehouse->name ?? $order->depo->depo_name ?? 'N/A') . '</td>
                         <td>' . $statusBadge . '</td>
                     </tr>';

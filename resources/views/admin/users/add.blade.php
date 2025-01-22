@@ -46,7 +46,7 @@
                                     Name :<span class="req_star">*</span>
                                 </label>
                                 <div class="col-sm-10">
-                                  <input type="text" id="name" class="form-control custom_form_control" name="name" placeholder="Customer Name">
+                                  <input type="text" id="name" class="form-control custom_form_control" name="name" placeholder="User Name">
                                     @error('name')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror

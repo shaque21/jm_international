@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('depo_id')->nullable();
             $table->foreignId('warehouse_id')->nullable();
             $table->integer('order_status')->default(0);
-            $table->integer('is_approved')->default(0);
+            // $table->integer('is_approved')->default(0);
             $table->timestamps(); 
         });
     }

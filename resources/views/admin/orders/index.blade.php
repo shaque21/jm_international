@@ -245,53 +245,88 @@
         <!-- Modal Header -->
         <div class="modal-header">
             <h4 class="modal-title text-uppercase font-weight-bold">
-                Today's Sales Report
+                Today's Sales Report <small>{{Carbon::now()->format('Y-m-d | h:s A')}}</small>
             </h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
         <!-- Modal body -->
         <div class="modal-body">
-            {{-- @php
+            @php
                 // use Carbon\Carbon;
-                $today = Carbon::now();
-                $date = date('Y-m-d',strtotime($today));
-                $todays_report = App\Models\OrderDetail::where('order_date',$date)
-                ->orderBy('id','DESC')->get();
-                $total_amount = App\Models\OrderDetail::where('order_date',$date)->sum('amount');
-                
-            @endphp --}}
-            <div class="table-responsive">
-                <table id="basic-datatables" class="table table-bordered table-striped table-hover table-sm">
+                $user_id = Auth::user()->id;
+                $today = Carbon::now()->today();
+                $date = $today->format('Y-m-d');
+                $daily_report = App\Models\OrderMaster::with(['orderDetails.product', 'customer', 'creator', 'warehouse'])
+                                ->where('date', $date)
+                                ->where('user_id',$user_id)
+                                ->orderBy('id', 'DESC')
+                                ->get();
+                $total_qty = App\Models\OrderMaster::where('date', $date)->where('user_id',$user_id)->sum('num_of_item');
+            @endphp
+            <div class="table-responsive ">
+                <table id="basic-datatables-reposrts" class="display table table-sm table-striped table-hover" >
                     <thead class="thead-dark">
                         <tr>
                             <th>#</th>
                             <th>Product Name</th>
                             <th>Qty</th>
-                            <th>Available Qty</th>
-                            <th>Unit Price</th>
-                            <th>Disc (%)</th>
-                            <th>Amount</th>
+                            <th>Ordered By</th>
+                            <th>Delivered By</th>
+                            <th>Delivered From</th>
+                            <th>Order Status</th>
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>Product Name</th>
+                            <th>Qty</th>
+                            <th>Ordered By</th>
+                            <th>Delivered By</th>
+                            <th>Delivered From</th>
+                            <th>Order Status</th>
+                        </tr>
+                    </tfoot>
                     <tbody>
-                        
-                        {{-- @foreach ($todays_report as $key=>$order)
-                            <tr>
-                                <td>{{ $key+1 }}</td>
-                                <td>{{ $order->products->product_name }}</td>
-                                <td>{{ $order->quantity }}</td>
-                                <td>{{ $order->products->quantity }}</td>
-                                <td>{{ number_format($order->unit_price,2) }}</td>
-                                <td>{{ number_format($order->discount,2) }} %</td>
-                                <td>{{ number_format($order->amount,2) }}</td>
-                            </tr>
-                        @endforeach --}}
+                        @foreach ($daily_report as $key => $order)
+                            @foreach ($order->orderDetails as $orderDetail)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $orderDetail->product->product_name ?? 'N/A' }}</td>
+                                    <td>{{ $orderDetail->delivered_qty ?? 0 }}</td>
+                                    <td>{{ $order->customer->name ?? 'N/A' }}</td>
+                                    <td>{{ $order->creator->name ?? 'N/A' }}</td>
+                                    <td>
+                                        @if ($order->warehouse_id)
+                                            {{ $order->warehouse->name ?? 'N/A' }}
+                                        @elseif ($order->depo_id)
+                                            {{ $order->depo->depo_name ?? 'N/A' }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                    
+                                    <td>
+                                        @if ($order->order_status == 1)
+                                            <span class="badge badge-success">
+                                                Approved
+                                            </span>
+                                        @else
+                                            <span class="badge badge-danger">
+                                                Pending
+                                            </span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endforeach
+
                     </tbody>
                 </table>
             </div>
             
-            {{-- <h2 class="text-danger">TOTAL AMOUNT : {{ '$ '. number_format($total_amount,2) }}</h2> --}}
+            <h2 class="text-secondary">TOTAL SALE QUANTITY : {{ $total_qty }} <small>( PCS )</small></h2>
             
         </div>
         
@@ -309,27 +344,16 @@
     <script>
         $(document).ready(function(){
             $('#basic-datatables').DataTable({
+                ordering: false,
+                responsive: true,
+                autoWidth: false,
 			});
-            // add new row
-            // $('.add_more').on('click',function(){
-            //     var product = $('.product_id').html();
-            //     var number_of_row = ($('.add_new_product tr').length - 0) + 1;
-            //     var tr ='<tr><td class="no">' + number_of_row + '</td>' +
-            //             '<td><select name="product_id[]" class="form-control product_id">' +
-            //             product + 
-            //             '</select></td>' +
-            //             '<td><input type="number" name="ordered_qty[]" id="ordered_qty" class="form-control custom_form_control_order ordered_qty" ></td>' +
-            //             '<td><input type="number" name="deliverd_qty[]" id="deliverd_qty" class="form-control custom_form_control_order deliverd_qty" ></td>' +
-            //             '<td class="text-center"><a class="delete" href="#"><i class="fas fa-times-circle fa-lg text-danger"></i></a></td></tr>';
-
-            //     $('.add_new_product').append(tr);
-                         
-            // });
-            // // Remove row from table
-            // $('.add_new_product').delegate('.delete','click',function(){
-            //     $(this).parent().parent().remove();
-            // });
-            // Add new product row
+            $('#basic-datatables-reposrts').DataTable({
+                ordering: false,
+                responsive: true,
+                autoWidth: false,
+			});
+            
             document.querySelector(".add_more").addEventListener("click", (e) => {
                 e.preventDefault();
                 const productOptions = document.querySelector(".product_id").innerHTML;

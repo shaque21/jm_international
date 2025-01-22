@@ -42,10 +42,8 @@
                             @php
                                 $time = Carbon\Carbon::now()->format('d M Y | h:i  A');
                             @endphp
-                            Total Product quantity in Depo 
-                            <span style="color:rgba(0, 128, 0, 0.396); font-size:1.5rem; font-style:italic;">
-                                ({{$time}})
-                            </span>
+                            Total Product quantity in Depo <small class="font-weight-bold">{{$time}}</small>
+                            
                         </h2>
                     </div>
                 </div>

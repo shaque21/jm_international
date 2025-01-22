@@ -9,6 +9,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Mail\Message;
 
 class UserController extends Controller
 {
@@ -79,6 +82,91 @@ class UserController extends Controller
             return redirect('/admin/users/add');
         }
     }
+    // public function insert(Request $request)
+    // {
+    //     $request->validate([
+    //         'name' => 'required|max:70|min:5',
+    //         'mobile' => 'required|min:11|max:15',
+    //         'email' => 'required|string|email|max:255|unique:users',
+    //         'password' => 'required|string|confirmed|min:8',
+    //         'role_id' => 'required',
+    //         'photo' => 'mimes:jpeg,jpg,png,gif',
+    //     ]);
+
+    //     // $otp = rand(100000, 999999); // Generate a 6-digit OTP
+    //     $otp = 223344; // Generate a 6-digit OTP
+
+    //     // Store user data in the session (except the file)
+    //     $userData = $request->except('photo');
+    //     Session::put('user_data', $userData);
+    //     Session::put('otp', $otp);
+
+    //     // Save the uploaded file temporarily
+    //     if ($request->hasFile('photo')) {
+    //         $tempPath = $request->file('photo')->store('temp'); // Save in the 'temp' directory
+    //         Session::put('photo_path', $tempPath); // Store the path in the session
+    //     }
+
+    //     // Send OTP to the email
+    //     Mail::send([], [], function (Message $message) use ($request, $otp) {
+    //         $message->to($request->email)
+    //             ->subject('Your OTP for Account Creation')
+    //             ->html("Your OTP is: <strong>$otp</strong>"); // Use `html()` for setting the email body
+    //     });
+
+    //     return redirect()->route('admin.users.verify_otp');
+    // }
+
+
+    // public function showOtpForm()
+    // {
+    //     return view('admin.users.verify_otp');
+    // }
+    // public function verifyOtp(Request $request)
+    // {
+    //     $request->validate(['otp' => 'required|numeric']);
+
+    //     $storedOtp = Session::get('otp');
+    //     $userData = Session::get('user_data');
+    //     $photoPath = Session::get('photo_path');
+
+    //     if ($storedOtp && $userData && $request->otp == $storedOtp) {
+    //         $slug = Str::of($userData['name'])->slug('-') . '-' . time();
+
+    //         // Create the user
+    //         $insert = User::create([
+    //             'name' => $userData['name'],
+    //             'email' => $userData['email'],
+    //             'mobile' => $userData['mobile'],
+    //             'password' => Hash::make($userData['password']),
+    //             'role_id' => $userData['role_id'],
+    //             'slug' => $slug,
+    //             'created_at' => Carbon::now(),
+    //         ]);
+
+    //         // Move the temporary file to the permanent directory
+    //         if ($photoPath) {
+    //             $fileName = $slug . '(' . $insert->id . ')-' . time() . '.' . pathinfo($photoPath, PATHINFO_EXTENSION);
+    //             $finalPath = Storage::move($photoPath, "uploads/users/$fileName");
+
+    //             // Update the user's photo field
+    //             $insert->update(['photo' => $fileName]);
+    //         }
+
+    //         // Clear session data
+    //         Session::forget('otp');
+    //         Session::forget('user_data');
+    //         Session::forget('photo_path');
+
+    //         return redirect()->route('admin.users.add')->with('success', 'User created successfully!');
+    //     }
+
+    //     return redirect()->back()->with('error', 'Invalid OTP. Please try again.');
+    // }
+
+
+
+
     public function edit($slug){
         $users = User::where('status',1)
                     ->where('slug',$slug)->firstOrFail();

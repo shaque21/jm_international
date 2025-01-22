@@ -44,8 +44,16 @@
                     <div class="col col-stats ml-3 ml-sm-0">
                         <div class="numbers">
                             <p class="card-category">Products</p>
-                            <h4 class="card-title">
-                               fghfgh
+                                <h4 class="card-title">
+                                    @php
+                                        $allProducts= App\Models\Product::where('product_status',1)
+                                        ->count();
+                                    @endphp
+                                    @if ($allProducts < 10)
+                                        0{{ $allProducts }}
+                                    @else
+                                        {{ $allProducts }}
+                                    @endif
                             </h4>
                         </div>
                     </div>
@@ -62,11 +70,13 @@
                             <i class="far fa-chart-bar"></i>
                         </div>
                     </div>
-                   ddff
+                    @php
+                        $total_qty = App\Models\OrderMaster::sum('num_of_item');
+                    @endphp
                     <div class="col col-stats ml-3 ml-sm-0">
                         <div class="numbers">
                             <p class="card-category">Sales</p>
-                            <h4 class="card-title">dgdsf</h4>
+                            <h4 class="card-title"> {{ $total_qty }}</h4>
                         </div>
                     </div>
                 </div>
@@ -86,7 +96,17 @@
                     <div class="col col-stats ml-3 ml-sm-0">
                         <div class="numbers">
                             <p class="card-category">Order</p>
-                            <h4 class="card-title">gdsfg</h4>
+                            <h4 class="card-title">
+                                @php
+                                    $allOrders= App\Models\OrderMaster::where('order_status',1)
+                                    ->count();
+                                @endphp
+                                @if ($allOrders < 10)
+                                    0{{ $allOrders }}
+                                @else
+                                    {{ $allOrders }}
+                                @endif
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -113,8 +133,8 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6">
-                        <p class="text-uppercase font-weight-bold" style="font-size: 18px;letter-spacing:1px;">
-                            All Order Details Of ( Today ) : 
+                        <p class="text-uppercase font-weight-bold custom_h_size">
+                            All Order Details Of (Today) : 
                            @php
                                if(isset($date)){
                                    echo $date;
@@ -216,8 +236,10 @@
     <script>
         $(document).ready(function(){
             $('#basic-datatables').DataTable({
-
-			      });
+                ordering: false,
+                responsive: true,
+                autoWidth: false,
+            });
         });
         
     </script>

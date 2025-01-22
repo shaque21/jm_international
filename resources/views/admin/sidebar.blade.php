@@ -54,7 +54,7 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item {{ (request()->segment(2) == 'profile') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ (request()->segment(2) == 'profile') ? 'active' : '' }}">
                     <a href="{{ url('/admin/profile/user_profile/'.Auth::user()->slug) }}">
                         <i class="fas fa-user-alt"></i>
                         <p>Profile</p>
@@ -65,11 +65,11 @@
                         <i class="fas fa-user-tie"></i>
                         <p>Customers</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item {{ (request()->segment(2) == 'users') ? 'active' : '' }}">
                     <a href="{{ url('/admin/users') }}">
-                        <i class="fas fa-address-book"></i>
-                        <p>Users</p>
+                        <i class="fas fa-user-tie"></i>
+                        <p>All Users</p>
                     </a>
                 </li>
                 <li class="nav-item {{ (request()->segment(2) == 'products') ? 'active' : '' }}">
@@ -105,7 +105,7 @@
                 <li class="nav-item {{ (request()->segment(2) == 'orders') ? 'active' : '' }}">
                     <a href="{{ url('/admin/orders') }}">
                         <i class="fas fa-laptop"></i>
-                        <p>Cashier</p>
+                        <p>Place Order</p>
                     </a>
                 </li>
                 <li class="nav-item {{ (request()->segment(2) == 'reports') ? 'active' : '' }}">
@@ -114,12 +114,12 @@
                         <p>Reports</p>
                     </a>
                 </li>
-                <li class="nav-item {{ (request()->segment(2) == 'transactions') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ (request()->segment(2) == 'transactions') ? 'active' : '' }}">
                     <a href="{{ url('/admin/transactions') }}">
                         <i class="fas fa-money-bill-alt"></i>
                         <p>Transactions</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item {{ (request()->segment(2) == 'suppliers') ? 'active' : '' }}">
                     <a href="{{ url('/admin/suppliers') }}">
                         <i class="fas fa-shipping-fast"></i>
@@ -127,12 +127,12 @@
                     </a>
                 </li>
                 
-                <li class="nav-item {{ (request()->segment(2) == 'restore') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ (request()->segment(2) == 'restore') ? 'active' : '' }}">
                     <a href="{{ url('/admin/restore') }}">
                         <i class="fas fa-recycle"></i>
                         <p>Restore</p>
                     </a>
-                </li>
+                </li> --}}
 
                 {{-- @else --}}
                 {{-- {{ (request()->segment(2) == 'orders') ? 'active' : '' }} --}}
