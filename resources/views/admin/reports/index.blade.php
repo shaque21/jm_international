@@ -40,7 +40,7 @@
                         {{ $key }}
                     </h2>
                     <div class="table-responsive mb-2">
-                        <table id="basic-datatables.{{$key}}" class="table table-bordered table-striped">
+                        <table id="basic-datatables" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -85,7 +85,7 @@
 @section('script')
     <script>
         $(document).ready(function(){
-        $('#basic-datatables.{{$key}}').DataTable({
+        $('#basic-datatables').DataTable({
             ordering: false,
             responsive: true,
             autoWidth: false,

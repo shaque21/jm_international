@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 22, 2025 at 02:08 PM
+-- Generation Time: Jan 22, 2025 at 04:13 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -112,9 +112,9 @@ CREATE TABLE `depo_product_stocks` (
 --
 
 INSERT INTO `depo_product_stocks` (`id`, `depo_id`, `product_id`, `total_stock`, `alert_stock`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 190, 20, '2025-01-22 10:52:54', '2025-01-22 10:58:17'),
-(2, 1, 2, 190, 20, '2025-01-22 10:53:09', '2025-01-22 10:58:17'),
-(3, 1, 3, 190, 20, '2025-01-22 10:53:24', '2025-01-22 10:58:17');
+(1, 1, 1, 188, 20, '2025-01-22 10:52:54', '2025-01-22 14:40:19'),
+(2, 1, 2, 188, 20, '2025-01-22 10:53:09', '2025-01-22 14:40:19'),
+(3, 1, 3, 188, 20, '2025-01-22 10:53:24', '2025-01-22 14:40:19');
 
 -- --------------------------------------------------------
 
@@ -285,7 +285,10 @@ INSERT INTO `order_details` (`id`, `order_master_id`, `product_id`, `ordered_qty
 (9, 3, 3, 5, 5, '2025-01-22 10:57:44', '2025-01-22 10:57:44'),
 (10, 4, 2, 5, 5, '2024-01-22 10:58:17', '2024-01-22 10:58:17'),
 (11, 4, 1, 5, 5, '2024-01-22 10:58:17', '2024-01-22 10:58:17'),
-(12, 4, 3, 5, 5, '2024-01-22 10:58:17', '2024-01-22 10:58:17');
+(12, 4, 3, 5, 5, '2024-01-22 10:58:17', '2024-01-22 10:58:17'),
+(13, 5, 2, 2, 2, '2024-03-22 14:40:19', '2024-03-22 14:40:19'),
+(14, 5, 1, 2, 2, '2024-03-22 14:40:19', '2024-03-22 14:40:19'),
+(15, 5, 3, 2, 2, '2024-03-22 14:40:19', '2024-03-22 14:40:19');
 
 -- --------------------------------------------------------
 
@@ -315,7 +318,8 @@ INSERT INTO `order_masters` (`id`, `date`, `invoice_no`, `customer_id`, `user_id
 (1, '2025-01-22', 'ORD-20250122_3_11811', 3, 1, 15, NULL, 1, 1, '2025-01-22 10:54:05', '2025-01-22 10:54:05'),
 (2, '2025-01-22', 'ORD-20250122_4_72789', 4, 1, 6, NULL, 1, 1, '2025-01-22 10:55:57', '2025-01-22 10:55:57'),
 (3, '2025-01-22', 'ORD-20250122_4_92117', 4, 2, 15, 1, NULL, 1, '2025-01-22 10:57:44', '2025-01-22 10:57:44'),
-(4, '2024-01-22', 'ORD-20250122_3_48458', 3, 2, 15, 1, NULL, 1, '2024-01-22 10:58:17', '2024-01-22 10:58:17');
+(4, '2024-01-22', 'ORD-20250122_3_48458', 3, 2, 15, 1, NULL, 1, '2024-01-22 10:58:17', '2024-01-22 10:58:17'),
+(5, '2024-03-22', 'ORD-20250122_7_46701', 7, 2, 6, 1, NULL, 1, '2024-03-22 14:40:19', '2024-03-22 14:40:19');
 
 -- --------------------------------------------------------
 
@@ -377,7 +381,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('A2MT9uEfc8fu2PrCnbTXDxujM3Fc9h28KtyX1RdV', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiWVN3RHdOc3BwTWhEcEhKRWZ2S1dTQ3JabFRBcjRiQVlxZFZOREVjbiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9kYXNoYm9hcmQiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1737551283);
+('oOJpdONwB60bFn62Ad4q7SvnGIO9qGUSCEP9wVy4', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNERIdnFOWmo1TW1meUxaR3REYmVCdUNaME01SG1KRE9jbVk3QXh4YyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6OTc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9yZXBvcnRzP2VuZF9kYXRlPTIwMjQtMTItMzEmcmVwb3J0X3R5cGU9bW9udGhseSZzdGFydF9kYXRlPTIwMjQtMDEtMDEiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1737558794);
 
 -- --------------------------------------------------------
 
@@ -434,11 +438,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `mobile`, `photo`, `status`, `slug`, `role_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Samsul Haque', 'samsul.haque309821@gmail.com', NULL, '$2y$12$HmDim3p53.Vx29l7J1O9BuLw6FIRPmpfYhNhzawRc.8P7HnCleHlO', '01627309821', 'samsul-haque-1735972850(1)-1735972850.png', 1, 'samsul-haque-1735977726', 1, '7LSpTx2augZq3Y3zOmxHLuVqJztB07APotXGNiJAgc8BQb8HGek9TPmcIFJk', '2024-12-01 07:21:51', '2025-01-04 02:02:06'),
-(2, 'Md. Masud Rana', 'masud.rana@gmail.com', NULL, '$2y$12$n6Q08.visZ8XPqgcX.FgvuJyTrsJWKC461/MooMwxp4F26xRk5Fb.', '01627309821', 'md-masud-rana-1737541857(2)-1737541857.jpg', 1, 'md-masud-rana-1737541857', 2, NULL, '2025-01-22 10:30:57', '2025-01-22 10:30:57'),
+(1, 'Samsul Haque', 'samsul.haque309821@gmail.com', NULL, '$2y$12$HmDim3p53.Vx29l7J1O9BuLw6FIRPmpfYhNhzawRc.8P7HnCleHlO', '01627309821', 'samsul-haque-1735972850(1)-1735972850.png', 1, 'samsul-haque-1735977726', 1, 'txqOXvG0vWJQD4xEVBgLANrVWedeRKAzKnvlRtthCt2uyEkp0H5gZe9tcmkq', '2024-12-01 07:21:51', '2025-01-04 02:02:06'),
+(2, 'Md. Masud Rana', 'masud.rana@gmail.com', NULL, '$2y$12$n6Q08.visZ8XPqgcX.FgvuJyTrsJWKC461/MooMwxp4F26xRk5Fb.', '01627309821', 'md-masud-rana-1737541857(2)-1737541857.jpg', 1, 'md-masud-rana-1737541857', 2, 'F7uus58UBa4ygCAhYaC4p7NQqiZkMQYxBz9hBLBoEHxuunHi4PO5kd1GriHx', '2025-01-22 10:30:57', '2025-01-22 10:30:57'),
 (3, 'Parvej Ahmed Porag', 'porag@gmail.com', NULL, '$2y$12$yLjLfocdYveBUrSVe3xWr.k7LxQzfZ45OIwXEJvvbzsg/BHHM3Dxi', '01627309820', 'parvej-ahmed-porag-1737541907(3)-1737541907.jpg', 1, 'parvej-ahmed-porag-1737541907', 3, NULL, '2025-01-22 10:31:47', '2025-01-22 10:31:47'),
 (4, 'Happy Rose', 'happy@gmail.com', NULL, '$2y$12$AfaaShjeBCn/Nm0nTz9ND.JJZBNudCdshhSQ9GvjG3nBJiqi.YHIa', '01627309800', 'happy-rose-1737541952(4)-1737541952.jpg', 1, 'happy-rose-1737541952', 3, NULL, '2025-01-22 10:32:32', '2025-01-22 10:32:32'),
-(5, 'Mukti Uncle', 'mukti@gmail.com', NULL, '$2y$12$57.sgLwGLnKhBv4nHmhw.e870X2LpZwoqYbF8VJtjJbJX91vslCdO', '01627309800', 'mukti-uncle-1737550162(5)-1737550162.jpg', 1, 'mukti-uncle-1737550162', 2, NULL, '2025-01-22 12:49:22', '2025-01-22 12:49:22');
+(5, 'Mukti Uncle', 'mukti@gmail.com', NULL, '$2y$12$57.sgLwGLnKhBv4nHmhw.e870X2LpZwoqYbF8VJtjJbJX91vslCdO', '01627309800', 'mukti-uncle-1737550162(5)-1737550162.jpg', 1, 'mukti-uncle-1737550162', 2, NULL, '2025-01-22 12:49:22', '2025-01-22 12:49:22'),
+(6, 'Happy Rose', 'samsul.haque.icd@gmail.com', NULL, '$2y$12$enyrv3YMoEDFlTW2puDKZ.ls.0gdj4zV/lQ/UX5KbmOiJNr8z08n.', '01627309821', 'happy-rose-1737552762(6)-1737552762.jpg', 1, 'happy-rose-1737552762', 3, NULL, '2025-01-22 13:29:26', '2025-01-22 13:32:42'),
+(7, 'Shammi', 'shammi@gmail.com', NULL, '$2y$12$28eOWQx4fa8vbZLJD4uCLe7ExUlQxeAuuPrro9FojOdw///a6PcJq', '01627309820', NULL, 1, 'shammi-1737552864', 3, NULL, '2025-01-22 13:34:25', '2025-01-22 13:34:25'),
+(8, 'Test Test', 'test@gmail.com', NULL, '$2y$12$1UpEpd0328STDoDyh58Cn.cD5Xo2k.Tr2FILWeMhFHDHW8609ghJu', '01627309820', 'test-test-1737553908(8)-1737553908.jpg', 1, 'test-test-1737553908', 3, NULL, '2025-01-22 13:51:48', '2025-01-22 13:51:48');
 
 -- --------------------------------------------------------
 
@@ -739,13 +746,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `order_masters`
 --
 ALTER TABLE `order_masters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -763,7 +770,7 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user_roles`
