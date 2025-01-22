@@ -25,6 +25,14 @@
                                 <span class="badge badge-success px-4">
                                     {{-- {{ $data->user_role->role_name }} --}} Admin 
                                 </span>
+                                @elseif(Auth::user()->role_id == 2)
+                                <span class="badge badge-secondary px-4">
+                                    {{-- {{ $data->user_role->role_name }} --}} Employee 
+                                </span>
+                                @else
+                                <span class="badge badge-warning px-4">
+                                    {{-- {{ $data->user_role->role_name }} --}} Customer 
+                                </span>
                                 @endif
                             </span>
                         </span>

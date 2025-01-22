@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->date('date')->default(DB::raw('CURRENT_DATE'));
             $table->string('invoice_no');
-            $table->foreignId('customer_id')->constrained();
+            $table->foreignId('customer_id');
             $table->foreignId('user_id')->constrained();
             $table->integer('num_of_item');
             $table->foreignId('depo_id')->nullable();
             $table->foreignId('warehouse_id')->nullable();
             $table->integer('order_status')->default(0);
+            $table->integer('is_approved')->default(0);
             $table->timestamps(); 
         });
     }

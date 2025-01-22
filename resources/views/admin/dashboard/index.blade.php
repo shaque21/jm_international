@@ -99,20 +99,23 @@
 {{-- Everyday Reports --}}
 <div class="row">
     <div class="col-md-12">
-        {{-- @php
+        @php
             use Carbon\Carbon;
             $today = Carbon::now()->today();
             $date = $today->format('Y-m-d');
-            $daily_report = App\Models\OrderDetail::where('order_date',$date)->orderBy('id','DESC')->get();
-            $total_sale = App\Models\OrderDetail::where('order_date',$date)->sum('amount');
-        @endphp --}}
+            $daily_report = App\Models\OrderMaster::with(['orderDetails.product', 'customer', 'creator', 'warehouse'])
+                            ->where('date', $date)
+                            ->orderBy('id', 'DESC')
+                            ->get();
+            $total_qty = App\Models\OrderMaster::where('date', $date)->sum('num_of_item');
+        @endphp
         <div class="card">
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6">
                         <p class="text-uppercase font-weight-bold" style="font-size: 18px;letter-spacing:1px;">
                             All Order Details Of ( Today ) : 
-                           {{-- @php
+                           @php
                                if(isset($date)){
                                    echo $date;
                                    $url='/admin/reports/daily/download/'.$date;
@@ -124,14 +127,10 @@
                                    echo $year;
                                    $url='/admin/reports/yearly/download/'.$year;
                                }
-                           @endphp  --}}
+                           @endphp 
                         </p>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="" class="btn btn-sm btn-danger text-uppercase mr-2">
-                            <i class="fas fa-file-pdf"></i>&nbsp;
-                             Download PDF
-                        </a>
                         <a href="{{ url('/admin/reports') }}" class="btn btn-sm btn-dark text-uppercase">
                             <i class="fas fa-file-archive"></i>&nbsp;
                              Other Reports
@@ -139,6 +138,8 @@
                     </div>
                 </div>
             </div>
+            
+
             
             <div class="card-body">
                 <div class="table-responsive">
@@ -148,11 +149,10 @@
                                 <th>#</th>
                                 <th>Product Name</th>
                                 <th>Qty</th>
-                                <th>Available Qty</th>
-                                <th>Unit Price</th>
-                                <th>Disc (%)</th>
-                                <th>Amount</th>
-                                <th>Collected By</th>
+                                <th>Ordered By</th>
+                                <th>Delivered By</th>
+                                <th>Delivered From</th>
+                                <th>Order Status</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -160,31 +160,52 @@
                                 <th>#</th>
                                 <th>Product Name</th>
                                 <th>Qty</th>
-                                <th>Available Qty</th>
-                                <th>Unit Price</th>
-                                <th>Disc (%)</th>
-                                <th>Amount</th>
+                                <th>Ordered By</th>
+                                <th>Delivered By</th>
+                                <th>Delivered From</th>
+                                <th>Order Status</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            {{-- @foreach ($daily_report as $key=>$order)
-                            <tr>
-                                <td>{{ $key+1 }}</td>
-                                <td>{{ $order->products->product_name }}</td>
-                                <td>{{ $order->quantity }}</td>
-                                <td>{{ $order->products->quantity }}</td>
-                                <td>{{ number_format($order->unit_price,2) }}</td>
-                                <td>{{ number_format($order->discount,2) }} %</td>
-                                <td>{{ number_format($order->amount,2) }}</td>
-                                <td>{{ $order->transaction->user->name }}</td>
-                            </tr>
-                            @endforeach --}}
+                            @foreach ($daily_report as $key => $order)
+                                @foreach ($order->orderDetails as $orderDetail)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $orderDetail->product->product_name ?? 'N/A' }}</td>
+                                        <td>{{ $orderDetail->delivered_qty ?? 0 }}</td>
+                                        <td>{{ $order->customer->name ?? 'N/A' }}</td>
+                                        <td>{{ $order->creator->name ?? 'N/A' }}</td>
+                                        <td>
+                                            @if ($order->warehouse_id)
+                                                {{ $order->warehouse->name ?? 'N/A' }}
+                                            @elseif ($order->depo_id)
+                                                {{ $order->depo->depo_name ?? 'N/A' }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </td>
+                                        
+                                        <td>
+                                            @if ($order->order_status == 1)
+                                                <span class="badge badge-success">
+                                                    Approved
+                                                </span>
+                                            @else
+                                                <span class="badge badge-danger">
+                                                    Pending
+                                                </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endforeach
+
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="card-footer">
-                {{-- <h1 class="text-dark">TOTAL AMOUNT : {{ '$ '. number_format($total_sale,2) }}</h1> --}}
+                <h1 class="text-dark">TOTAL QUANTITY : {{ $total_qty }} <small>( PCS )</small></h1>
             </div>
         </div>
     </div>

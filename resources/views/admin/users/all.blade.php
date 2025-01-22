@@ -60,9 +60,13 @@
                                         <span class="badge badge-success">
                                             Admin
                                         </span>
-                                        @else
+                                        @elseif($item->role_id == 2)
                                         <span class="badge badge-secondary">
                                             Employee
+                                        </span> 
+                                        @else
+                                        <span class="badge badge-warning">
+                                            Customer
                                         </span> 
                                         @endif
                                     </td>

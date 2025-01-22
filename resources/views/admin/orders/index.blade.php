@@ -28,7 +28,7 @@
                     @if (Session::has('error'))
                         <script>
                             swal({title: "Opps !",text: "{{ Session::get('error') }}",
-                                icon: "error",timer: 3000
+                                icon: "error",timer: 30000
                                 });
                         </script>
                     @endif
@@ -213,64 +213,7 @@
     </div>
 </div>
 <!-- Start The Modal For show history-->
-{{-- <div class="modal fade" id="historyModal">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-      <div class="modal-content">
-      
-        @php
-            $last_order_id = App\Models\OrderDetails::max('order_master_id');
-            $order_receipt = App\Models\OrderDetails::where('order_master_id',$last_order_id)->get();
-        @endphp
-        <!-- Modal Header -->
-        <div class="modal-header">
-            <h4 class="modal-title text-uppercase font-weight-bold">
-                Last Order History ( {{ $order_receipt['0']->created_at->format('Y M d | h:i A') }} )
-            </h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-            
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover table-sm">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>#</th>
-                            <th>Product Name</th>
-                            <th>Qty</th>
-                            <th>Ordered By</th>
-                            <th>Delivered By</th>
-                            <th>Location</th>
-                            <th>Order Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orderReceipt as $key => $order)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $order->product->product_name }}</td>
-                                <td>{{ $order->delivered_qty }}</td>
-                                <td>{{ $order->orderMaster->customer->name }}</td>
-                                <td>{{ $order->orderMaster->creator->name }}</td>
-                                <td>{{ $order->orderMaster->warehouse->name }}</td>
-                                <td>{{ $order->orderMaster->order_status }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm btn-block" data-dismiss="modal">Close</button>
-        </div>
-        
-      </div>
-    </div>
-</div> --}}
+
 <div class="modal fade" id="historyModal">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
@@ -282,7 +225,7 @@
 
             <!-- Modal Body -->
             <div class="modal-body">
-                <p>Loading order history...</p>
+                <p>Last Order History Loading....</p>
             </div>
 
             <!-- Modal Footer -->
@@ -457,27 +400,6 @@
                 })
                 .catch((error) => console.error("Error:", error));
         });
-
-
-            
-
-            // $(document).on('click','#order_history',function(){
-            //     var last_order_id = $(this).data('id');
-            //     $.ajax({
-            //         url:'{{ url("/admin/orders/get-last-order-history") }}',
-            //         type: 'POST',
-            //         headers: {
-            //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //         },
-            //         data:{last_order_id:last_order_id},
-            //         success:function(data){
-
-            //             $('.modal-body').html(data)
-
-            //         }
-
-            //     });
-            // });
 
         });
     </script>

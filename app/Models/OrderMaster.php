@@ -36,5 +36,8 @@ class OrderMaster extends Model
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id');
     }
-
+    public function depo()
+    {
+        return $this->belongsTo(Depo::class, 'depo_id');
+    }
 }

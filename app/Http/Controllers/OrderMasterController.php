@@ -6,7 +6,7 @@ use App\Models\OrderMaster;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\OrderDetails;
+use App\Models\OrderDetail;
 use App\Models\WarehouseProductStock;
 use App\Models\DepoProductStock;
 use Carbon\Carbon;
@@ -41,6 +41,7 @@ class OrderMasterController extends Controller
     
     public function store(Request $request)
     {
+        // return $request->all();
         // Validate the input
         $validated = $request->validate([
             'product_id' => 'required|array',
@@ -71,7 +72,9 @@ class OrderMasterController extends Controller
             $orderMaster->date = $order_date;
             $orderMaster->num_of_item = $num_of_item;
             $orderMaster->order_status = ($user->role_id == 1 || $user->role_id == 2) ? 1 : 0; // Set status
+            $orderMaster->is_approved = ($user->role_id == 1 || $user->role_id == 2) ? 1 : 0; // Set status
             $orderMaster->save();
+            // dd($orderMaster);
             Log::info("OrderMaster created with ID: {$orderMaster->id}");
 
             // Loop through products and handle order details
@@ -80,12 +83,13 @@ class OrderMasterController extends Controller
                 $deliveredQty = $request->delivered_qty[$index];
 
                 // Create OrderDetails
-                $orderDetails = new OrderDetails();
+                $orderDetails = new OrderDetail();
                 $orderDetails->order_master_id = $orderMaster->id;
                 $orderDetails->product_id = $productId;
                 $orderDetails->ordered_qty = $orderedQty;
                 $orderDetails->delivered_qty = $deliveredQty;
                 $orderDetails->save();
+                // dd($orderDetails);
                 Log::info("OrderDetails created for product ID: {$productId}");
 
                 // Stock Deduction Logic
@@ -107,7 +111,12 @@ class OrderMasterController extends Controller
                     } else {
                         throw new \Exception("Not enough stock in the depo for product ID: {$productId}");
                     }
-                } else {
+                } elseif ($user->role_id == 3) {
+                    // For role_id 3, set is_approved to 0 and skip stock deduction
+                    $orderMaster->is_approved = 0; // Assuming $orderMaster is the instance of OrderMaster
+                    $orderMaster->save();
+                } 
+                 else {
                     throw new \Exception("Invalid user role: {$user->role_id}");
                 }
             }
@@ -126,30 +135,24 @@ class OrderMasterController extends Controller
     }
 
     //Get Last Order History
-    // public function getLastOrderHistory(Request $request)
-    // {
-    //     // Fetch the last order ID and its details
-    //     $lastOrderId = $request->input('last_order_id');
-        
-    //     // If no order ID is provided, fetch the max order ID
-    //     $lastOrderId = $lastOrderId ?? OrderDetails::max('order_master_id');
-
-    //     $orderReceipt = OrderDetails::where('order_master_id', $lastOrderId)->get();
-
-    //     if ($orderReceipt->isEmpty()) {
-    //         return response()->json(['message' => 'No order history found'], 404);
-    //     }
-
-    //     // Render the view with the fetched data
-    //     $html = view('admin.orders.index', compact('orderReceipt'))->render();
-
-    //     return response()->json($html);
-    // }
+    
     public function getLastOrderHistory(Request $request)
     {
+        $user_id = Auth::user()->id;
         // Fetch the last order ID (or use max order ID if none provided)
-        $lastOrderId = $request->input('last_order_id') ?? OrderDetails::max('order_master_id');
-        $orderReceipt = OrderDetails::where('order_master_id', $lastOrderId)->get();
+        $lastOrderId = $request->input('last_order_id') ?? OrderMaster::max('id');
+
+        // Fetch the order with the relationships loaded
+        $orderReceipt = OrderMaster::with([
+            'orderDetails.product', 
+            'creator', 
+            'warehouse', 
+            'depo', 
+            'customer'
+        ])
+        ->where('id', $lastOrderId)
+        ->where('user_id',$user_id)
+        ->get();
 
         // If no order found, return a message
         if ($orderReceipt->isEmpty()) {
@@ -172,27 +175,29 @@ class OrderMasterController extends Controller
                     </tr>
                 </thead>
                 <tbody>';
-                // echo $orderReceipt->orderMaster->user_id; die();
-                foreach ($orderReceipt as $key => $order) {
-                    $statusBadge = '';
-                    if ($order->orderMaster->order_status == 1) {
-                        $statusBadge = '<span class="badge badge-success">Success</span>';
-                    } else {
-                        $statusBadge = '<span class="badge badge-warning">Pending</span>';
-                    }
-                
-                    $html .= '
-                        <tr>
-                            <td>' . ($key + 1) . '</td>
-                            <td>' . $order->product->product_name . '</td>
-                            <td>' . $order->delivered_qty . '</td>
-                            <td>' . $order->orderMaster->customer->name ?? 'N/A' . '</td>
-                            <td>' . $order->orderMaster->creator->name ?? 'N/A'. '</td>
-                            <td>' . $order->orderMaster->warehouse->name ?? 'N/A'. '</td>
-                            <td>' . $statusBadge . '</td>
-                        </tr>';
-                }
-                
+
+        foreach ($orderReceipt as $key => $order) {
+            $statusBadge = '';
+            if ($order->is_approved == 1) {
+                $statusBadge = '<span class="badge badge-success">Approved</span>';
+            } else {
+                $statusBadge = '<span class="badge badge-warning">Pending</span>';
+            }
+
+            // Loop through order details
+            foreach ($order->orderDetails as $detail) {
+                $html .= '
+                    <tr>
+                        <td>' . ($key + 1) . '</td>
+                        <td>' . ($detail->product->product_name ?? 'N/A') . '</td>
+                        <td>' . $detail->delivered_qty . '</td>
+                        <td>' . ($order->customer->name ?? 'N/A') . '</td>
+                        <td>' . ($order->creator->name ?? 'N/A') . '</td>
+                        <td>' . ($order->warehouse->name ?? $order->depo->depo_name ?? 'N/A') . '</td>
+                        <td>' . $statusBadge . '</td>
+                    </tr>';
+            }
+        }
 
         $html .= '
                 </tbody>
@@ -201,6 +206,7 @@ class OrderMasterController extends Controller
 
         return response($html, 200, ['Content-Type' => 'text/html']);
     }
+
 
 
 
