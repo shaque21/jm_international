@@ -17,4 +17,8 @@ class Depo extends Model
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
     }
+    public function depoStock()
+    {
+        return $this->hasMany(DepoStock::class, 'depo_id'); // Adjust 'depo_id' if the foreign key is different
+    }
 }

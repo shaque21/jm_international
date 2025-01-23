@@ -119,7 +119,7 @@ End Route for depo
 Start Route for Depo stock 
 -----------------------------------------------------------------------------------*/
 Route::get('/admin/depo_stocks',[DepoStockController::class,'index']);
-Route::get('/admin/depo_stocks/create',[DepoStockController::class,'create']);
+Route::get('/admin/depo_stocks/create',[DepoStockController::class,'create'])->name('admin.depo_stocks.create');
 Route::post('/admin/depo_stocks/submit',[DepoStockController::class,'store'])->middleware('auth')->name('warehouse_stocks.store');
 Route::get('/admin/depo_stocks/view/{slug}',[DepoStockController::class,'view']);
 Route::get('/admin/depo_stocks/edit/{slug}',[DepoStockController::class,'edit']);

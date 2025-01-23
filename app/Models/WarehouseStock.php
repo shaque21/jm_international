@@ -39,5 +39,9 @@ class WarehouseStock extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function warehouseProductStock()
+    {
+        return $this->hasOne(WarehouseProductStock::class, 'product_id', 'product_id');
+    }
     
 }

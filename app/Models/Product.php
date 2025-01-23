@@ -22,5 +22,10 @@ class Product extends Model
     {
         return $this->hasMany(OrderDetails::class, 'product_id');
     }
+    public function depoProductStock()
+    {
+        return $this->hasOne(DepoProductStock::class, 'product_id');
+    }
+
 }
 

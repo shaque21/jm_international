@@ -101,6 +101,114 @@
             </div>
            
         </div>
+
+        @php
+            
+            $user_id = $data->id;
+            $daily_report = App\Models\OrderMaster::with(['orderDetails.product', 'customer', 'creator', 'warehouse'])
+                            ->where(function ($query) use ($user_id) {
+                                $query->where('customer_id', $user_id)
+                                    ->orWhere('user_id', $user_id);
+                            })
+                            ->orderBy('id', 'DESC')
+                            ->get();
+                            $total_qty = App\Models\OrderMaster::where(function ($query) use ($user_id) {
+                                $query->where('customer_id', $user_id)
+                                    ->orWhere('user_id', $user_id);
+                            })->sum('num_of_item');
+
+        @endphp
+        <div class="card mt-4">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="text-uppercase font-weight-bold custom_h_size">
+                            My Orders : 
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="basic-datatables" class="display table table-striped table-hover" >
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Product Name</th>
+                                <th>Qty</th>
+                                <th>Ordered By</th>
+                                <th>Delivered By</th>
+                                {{-- <th>Delivered From</th> --}}
+                                <th>Order Status</th>
+                                <th>Order Date</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>Product Name</th>
+                                <th>Qty</th>
+                                <th>Ordered By</th>
+                                <th>Delivered By</th>
+                                {{-- <th>Delivered From</th> --}}
+                                <th>Order Status</th>
+                                <th>Order Date</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach ($daily_report as $key => $order)
+                                @foreach ($order->orderDetails as $orderDetail)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $orderDetail->product->product_name ?? 'N/A' }}</td>
+                                        <td>{{ $orderDetail->delivered_qty ?? 0 }}</td>
+                                        <td>{{ $order->customer->name ?? 'N/A' }}</td>
+                                        <td>{{ $order->creator->name ?? 'N/A' }}</td>
+                                        {{-- <td>
+                                            @if ($order->warehouse_id)
+                                                {{ $order->warehouse->name ?? 'N/A' }}
+                                            @elseif ($order->depo_id)
+                                                {{ $order->depo->depo_name ?? 'N/A' }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </td> --}}
+                                        
+                                        <td>
+                                            @if ($order->order_status == 1)
+                                                <span class="badge badge-success">
+                                                    Approved
+                                                </span>
+                                            @else
+                                                <span class="badge badge-danger">
+                                                    Pending
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td>{{$order->date}}</td>
+                                    </tr>
+                                @endforeach
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <h1 class="text-dark">TOTAL QUANTITY : {{ $total_qty }} <small>( PCS )</small></h1>
+            </div>
+        </div>
     </div>
 </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function(){
+        $('#basic-datatables').DataTable({
+            ordering: false,
+            responsive: true,
+            autoWidth: false,
+        });
+    });
+    </script>
 @endsection

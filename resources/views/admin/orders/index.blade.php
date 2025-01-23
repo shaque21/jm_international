@@ -57,19 +57,58 @@
                         <tbody class="add_new_product">
                             <tr>
                                 <td >1</td>
-                                <td style="width: 40%;">
-                                    <select name="product_id[]" class="form-control custom_form_control_order product_id">
-                                        <option value="" selected disabled>Select Product</option>
-                                        @foreach ($products as $product)
-                                            <option data-price="{{ $product->price }}" value="{{ $product->id }}">
-                                                {{ $product->product_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('product_id')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </td>
+                                @php
+                                    $user = Auth::user(); // Assuming the logged-in user is relevant
+                                @endphp
+
+                                @if ($user && $user->role_id == 1)
+                                    <td style="width: 40%;">
+                                        @php
+                                            $warehouseProduct = App\Models\WarehouseStock::with(['product', 'warehouseProductStock'])
+                                                ->whereHas('warehouseProductStock', function ($query) {
+                                                    $query->where('total_stock', '>', 0);
+                                                })
+                                                ->where('wr_status', 1)
+                                                ->get()
+                                                ->unique('product_id');
+                                        @endphp
+                                        <select name="product_id[]" class="form-control form-control custom_form_control_order product_id">
+                                            <option value="" selected disabled>Select Product</option>
+                                            @foreach ($warehouseProduct as $product)
+                                                <option value="{{ $product->product_id }}">
+                                                    {{ $product->product->product_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('product_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </td>
+                                @elseif($user && $user->role_id == 2)
+                                    <td style="width: 40%;">
+                                        @php
+                                            $depoProduct = App\Models\DepoStock::with(['product', 'depoProductStock'])
+                                                ->whereHas('depoProductStock', function ($query) {
+                                                    $query->where('total_stock', '>', 0);
+                                                })
+                                                ->where('ds_status', 1)
+                                                ->get()
+                                                ->unique('product_id');
+                                        @endphp
+                                        <select name="product_id[]" class="form-control custom_form_control_order product_id">
+                                            <option value="" selected disabled>Select Product</option>
+                                            @foreach ($depoProduct as $product)
+                                                <option value="{{ $product->product_id }}">
+                                                    {{ $product->product->product_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('product_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </td>
+                                @endif
+
                                 <td>
                                     <input type="number" name="ordered_qty[]" id="ordered_qty"
                                     class="form-control  custom_form_control_order ordered_qty">
@@ -178,7 +217,13 @@
                             @elseif ($user && $user->role_id == 2) <!-- Check if the logged-in user has role_id 2 -->
                                 <td>
                                     @php
-                                        $depos = App\Models\Depo::where('depo_status', 1)->get();
+                                        $user_id = Auth::user()->id;
+                                        $depos = App\Models\Depo::with('depoStock')
+                                            ->where('depo_status', 1)
+                                            ->whereHas('depoStock', function ($query) use ($user_id) {
+                                                $query->where('employee_id', $user_id);
+                                            })
+                                            ->get();
                                     @endphp
                                     <label class="font-weight-bold" for="depo_id">Depo Name:</label>
                                     <span class="order_req_star"> *</span>

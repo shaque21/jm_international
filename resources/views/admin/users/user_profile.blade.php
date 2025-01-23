@@ -161,7 +161,7 @@
                                 <th>Qty</th>
                                 <th>Ordered By</th>
                                 <th>Delivered By</th>
-                                <th>Delivered From</th>
+                                {{-- <th>Delivered From</th> --}}
                                 <th>Order Status</th>
                                 <th>Order Date</th>
                             </tr>
@@ -173,7 +173,7 @@
                                 <th>Qty</th>
                                 <th>Ordered By</th>
                                 <th>Delivered By</th>
-                                <th>Delivered From</th>
+                                {{-- <th>Delivered From</th> --}}
                                 <th>Order Status</th>
                                 <th>Order Date</th>
                             </tr>
@@ -187,7 +187,7 @@
                                         <td>{{ $orderDetail->delivered_qty ?? 0 }}</td>
                                         <td>{{ $order->customer->name ?? 'N/A' }}</td>
                                         <td>{{ $order->creator->name ?? 'N/A' }}</td>
-                                        <td>
+                                        {{-- <td>
                                             @if ($order->warehouse_id)
                                                 {{ $order->warehouse->name ?? 'N/A' }}
                                             @elseif ($order->depo_id)
@@ -195,7 +195,7 @@
                                             @else
                                                 N/A
                                             @endif
-                                        </td>
+                                        </td> --}}
                                         
                                         <td>
                                             @if ($order->order_status == 1)

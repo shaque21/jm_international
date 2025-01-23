@@ -14,6 +14,10 @@
                         });
                     </script>
                 @endif
+                @if (session('debug_stock_alert'))
+    <div>{{ session('debug_stock_alert') }}</div>
+@endif
+
                 @if (Session::has('error'))
                     <script>
                         swal({title: "Opps!",text: "{{ Session::get('error') }}",
@@ -24,7 +28,7 @@
                 @if (session('stock_alert'))
                     <script>
                         swal({
-                            title: "Oops!",
+                            title: "Alert!",
                             text: "{{ session('stock_alert') }}",
                             icon: "warning",
                             timer: 4000
@@ -96,12 +100,23 @@
                                 </label>
                                 <div class="col-sm-6">
                                     @php
-                                        $product = App\Models\Product::where('product_status', 1)->get();
+                                        use App\Models\WarehouseStock;
+                                        use App\Models\WarehouseProductStock;
+
+                                        $product = WarehouseStock::with(['product', 'warehouseProductStock'])
+                                            ->whereHas('warehouseProductStock', function ($query) {
+                                                $query->where('total_stock', '>', 0);
+                                            })
+                                            ->where('wr_status', 1)
+                                            ->get()
+                                            ->unique('product_id');
+
+
                                     @endphp
                                     <select name="product_id" id="product_id" class="form-control custom_form_control">
                                         <option value="" selected disabled>Select Product</option>
                                         @foreach ($product as $item)
-                                            <option value="{{ $item->id }}">{{ $item->product_name }}</option>
+                                            <option value="{{ $item->product_id }}">{{ $item->product->product_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('product_id')

@@ -48,6 +48,7 @@ class DepoStockController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -57,28 +58,24 @@ class DepoStockController extends Controller
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
-    
+
         try {
             DB::beginTransaction();
-    
+
             // Check if stock exists in warehouse_product_stocks
             $warehouseStock = WarehouseProductStock::where('warehouse_id', $request->warehouse_id)
                 ->where('product_id', $request->product_id)
                 ->first();
-    
-            if (!$warehouseStock || $warehouseStock->total_stock < $request->quantity) {
 
-                $request->session()->flash('stock_alert', 'Not enough stock in the warehouse.!');
-                return redirect('/admin/depo_stocks/create');
-                // return redirect('/admin/depo_stocks/create')->with('stock_alert', 'Not enough stock in the warehouse.!');
+                if (!$warehouseStock || $warehouseStock->total_stock < $request->quantity) {
+                    return redirect()->route('admin.depo_stocks.create')->with('stock_alert', 'Not enough stock in the warehouse!');
+                }
+                
 
-                // return back()->with('error', 'Not enough stock in the warehouse.');
-            }
-    
             // Deduct quantity from warehouse stock
             $warehouseStock->total_stock -= $request->quantity;
             $warehouseStock->save();
-    
+
             // Create depo_stock record
             $user_id = Auth::user()->id;
             $slug = Str::of(time())->slug('-');
@@ -110,20 +107,15 @@ class DepoStockController extends Controller
                     'total_stock' => $request->quantity,
                 ]);
             }
-    
+
             DB::commit();
-            
-            $request->session()->flash('success', 'New Depo Stock Added Successfully!');
-            return redirect('/admin/depo_stocks/create');
-            // return back()->with('success', 'Depo stock added successfully.');
+            return back()->with('success', 'New Depo Stock Added Successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
-            $request->session()->flash('error', 'New Depo Stock is not Added!');
-            return redirect('/admin/depo_stocks/create');
-            // return back()->with('error', 'Failed to add depo stock: ' . $e->getMessage());
+            return back()->with('error', 'Failed to add depo stock: ' . $e->getMessage());
         }
-    
     }
+
 
     public function view($slug){
         $data = DepoStock::where('ds_status',1)

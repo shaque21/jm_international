@@ -32,5 +32,9 @@ class DepoStock extends Model
     {
         return $this->belongsTo(User::class, 'employee_id');
     }
+    public function depoProductStock()
+    {
+        return $this->hasOne(DepoProductStock::class, 'product_id', 'product_id');
+    }
 
 }

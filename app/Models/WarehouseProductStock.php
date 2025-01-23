@@ -26,5 +26,9 @@ class WarehouseProductStock extends Model
     {
         return $this->hasMany(OrderDetail::class);
     }
+    public function warehouseStock()
+    {
+        return $this->belongsTo(WarehouseStock::class, 'product_id', 'product_id');
+    }
 
 }
