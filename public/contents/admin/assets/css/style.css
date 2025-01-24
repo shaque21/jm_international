@@ -128,3 +128,11 @@ img{
 .navbar-brand:hover{
     color: #0be881;
 }
+.btn-secondary {
+    background: #0be881 !important;
+    border-color: #0be881 !important;
+}
+.btn-secondary:hover{
+    background: #0be881 !important;
+    border-color: #0be881 !important;
+}
