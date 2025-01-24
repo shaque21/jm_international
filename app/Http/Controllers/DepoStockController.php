@@ -68,7 +68,8 @@ class DepoStockController extends Controller
                 ->first();
 
                 if (!$warehouseStock || $warehouseStock->total_stock < $request->quantity) {
-                    return redirect()->route('admin.depo_stocks.create')->with('stock_alert', 'Not enough stock in the warehouse!');
+                    return redirect()->back()->with('error_h', 'Not enough stock in the warehouse!');
+                    // return redirect()->back()->with('stock_alert', 'Not enough stock in the warehouse!');
                 }
                 
 

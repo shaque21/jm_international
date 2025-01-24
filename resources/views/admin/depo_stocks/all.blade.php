@@ -143,11 +143,11 @@
                             @foreach ($stocks as $key=>$item)
                                 <tr class="text-center">
                                     <td>{{ $key+1 }}</td>
-                                    <td>{{ $item->depo->depo_name }}</td>
+                                    <td>{{ $item->depo->depo_name?? ''}}</td>
                                     <td>{{ $item->warehouse->name }}</td>
                                     <td>{{ $item->product->product_name }}</td>
                                     <td>{{ $item->user->name }}</td>
-                                    <td>{{ $item->employee->name }}</td>
+                                    <td>{{ $item->employee->name ?? '' }}</td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ $item->created_at->format('d M Y | h:s A' ) }}</td>
                                     <td class="text-center">

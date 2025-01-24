@@ -15,10 +15,13 @@
                     </script>
                 @endif
                 @if (session('debug_stock_alert'))
-    <div>{{ session('debug_stock_alert') }}</div>
-@endif
-
+                    <div>{{ session('debug_stock_alert') }}</div>
+                @endif
+                <div>
+                    {{session('error_h')}}
+                </div>
                 @if (Session::has('error'))
+                    dd('zdfsgdfg');
                     <script>
                         swal({title: "Opps!",text: "{{ Session::get('error') }}",
                             icon: "error",timer: 4000

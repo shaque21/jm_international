@@ -7,6 +7,7 @@
                 JM International 
             </h3>
         </a>
+        
         <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon">
                 <i class="fa fa-bars"></i>
