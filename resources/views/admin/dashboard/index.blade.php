@@ -125,10 +125,10 @@
             $today = Carbon::now()->today();
             $date = $today->format('Y-m-d');
             $daily_report = App\Models\OrderMaster::with(['orderDetails.product', 'customer', 'creator', 'warehouse'])
-                            ->where('date', $date)
+                            ->where('order_date', $date)
                             ->orderBy('id', 'DESC')
                             ->get();
-            $total_qty = App\Models\OrderMaster::where('date', $date)->sum('num_of_item');
+            $total_qty = App\Models\OrderMaster::where('order_date', $date)->sum('num_of_item');
         @endphp
         <div class="card">
             <div class="card-header">
