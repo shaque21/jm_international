@@ -147,6 +147,12 @@
                 </li>
                 @endif
                 @if (Auth::user()->role_id == 2)
+                    <li class="nav-item {{ (request()->segment(2) == 'dashboard') ? 'active' : '' }} ">
+                        <a href="{{ url('/admin/dashboard') }}">
+                            <i class="fas fa-home"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
                     <li class="nav-item {{ (request()->segment(2) == 'orders') ? 'active' : '' }}">
                         <a href="{{ url('/admin/orders') }}">
                             <i class="fas fa-laptop"></i>
