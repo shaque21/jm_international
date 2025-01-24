@@ -22,9 +22,9 @@ class OrderMasterController extends Controller
      */
     public function index()
     {
-        $products = Product::where('product_status',1)->orderBy('product_name','ASC')->get();
+        $products = Product::where('product_status', 1)->orderBy('product_name', 'ASC')->get();
         $orders = OrderMaster::all();
-        return view('admin.orders.index',compact('products','orders'));
+        return view('admin.orders.index', compact('products', 'orders'));
     }
 
     /**
@@ -38,7 +38,7 @@ class OrderMasterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    
+
     public function store(Request $request)
     {
         // return $request->all();
@@ -54,7 +54,7 @@ class OrderMasterController extends Controller
         ]);
 
         $user = Auth::user();
-        $order_date = Carbon::now()->format('Y-m-d');
+        $order_date = date('Y-m-d');
         $invoiceNo = 'ORD-' . date('Ymd') . '_' . $request->customer_id . '_' . rand(10000, 99999);
         $num_of_item = array_sum($request->delivered_qty);
 
@@ -69,10 +69,10 @@ class OrderMasterController extends Controller
             $orderMaster->warehouse_id = $request->warehouse_id;
             $orderMaster->depo_id = $request->depo_id;
             $orderMaster->invoice_no = $invoiceNo;
-            $orderMaster->date = $order_date;
+            $orderMaster->order_date = $order_date;
             $orderMaster->num_of_item = $num_of_item;
             $orderMaster->order_status = ($user->role_id == 1 || $user->role_id == 2) ? 1 : 0; // Set status
-            
+
             $orderMaster->save();
             // dd($orderMaster);
             Log::info("OrderMaster created with ID: {$orderMaster->id}");
@@ -115,8 +115,7 @@ class OrderMasterController extends Controller
                     // For role_id 3, set is_approved to 0 and skip stock deduction
                     $orderMaster->order_status = 0; // Assuming $orderMaster is the instance of OrderMaster
                     $orderMaster->save();
-                } 
-                 else {
+                } else {
                     throw new \Exception("Invalid user role: {$user->role_id}");
                 }
             }
@@ -135,24 +134,28 @@ class OrderMasterController extends Controller
     }
 
     //Get Last Order History
-    
+
     public function getLastOrderHistory(Request $request)
     {
         $user_id = Auth::user()->id;
+        $user_id = Auth::user()->id;
         // Fetch the last order ID (or use max order ID if none provided)
-        $lastOrderId = $request->input('last_order_id') ?? OrderMaster::max('id');
+        $lastOrder = OrderMaster::where('user_id', $user_id)
+                    ->orderBy('id', 'desc')
+                    ->select('id')
+                    ->first();
 
         // Fetch the order with the relationships loaded
         $orderReceipt = OrderMaster::with([
-            'orderDetails.product', 
-            'creator', 
-            'warehouse', 
-            'depo', 
+            'orderDetails.product',
+            'creator',
+            'warehouse',
+            'depo',
             'customer'
         ])
-        ->where('id', $lastOrderId)
-        ->where('user_id',$user_id)
-        ->get();
+            ->where('id', $lastOrder->id?? '')
+            ->where('user_id', $user_id)
+            ->get();
 
         // If no order found, return a message
         if ($orderReceipt->isEmpty()) {
@@ -179,7 +182,7 @@ class OrderMasterController extends Controller
         foreach ($orderReceipt as $key => $order) {
             $statusBadge = '';
             if ($order->order_status == 1) {
-                $statusBadge = '<span class="badge badge-success">Approved</span>';
+                $statusBadge = '<span class="badge badge-success">Delivered</span>';
             } else {
                 $statusBadge = '<span class="badge badge-warning">Pending</span>';
             }

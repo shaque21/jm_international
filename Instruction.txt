@@ -74,3 +74,16 @@ INNER JOIN products t6 ON t2.product_id = t6.id
 WHERE t1.status = 1
 
 $status = empty(depo_id) && empty(warehouse_id) ? 0:1;
+
+
+
+/// Mail configure
+
+MAIL_MAILER=smtp 
+MAIL_HOST=mail.jminternational.com
+MAIL_PORT=587
+MAIL_USERNAME=jm_international
+MAIL_PASSWORD=jm_international
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="samsul@jminternational.com"
+MAIL_FROM_NAME="${APP_NAME}"

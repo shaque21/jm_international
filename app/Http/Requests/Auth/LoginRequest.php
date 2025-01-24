@@ -48,6 +48,14 @@ class LoginRequest extends FormRequest
                 'email' => trans('auth.failed'),
             ]);
         }
+        // Additional condition: Check if the user is active
+        if (! auth()->user()->status == 1) {
+            Auth::logout(); // Log out the user if the condition fails
+
+            throw ValidationException::withMessages([
+                'email' => trans('Please verify your email'), // Custom error message
+            ]);
+        }
 
         RateLimiter::clear($this->throttleKey());
     }
@@ -80,6 +88,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
     }
 }

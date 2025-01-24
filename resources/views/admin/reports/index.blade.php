@@ -65,12 +65,12 @@
                                         <td>{{ $order->orderMaster->warehouse->name ?? $order->orderMaster->depo->depo_name ?? 'N/A'}}</td>
                                         <td>
                                             @if ($order->orderMaster->order_status == 1)
-                                                <span class="badge badge-success">Approved</span>
+                                                <span class="badge badge-success">Delivered</span>
                                             @else
                                                 <span class="badge badge-warning">Pending</span>
                                             @endif
                                         </td>
-                                        <td>{{$order->orderMaster->date}}</td>
+                                        <td>{{$order->orderMaster->order_date}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

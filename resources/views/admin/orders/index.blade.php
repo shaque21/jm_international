@@ -303,11 +303,11 @@
                 $today = Carbon::now()->today();
                 $date = $today->format('Y-m-d');
                 $daily_report = App\Models\OrderMaster::with(['orderDetails.product', 'customer', 'creator', 'warehouse'])
-                                ->where('date', $date)
+                                ->where('order_date', $date)
                                 ->where('user_id',$user_id)
                                 ->orderBy('id', 'DESC')
                                 ->get();
-                $total_qty = App\Models\OrderMaster::where('date', $date)->where('user_id',$user_id)->sum('num_of_item');
+                $total_qty = App\Models\OrderMaster::where('order_date', $date)->where('user_id',$user_id)->sum('num_of_item');
             @endphp
             <div class="table-responsive ">
                 <table id="basic-datatables-reposrts" class="display table table-sm table-striped table-hover" >
@@ -355,7 +355,7 @@
                                     <td>
                                         @if ($order->order_status == 1)
                                             <span class="badge badge-success">
-                                                Approved
+                                                Delivered
                                             </span>
                                         @else
                                             <span class="badge badge-danger">

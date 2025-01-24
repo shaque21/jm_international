@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use App\Rules\MatchOldPassword;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Mail\Message;
@@ -76,6 +77,8 @@ class UserController extends Controller
         if($insert){
             $request->session()->flash('success', 'User Added Successfully!');
             return redirect('/admin/users/add');
+
+        return redirect(route('verification.notice'))->with('status', 'A verification link has been sent to your email address.');
         }
         else{
             $request->session()->flash('error', 'User is not Added!');

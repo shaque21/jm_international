@@ -209,7 +209,7 @@
                                         <td>
                                             @if ($order->order_status == 1)
                                                 <span class="badge badge-success">
-                                                    Approved
+                                                    Delivered
                                                 </span>
                                             @else
                                                 <span class="badge badge-danger">
