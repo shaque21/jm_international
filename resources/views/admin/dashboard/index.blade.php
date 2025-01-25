@@ -120,115 +120,227 @@
 {{-- Everyday Reports --}}
 <div class="row">
     <div class="col-md-12">
-        @php
-            use Carbon\Carbon;
-            $today = Carbon::now()->today();
-            $date = $today->format('Y-m-d');
-            $daily_report = App\Models\OrderMaster::with(['orderDetails.product', 'customer', 'creator', 'warehouse'])
-                            ->where('order_date', $date)
-                            ->orderBy('id', 'DESC')
-                            ->get();
-            $total_qty = App\Models\OrderMaster::where('order_date', $date)->sum('num_of_item');
-        @endphp
-        <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-md-6">
-                        <p class="text-uppercase font-weight-bold custom_h_size">
-                            All Order Details Of (Today) : 
-                           @php
-                               if(isset($date)){
-                                   echo $date;
-                                   $url='/admin/reports/daily/download/'.$date;
-                               }
-                               else if(isset($month) && isset($year)){
-                                   echo $month.'-'.$year;
-                                   $url='/admin/reports/monthly/download/'.$month.'/'.$year;
-                               }else{
-                                   echo $year;
-                                   $url='/admin/reports/yearly/download/'.$year;
-                               }
-                           @endphp 
-                        </p>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <a href="{{ url('/admin/reports') }}" class="btn btn-sm btn-dark text-uppercase">
-                            <i class="fas fa-file-archive"></i>&nbsp;
-                             Other Reports
-                        </a>
+        @if(Auth::user()->role_id == 1)
+            @php
+                // use Carbon\Carbon;
+                $date = date('Y-m-d');
+                // $date = $today->format('Y-m-d');
+                $daily_report = App\Models\OrderMaster::with(['orderDetails.product', 'customer', 'creator', 'warehouse'])
+                                ->where('order_date', $date)
+                                ->orderBy('id', 'DESC')
+                                ->get();
+                $total_qty = App\Models\OrderMaster::where('order_date', $date)->sum('num_of_item');
+            @endphp
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="text-uppercase font-weight-bold custom_h_size">
+                                All Order Details Of (Today) : 
+                            @php
+                                if(isset($date)){
+                                    echo $date;
+                                    $url='/admin/reports/daily/download/'.$date;
+                                }
+                                else if(isset($month) && isset($year)){
+                                    echo $month.'-'.$year;
+                                    $url='/admin/reports/monthly/download/'.$month.'/'.$year;
+                                }else{
+                                    echo $year;
+                                    $url='/admin/reports/yearly/download/'.$year;
+                                }
+                            @endphp 
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <a href="{{ url('/admin/reports') }}" class="btn btn-sm btn-dark text-uppercase">
+                                <i class="fas fa-file-archive"></i>&nbsp;
+                                Other Reports
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
+                
 
-            
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="basic-datatables" class="display table table-striped table-hover" >
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>#</th>
-                                <th>Product Name</th>
-                                <th>Qty</th>
-                                <th>Ordered By</th>
-                                <th>Delivered By</th>
-                                <th>Delivered From</th>
-                                <th>Order Status</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>#</th>
-                                <th>Product Name</th>
-                                <th>Qty</th>
-                                <th>Ordered By</th>
-                                <th>Delivered By</th>
-                                <th>Delivered From</th>
-                                <th>Order Status</th>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            @foreach ($daily_report as $key => $order)
-                                @foreach ($order->orderDetails as $orderDetail)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>{{ $orderDetail->product->product_name ?? 'N/A' }}</td>
-                                        <td>{{ $orderDetail->delivered_qty ?? 0 }}</td>
-                                        <td>{{ $order->customer->name ?? 'N/A' }}</td>
-                                        <td>{{ $order->creator->name ?? 'N/A' }}</td>
-                                        <td>
-                                            @if ($order->warehouse_id)
-                                                {{ $order->warehouse->name ?? 'N/A' }}
-                                            @elseif ($order->depo_id)
-                                                {{ $order->depo->depo_name ?? 'N/A' }}
-                                            @else
-                                                N/A
-                                            @endif
-                                        </td>
-                                        
-                                        <td>
-                                            @if ($order->order_status == 1)
-                                                <span class="badge badge-success">
-                                                    Delivered
-                                                </span>
-                                            @else
-                                                <span class="badge badge-danger">
-                                                    Pending
-                                                </span>
-                                            @endif
-                                        </td>
-                                    </tr>
+                
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover" >
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product Name</th>
+                                    <th>Qty</th>
+                                    <th>Ordered By</th>
+                                    <th>Delivered By</th>
+                                    <th>Delivered From</th>
+                                    <th>Order Status</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product Name</th>
+                                    <th>Qty</th>
+                                    <th>Ordered By</th>
+                                    <th>Delivered By</th>
+                                    <th>Delivered From</th>
+                                    <th>Order Status</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                @foreach ($daily_report as $key => $order)
+                                    @foreach ($order->orderDetails as $orderDetail)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $orderDetail->product->product_name ?? 'N/A' }}</td>
+                                            <td>{{ $orderDetail->delivered_qty ?? 0 }}</td>
+                                            <td>{{ $order->customer->name ?? 'N/A' }}</td>
+                                            <td>{{ $order->creator->name ?? 'N/A' }}</td>
+                                            <td>
+                                                @if ($order->warehouse_id)
+                                                    {{ $order->warehouse->name ?? 'N/A' }}
+                                                @elseif ($order->depo_id)
+                                                    {{ $order->depo->depo_name ?? 'N/A' }}
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
+                                            
+                                            <td>
+                                                @if ($order->order_status == 1)
+                                                    <span class="badge badge-success">
+                                                        Delivered
+                                                    </span>
+                                                @else
+                                                    <span class="badge badge-danger">
+                                                        Pending
+                                                    </span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
-                            @endforeach
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <h1 class="text-dark">TOTAL QUANTITY : {{ $total_qty }} <small>( PCS )</small></h1>
                 </div>
             </div>
-            <div class="card-footer">
-                <h1 class="text-dark">TOTAL QUANTITY : {{ $total_qty }} <small>( PCS )</small></h1>
+
+        @else
+            @php
+                // use Carbon\Carbon;
+                $date = date('Y-m-d');
+                // $date = $today->format('Y-m-d');
+                $daily_report = App\Models\OrderMaster::with(['orderDetails.product', 'customer', 'creator', 'warehouse'])
+                                ->where('order_date', $date)
+                                ->where('user_id', Auth::user()->id)
+                                ->orderBy('id', 'DESC')
+                                ->get();
+                $total_qty = App\Models\OrderMaster::where('order_date', $date)->sum('num_of_item');
+            @endphp
+        
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="text-uppercase font-weight-bold custom_h_size">
+                                All Order Details Of (Today) : 
+                            @php
+                                if(isset($date)){
+                                    echo $date;
+                                    $url='/admin/reports/daily/download/'.$date;
+                                }
+                                else if(isset($month) && isset($year)){
+                                    echo $month.'-'.$year;
+                                    $url='/admin/reports/monthly/download/'.$month.'/'.$year;
+                                }else{
+                                    echo $year;
+                                    $url='/admin/reports/yearly/download/'.$year;
+                                }
+                            @endphp 
+                            </p>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+
+                
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover" >
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product Name</th>
+                                    <th>Qty</th>
+                                    <th>Ordered By</th>
+                                    <th>Delivered By</th>
+                                    <th>Delivered From</th>
+                                    <th>Order Status</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product Name</th>
+                                    <th>Qty</th>
+                                    <th>Ordered By</th>
+                                    <th>Delivered By</th>
+                                    <th>Delivered From</th>
+                                    <th>Order Status</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                @foreach ($daily_report as $key => $order)
+                                    @foreach ($order->orderDetails as $orderDetail)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $orderDetail->product->product_name ?? 'N/A' }}</td>
+                                            <td>{{ $orderDetail->delivered_qty ?? 0 }}</td>
+                                            <td>{{ $order->customer->name ?? 'N/A' }}</td>
+                                            <td>{{ $order->creator->name ?? 'N/A' }}</td>
+                                            <td>
+                                                @if ($order->warehouse_id)
+                                                    {{ $order->warehouse->name ?? 'N/A' }}
+                                                @elseif ($order->depo_id)
+                                                    {{ $order->depo->depo_name ?? 'N/A' }}
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
+                                            
+                                            <td>
+                                                @if ($order->order_status == 1)
+                                                    <span class="badge badge-success">
+                                                        Delivered
+                                                    </span>
+                                                @else
+                                                    <span class="badge badge-danger">
+                                                        Pending
+                                                    </span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <h1 class="text-dark">TOTAL QUANTITY : {{ $total_qty }} <small>( PCS )</small></h1>
+                </div>
             </div>
-        </div>
+        @endif
+
     </div>
 </div>
 
