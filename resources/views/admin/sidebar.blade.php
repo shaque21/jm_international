@@ -153,10 +153,24 @@
                             <p>Dashboard</p>
                         </a>
                     </li>
+                    <li class="nav-item {{ (request()->segment(2) == 'depo_stocks') ? 'active' : '' }}">
+                        <a href="{{ url('/employee/depo_stocks') }}">
+                            <i class="fas fa-book-open"></i>
+                            <p>My Stocks</p>
+                        </a>
+                    </li>
                     <li class="nav-item {{ (request()->segment(2) == 'orders') ? 'active' : '' }}">
                         <a href="{{ url('/admin/orders') }}">
                             <i class="fas fa-laptop"></i>
                             <p>Place Order</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                            <i class="fas fa-power-off"></i>
+                            <p class="text-danger">Logout</p>
                         </a>
                     </li>
                 @endif

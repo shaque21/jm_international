@@ -180,6 +180,7 @@ Route::middleware([OrderMiddleware::class])->group(function () {
     /*--------------------------------------------------------------------------------- 
     End Route for OrderMaster 
     -----------------------------------------------------------------------------------*/
+    Route::get('/employee/depo_stocks',[DepoStockController::class,'emp_depo_stocks']);
 });
 
 Route::get('/admin/dashboard', function () {

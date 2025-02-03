@@ -35,6 +35,31 @@ class DepoStockController extends Controller
         // Pass data to the view
         return view('admin.depo_stocks.all', compact('stocks','total_stocks'));
     }
+    public function emp_depo_stocks()
+    {
+        $employeeId = Auth::user()->id;
+
+        // Get Depo Stocks where the employee works
+        $stocks = DepoStock::with('depo') 
+            ->where('ds_status', 1)
+            ->where('employee_id', $employeeId)
+            ->whereHas('depo', function ($query) {
+                $query->where('depo_status', 1);
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        // Fetch total Depo Product Stocks for the employee's depo
+        $depoIds = $stocks->pluck('depo_id')->unique(); // Get unique depo IDs
+        $total_stocks = DepoProductStock::whereIn('depo_id', $depoIds)
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        // dd($total_stocks);
+        // Pass data to the view
+        return view('admin.depo_stocks.emp_all', compact('stocks','total_stocks'));
+    }
+    
 
     /**
      * Show the form for creating a new resource.
