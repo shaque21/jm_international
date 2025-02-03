@@ -11,6 +11,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\WarehouseStockController;
 use App\Http\Controllers\DepoStockController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\OrderMiddleware;
@@ -18,7 +19,7 @@ use App\Http\Middleware\OrderMiddleware;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/',[FrontendController::class,'home']);
 
 Route::middleware([AdminMiddleware::class])->group(function () {
     /*--------------------------------------------------------------------------------- 

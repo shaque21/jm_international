@@ -1,0 +1,520 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito Sans', sans-serif;
+}
+/* Prevent horizontal scrolling */
+body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure images and videos don't exceed container width */
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Make tables responsive */
+table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* Prevent large elements from breaking the layout */
+/* .container, .row, .col {
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-x: hidden;
+} */
+.navbar {
+    width: 100%;
+}
+.navbar-nav {
+    flex-wrap: wrap;
+}
+.navbar-toggler {
+    max-width: 100%;
+}
+.fas {
+    font-size: 1.25rem; /* Adjust as needed */
+}
+
+html{
+    scroll-behavior: smooth;
+}
+a{
+    text-decoration: none;
+}
+.shopping-cart{
+    position: relative;
+}
+.notification{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #ff3f34;
+    color: #fff;
+    position: absolute;
+    top: -15%;
+    right: -15%;
+}
+.title h4{
+    font-family: 'Satisfy', cursive;
+    color: #0be881;
+}
+.image{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+.image img{
+    height: auto;
+    width: 100%;
+    object-fit: contain;
+}
+.banner-content{
+    padding: 80px;
+}
+#carouselExampleControls{
+    position: relative;
+}
+#carouselExampleControls .left{
+    position: absolute;
+    top: 80%;
+    left: 10%;
+    border: none;
+    background-color: #fff;
+}
+#carouselExampleControls .left:focus{
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+#carouselExampleControls .right:focus{
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+#carouselExampleControls .left i{
+    font-size: 20px;
+    color: #0be881;
+}
+#carouselExampleControls .right i{
+    font-size: 20px;
+    color: #0be881;
+}
+#carouselExampleControls .right{
+    position: absolute;
+    top: 80%;
+    left: 12%;
+    border: none;
+    background-color: #fff;
+}
+.upper_section{
+    background-color: #0be8815d;
+}
+.navbar .navbar-brand{
+    color: #0be881;
+    font-weight: 800;
+    transition: all 0.4s;
+    padding: 10px 30px;
+    /* font-size: 18px; */
+    /* font-family: 'Satisfy', cursive; */
+    transition: all 0.3s linear;
+    /* border: 2px solid #ffc048; */
+}
+.navbar .navbar-brand span{
+    font-size: 10px;
+}
+.navbar .navbar-brand:hover{
+    color: #0be881;
+    /* background-color: #ffc048; */
+}
+
+.navbar-nav a{
+    
+    transition: all .3s linear;
+}
+.navbar-nav .active{
+    color:#0be881 !important;
+}
+.navbar-nav a:hover{
+    width: 100% !important;
+    color: #0be881 !important;
+}
+.btn-outline-warning:hover{
+    color: #fff;
+}
+.login{
+    padding: 5px 15px;
+    border: 2px solid #0be881!important;
+    color: #0be881;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    transition: all 0.3s linear;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    letter-spacing: 1px;
+
+}
+.login::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transform: translateX(-100%);
+    transition: all 0.3s linear;
+    background-color: #0be881;
+}
+.login:hover{
+    color: #fff;
+}
+.login:hover::before{
+    transform: translateX(0);
+    z-index: -1;
+}
+.discover-menu .dropbtn{
+    background-color: #ffc048;
+    color: white;
+    padding: 8px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s linear;
+}
+.discover-menu .dropbtn:focus{
+    outline: none;
+    box-shadow: 0px 0px 5px rgb(255, 191, 72,0.1);
+}
+.item-cart{
+    border: none;
+    box-shadow: -5px -5px 10px rgba(0,0,0,0.1),
+                6px 6px 10px rgba(0,0,0,0.2);
+}
+.category-div{
+    margin-bottom: 60px;
+}
+.card-title{
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 18px;
+}
+.starting{
+    font-size: 12px;
+    letter-spacing: 0.7px;
+}
+.card-text{
+    color: #ffc048;
+    font-size: 14px;
+    font-weight: 600;
+}
+.cart-content{
+    line-height: 11px;
+}
+.item-img-section{
+    position: relative;
+}
+.item-img{
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    top: -90%;
+    right: -10%;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1),
+                inset 0px 0px 5px rgba(255,255,255,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.item-img img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+.item-add-btn{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    cursor: pointer;
+}
+.item-add-btn a{
+    color: rgba(0,0,0,0.8);
+    font-size: 20px;
+}
+.about-us{
+    background-color: #f1f1f1;
+}
+.about-img{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+.about-img img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+.choose{
+    font-family: 'Satisfy', cursive;
+    color: #0be881;
+}
+.about-title{
+    padding: 10px 40px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: -5px -5px 10px rgba(255,255,255,0.9),
+            5px 5px 10px rgba(255,255,255,0.9), 
+            inset 0px 0px 10px rgba(0,0,0,0.2);
+}
+.address-head{
+    background-color: #424242;
+    color: #fff;
+    border-radius: 4px;
+}
+.address-head i{
+    padding: 8px 8px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 50%;
+}
+.address-content{
+    line-height: 16px;
+}
+.muted-font{
+    font-size: 12px;
+}
+.address-icon{
+    font-size: 20px;
+    display: flex;
+    justify-content: end;
+    align-items: flex-start;
+}
+.address-content-card{
+    background-color: rgb(126, 255, 245,0.1);
+    /* border: none; */
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1),
+                inset 0px 0px 15px rgba(255,255,255,0.9);
+}
+.custom-control{
+    color: #424242;
+    background-color: rgb(126, 255, 245,0.1);
+    border: 1px solid rgba(126, 255, 245, 1);
+    font-size: 16px;
+}
+.custom-control:focus{
+    background-color: rgb(126, 255, 245,0.1);
+    box-shadow: none;
+}
+.custom-label{
+    font-size: 14px;
+    color: rgba(0,0,0,0.8);
+}
+.cart-left{
+    border-bottom: 4px solid #ffc048;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+.cart-item-photo{
+    height: 90%;
+    width: 90%;
+    border-radius: 50%;
+    overflow: hidden;
+    /* background-color: #ffc048; */
+    /* box-shadow: 0px 0px 10px rgba(0,0,0,0.1); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cart-item-photo img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+.cart-right{
+    font-size: 14px;
+    line-height: 10px;
+}
+.item-name{
+    font-weight: 600;
+}
+.price{
+    font-weight: 600;
+}
+.delete-icon i{
+    cursor: pointer;
+}
+.product-card{
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+.custom--qty-control{
+    border: 1px solid #6c757d;
+    transition: all 0.3s linear;
+}
+.custom-qty-control:focus{
+    box-shadow: none;
+    border-color: #ffc048;
+}
+.more-text {
+    display: none;
+}
+.address-content p{
+    padding: 0.2rem;
+    margin: 0;
+}
+.text-muted{
+    
+    margin-top:1.5rem ;
+
+}
+@media screen and (max-width: 991px) {
+    .navbar-dark{
+        background-color: #000 !important;
+    }
+    .signIn-btn{
+        margin-top: 10px !important;
+        margin-left: 0px !important;
+    }
+    .navbar-light .navbar-toggler{
+        margin-left: auto;
+    }
+    .navbar-light .navbar-toggler:focus{
+        box-shadow: none;
+    }
+    .navbar-collapse{
+        background-color: #f1f1f1;
+    }
+    .banner-content{
+        padding: 2rem;
+    }
+    #carouselExampleControls .left{
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        border: none;
+        background-color: #fff;
+    }
+    #carouselExampleControls .left:focus{
+        border: none;
+        box-shadow: none;
+        outline: none;
+    }
+    #carouselExampleControls .right:focus{
+        border: none;
+        box-shadow: none;
+        outline: none;
+    }
+    #carouselExampleControls .left i{
+        font-size: 20px;
+        color: #0be881;
+    }
+    #carouselExampleControls .right i{
+        font-size: 20px;
+        color: #0be881;
+    }
+    #carouselExampleControls .right{
+        position: absolute;
+        top: 100%;
+        left: 55%;
+        border: none;
+        background-color: #fff;
+    }
+    .product_name_section{
+        font-size: 1rem;
+    }
+    
+}
+@media screen and (max-width: 768px){
+    .discover-menu{
+        margin-top: auto;
+    }
+    /* .navbar {
+        flex-wrap: wrap;
+      }
+    
+      /* Center the logo */
+      /* .navbar-brand {
+        flex: 1;
+        text-align: center;
+        margin-bottom: 10px; 
+      } */
+    
+      /* Navbar toggler (hamburger menu) on the left */
+      /* .navbar-toggler {
+        order: 1;
+      } */
+    
+      /* Navbar links in the middle */
+      /* .navbar-collapse {
+        order: 2;
+        text-align: center;
+      } */
+    
+      /* Login button at the bottom */
+      /* .login {
+        order: 3;
+        margin: 10px auto; 
+        display: block;
+        text-align: center;
+        width: fit-content; 
+      }  */
+      .product_name_section{
+          margin-top: 1.5rem;
+      }
+}
+@media screen and (max-width: 576px){
+    #carouselExampleControls .left{
+        position: absolute;
+        top: 105%;
+        left: 46%;
+        border: none;
+        background-color: #fff;
+    }
+    #carouselExampleControls .left:focus{
+        border: none;
+        box-shadow: none;
+        outline: none;
+    }
+    #carouselExampleControls .right:focus{
+        border: none;
+        box-shadow: none;
+        outline: none;
+    }
+    #carouselExampleControls .left i{
+        font-size: 20px;
+    }
+    #carouselExampleControls .right i{
+        font-size: 20px;
+    }
+    #carouselExampleControls .right{
+        position: absolute;
+        top: 105%;
+        left: 55%;
+        border: none;
+        background-color: #fff;
+    }
+    .qty-label{
+        font-size: 12px;
+    }
+    .product_name_section{
+        margin-top: 1.5rem;
+    }
+
+}
