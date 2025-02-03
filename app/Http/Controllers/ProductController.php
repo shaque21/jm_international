@@ -42,7 +42,7 @@ class ProductController extends Controller
             // 'quantity'=>'required',
             // 'alert_stock'=>'required',
             'specification'=>'required',
-            'product_img'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'product_img'=>'required|image|mimes:jpeg,png,jpg,gif',
         ],[
             'alert_stock.required'=>'The Stock Field is Required!',
             'product_img.required'=>'The Product Image Field is Required!',
@@ -138,7 +138,7 @@ class ProductController extends Controller
             // 'quantity'=>'required',
             // 'alert_stock'=>'required',
             'specification'=>'required',
-            'product_img'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'product_img'=>'required|image|mimes:jpeg,png,jpg,gif',
         ],[
             'alert_stock.required'=>'The Stock Field is Required!',
             'product_img.required'=>'The Product Image Field is Required!',
