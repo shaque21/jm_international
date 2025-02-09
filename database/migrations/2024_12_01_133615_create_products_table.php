@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('generic_name');
             $table->string('packing');
             $table->string('specification');
+            // $table->string('description');
             // $table->integer('quantity');
             $table->string('product_img',255);
             // $table->integer('alert_stock')->default('100');

@@ -78,7 +78,7 @@
                 </div>
                 <div class="col-sm-6 banner-image" data-aos="fade-up-left">
                   <div class="image">
-                    <img src="images/bg/bgm1.jpg" alt="">
+                    <img src="{{asset('uploads/products/banner_img.png')}}" alt="">
                   </div>
                 </div>
               </div>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="col-sm-6 banner-image" data-aos="fade-up-left">
                   <div class="image">
-                    <img src="images/bg/bgm1.jpg" alt="">
+                    <img src="{{asset('uploads/products/banner_img.png')}}" alt="">
                   </div>
                 </div>
               </div>
@@ -122,7 +122,7 @@
                 </div>
                 <div class="col-sm-6 banner-image" data-aos="fade-up-left">
                   <div class="image">
-                    <img src="images/bg/bgm1.jpg" alt="">
+                    <img src="{{asset('uploads/products/banner_img.png')}}" alt="">
                   </div>
                 </div>
               </div>
@@ -152,48 +152,106 @@
             </div>
     
             @foreach ($products as $key => $item)
-                @if($key % 2 == 0)
-                    <!-- Image on Left, Text on Right for even indices (0, 2, 4...) -->
-                    <div class="row my-5 align-items-center">
-                        <div class="col-md-6" data-aos="fade-up-right">
-                            <div class="about-img">
-                                <img src="{{ asset('uploads/products/' . $item->product_img) }}" alt="{{ $item->product_name }}" class="img-fluid rounded">
-                            </div>
-                        </div>
-                        <div class="col-md-6 p-5 product_name_section" data-aos="fade-up-left">
-                            <h4 class="choose">{{ $item->product_name }}</h4>
-                            <h2>{{ $item->generic_name }}</h2>
-                            <p class="text-muted">{{ $item->packing }}</p>
-                            <p class="text-muted"><strong>Specifications:</strong> {{ $item->specification }}</p>
-                            <p class="text-muted">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam sunt nobis voluptatum 
-                                suscipit, nulla autem aspernatur soluta, nam nostrum quidem delectus ratione impedit 
-                                velit? Ex reprehenderit blanditiis dolores...
-                            </p>
-                        </div>
-                    </div>
-                @else
-                    <!-- Text on Left, Image on Right for odd indices (1, 3, 5...) -->
-                    <div class="row my-5 align-items-center">
-                        <div class="col-md-6 p-5 product_name_section" data-aos="fade-up-left">
-                            <h4 class="choose">{{ $item->product_name }}</h4>
-                            <h2>{{ $item->generic_name }}</h2>
-                            <p class="text-muted">{{ $item->packing }}</p>
-                            <p class="text-muted"><strong>Specifications:</strong> {{ $item->specification }}</p>
-                            <p class="text-muted">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam sunt nobis voluptatum 
-                                suscipit, nulla autem aspernatur soluta, nam nostrum quidem delectus ratione impedit 
-                                velit? Ex reprehenderit blanditiis dolores...
-                            </p>
-                        </div>
-                        <div class="col-md-6" data-aos="fade-up-right">
-                            <div class="about-img">
-                                <img src="{{ asset('uploads/products/' . $item->product_img) }}" alt="{{ $item->product_name }}" class="img-fluid rounded">
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            @endforeach
+              @if($key % 2 == 0)
+                  <!-- Image on Left, Text on Right for even indices (0, 2, 4...) -->
+                  <div class="row my-5 align-items-center">
+                      <div class="col-md-6" data-aos="fade-up-right">
+                          <div class="about-img">
+                              <img src="{{ asset('uploads/products/' . $item->product_img) }}" alt="{{ $item->product_name }}" class="img-fluid rounded">
+                          </div>
+                      </div>
+                      <div class="col-md-6 p-5 product_name_section" data-aos="fade-up-left">
+                          <h4 class="choose">{{ $item->product_name }}</h4>
+                          <h2>{{ $item->generic_name }}</h2>
+                          {{-- <p class="text-muted">{{ $item->packing }}</p> --}}
+                          <p class="text-muted"><strong>Specifications:</strong> {{ $item->specification }}</p>
+                          {{-- <p class="text-muted">
+                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam sunt nobis voluptatum 
+                              suscipit, nulla autem aspernatur soluta, nam nostrum quidem delectus ratione impedit 
+                              velit? Ex reprehenderit blanditiis dolores...
+                          </p> --}}
+                          <button type="button" class="btn btn-sm login mt-3" data-bs-toggle="modal" data-bs-target="#productModal{{ $key }}">
+                            View Details
+                          </button>
+                      </div>
+                  </div>
+              @else
+                  <!-- Text on Left, Image on Right for odd indices (1, 3, 5...) -->
+                  <div class="row my-5 align-items-center">
+                      <div class="col-md-6 p-5 product_name_section" data-aos="fade-up-left">
+                          <h4 class="choose">{{ $item->product_name }}</h4>
+                          <h2>{{ $item->generic_name }}</h2>
+                          {{-- <p class="text-muted">{{ $item->packing }}</p> --}}
+                          <p class="text-muted"><strong>Specifications:</strong> {{ $item->specification }}</p>
+                          {{-- <p class="text-muted">
+                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam sunt nobis voluptatum 
+                              suscipit, nulla autem aspernatur soluta, nam nostrum quidem delectus ratione impedit 
+                              velit? Ex reprehenderit blanditiis dolores...
+                          </p> --}}
+                          <button type="button" class="btn login mt-3" data-bs-toggle="modal" data-bs-target="#productModal{{ $key }}">
+                            View Details
+                          </button>
+                      </div>
+                      <div class="col-md-6" data-aos="fade-up-right">
+                          <div class="about-img">
+                              <img src="{{ asset('uploads/products/' . $item->product_img) }}" alt="{{ $item->product_name }}" class="img-fluid rounded">
+                          </div>
+                      </div>
+                  </div>
+              @endif
+
+              <!-- Modal for Each Product -->
+              <div class="modal fade" id="productModal{{ $key }}" tabindex="-1" aria-labelledby="productModalLabel{{ $key }}" aria-hidden="true">
+                  <div class="modal-dialog modal-xl">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h2 class="modal-title" style="color: #0be881;" id="productModalLabel{{ $key }}">{{ $item->product_name }}</h2>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              <div class="row">
+                                  <div class="col-md-6 border p-3 d-flex justify-content-center align-item-center">
+                                      <img src="{{ asset('uploads/products/' . $item->product_img) }}" alt="{{ $item->product_name }}" class="img-fluid rounded">
+                                  </div>
+                                  <div class="col-md-6 border p-3">
+                                    <h3 class="choose">{{ $item->product_name }}</h3>
+                                    <table class="mt-4 table table-bordered table-hover table-striped custom_view_table">
+                                      <tr>
+                                        <td><strong>Generic Name</strong></td>
+                                        <td>:</td>
+                                        <td>{{ $item->generic_name }}</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>Packing</strong></td>
+                                          <td>:</td>
+                                          <td>{{ $item->packing }}</td>
+                                      </tr>
+                                      <tr>
+                                          <td><strong>Specifications</strong></td>
+                                          <td>:</td>
+                                          <td>{{ $item->specification }}</td>
+                                      </tr>
+                                      {{-- <tr>
+                                        <td><strong>Description</strong></td>
+                                        <td>:</td>
+                                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, ducimus.</td>
+                                      </tr> --}}
+                                    </table>
+                                      {{-- <h4>{{ $item->generic_name }}</h4>
+                                      <p><strong>Packing:</strong> {{ $item->packing }}</p>
+                                      <p><strong>Specifications:</strong> {{ $item->specification }}</p>
+                                      <p><strong>Description:</strong> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, ducimus.</p> --}}
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn login" data-bs-dismiss="modal">Close</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          @endforeach
+
         </div>
     </div>
     
@@ -218,7 +276,7 @@
             <h4 class="choose">Why You Choose Us ?</h4>
             <h2>What Makes Our Services Attractive!</h2>
             <p class="text-muted">
-              Founded in 2009, [Your Company Name] has been dedicated to improving healthcare through the development 
+              Founded in 2009, <strong>JM INTERNATIONAL</strong> has been dedicated to improving healthcare through the development 
               and delivery of high-quality, innovative, and affordable medicines...
               <span class="more-text">
                 Over the years, we have grown from a 
@@ -261,7 +319,7 @@
                   </div>
                   <div class="col-8 address-content">
                     <p>Phone Number</p>
-                    <p class="text-muted muted-font">+880 1627 309821</p>
+                    <p class="text-muted muted-font">+880 1766-592003</p>
                   </div>
                 </div>
                 <hr class="my-2">
@@ -271,7 +329,7 @@
                   </div>
                   <div class="col-8 address-content">
                     <p>WhatsApp</p>
-                    <p class="text-muted muted-font">+880 1627 309821</p>
+                    <p class="text-muted muted-font">+880 1766-592003</p>
                   </div>
                 </div>
                 <hr class="my-2">
@@ -281,7 +339,7 @@
                   </div>
                   <div class="col-8 address-content">
                     <p>Email Address</p>
-                    <p class="text-muted muted-font">jm.international@gmail.com</p>
+                    <p class="text-muted muted-font">jm.international@jmibd.com</p>
                   </div>
                 </div>
                 <hr class="my-2">
@@ -291,7 +349,7 @@
                   </div>
                   <div class="col-8 address-content">
                     <p>Website</p>
-                    <p class="text-muted muted-font">www.xyz.com</p>
+                    <a href="www.jmibd.com"><p class="text-muted muted-font">www.jmibd.com</p></a>
                   </div>
                 </div>
                 <hr class="my-2">

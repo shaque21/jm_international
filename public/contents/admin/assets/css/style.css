@@ -136,3 +136,17 @@ img{
     background: #0be881 !important;
     border-color: #0be881 !important;
 }
+
+/* Remove box-shadow when button is clicked */
+.btn.login:focus, 
+.btn.login:active, 
+.btn.login:focus-visible {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Also remove focus styles from the modal itself */
+.modal:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
