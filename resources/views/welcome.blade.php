@@ -48,7 +48,7 @@
             </ul>
           </div>
           <div class="d-flex my-2 ms-2">
-            <a class="login me-2 font-weight-bold href="">
+            <a class="login me-2 font-weight-bold" href="https://wa.me/8801766592003">
               <i class="fab fa-whatsapp me-2"></i> WhatsApp
             </a>
           </div>
@@ -65,20 +65,20 @@
               <div class="row">
                 <div class="col-sm-6 banner-content mt-3">
                   <div class="title">
-                    <h4 data-aos="fade-down">MaxQueen</h4>
+                    <h4 data-aos="fade-down">Jebidox</h4>
                   </div>
                   <div class="heading-text" data-aos="fade-up-right">
                     <h1>Our New Product</h1>
                   </div>
                   <div class="description">
                     <p class="text-muted" data-aos="fade-up">
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui perspiciatis nobis corporis reprehenderit vel? Deleniti laborum fugiat architecto iure nesciunt?
+                      Vitamin B1 + Vitamin B6 + Vitamin B12
                     </p>
                   </div>
                 </div>
                 <div class="col-sm-6 banner-image" data-aos="fade-up-left">
                   <div class="image">
-                    <img src="{{asset('uploads/products/banner_img.png')}}" alt="">
+                    <img src="{{asset('uploads/products/jebidox.png')}}" alt="">
                   </div>
                 </div>
               </div>
@@ -87,46 +87,46 @@
               <div class="row">
                 <div class="col-sm-6 banner-content mt-3">
                   <div class="title">
-                    <h4 data-aos="fade-down">MaxQueen</h4>
+                    <h4 data-aos="fade-down">GevoJoint</h4>
                   </div>
                   <div class="heading-text" data-aos="fade-up-right">
                     <h1>Our New Product</h1>
                   </div>
                   <div class="description">
                     <p class="text-muted" data-aos="fade-up">
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui perspiciatis nobis corporis reprehenderit vel? Deleniti laborum fugiat architecto iure nesciunt?
+                      Glucosamine, Chondroitin, Hyaluronic Acid, Diacerein & Co. Peptide
                     </p>
                   </div>
                 </div>
                 <div class="col-sm-6 banner-image" data-aos="fade-up-left">
                   <div class="image">
-                    <img src="{{asset('uploads/products/banner_img.png')}}" alt="">
+                    <img src="{{asset('uploads/products/gevojoint.png')}}" alt="">
                   </div>
                 </div>
               </div>
             </div>
-            <div class="carousel-item">
+            {{-- <div class="carousel-item">
               <div class="row">
                 <div class="col-sm-6 banner-content mt-3">
                   <div class="title">
-                    <h4 data-aos="fade-down">MaxQueen</h4>
+                    <h4 data-aos="fade-down">Hygen Forte</h4>
                   </div>
                   <div class="heading-text" data-aos="fade-up-right">
                     <h1>Our New Product</h1>
                   </div>
                   <div class="description">
                     <p class="text-muted" data-aos="fade-up">
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui perspiciatis nobis corporis reprehenderit vel? Deleniti laborum fugiat architecto iure nesciunt?
+                      Glucosamine, Chondroitin, Hyaluronic Acid, Diacerein & Co. Peptide
                     </p>
                   </div>
                 </div>
                 <div class="col-sm-6 banner-image" data-aos="fade-up-left">
                   <div class="image">
-                    <img src="{{asset('uploads/products/banner_img.png')}}" alt="">
+                    <img src="{{asset('uploads/products/hygen.png')}}" alt="">
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
           </div>
           <div class="next-prev-btn">
             <button class="left" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -163,14 +163,14 @@
                       <div class="col-md-6 p-5 product_name_section" data-aos="fade-up-left">
                           <h4 class="choose">{{ $item->product_name }}</h4>
                           <h2>{{ $item->generic_name }}</h2>
-                          {{-- <p class="text-muted">{{ $item->packing }}</p> --}}
-                          <p class="text-muted"><strong>Specifications:</strong> {{ $item->specification }}</p>
+                          <p class="text-muted"><strong>Packing : </strong>{{ $item->packing }}</p>
+                          {{-- <p class="text-muted"><strong>Specifications:</strong> {{ $item->specification }}</p> --}}
                           {{-- <p class="text-muted">
                               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam sunt nobis voluptatum 
                               suscipit, nulla autem aspernatur soluta, nam nostrum quidem delectus ratione impedit 
                               velit? Ex reprehenderit blanditiis dolores...
                           </p> --}}
-                          <button type="button" class="btn btn-sm login mt-3" data-bs-toggle="modal" data-bs-target="#productModal{{ $key }}">
+                          <button type="button" class="btn btn-sm font-weight-bold login mt-3" data-bs-toggle="modal" data-bs-target="#productModal{{ $key }}">
                             View Details
                           </button>
                       </div>
@@ -181,14 +181,14 @@
                       <div class="col-md-6 p-5 product_name_section" data-aos="fade-up-left">
                           <h4 class="choose">{{ $item->product_name }}</h4>
                           <h2>{{ $item->generic_name }}</h2>
-                          {{-- <p class="text-muted">{{ $item->packing }}</p> --}}
-                          <p class="text-muted"><strong>Specifications:</strong> {{ $item->specification }}</p>
+                          <p class="text-muted"><strong>Packing : </strong>{{ $item->packing }}</p>
+                          {{-- <p class="text-muted"><strong>Specifications:</strong> {{ $item->specification }}</p> --}}
                           {{-- <p class="text-muted">
                               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam sunt nobis voluptatum 
                               suscipit, nulla autem aspernatur soluta, nam nostrum quidem delectus ratione impedit 
                               velit? Ex reprehenderit blanditiis dolores...
                           </p> --}}
-                          <button type="button" class="btn login mt-3" data-bs-toggle="modal" data-bs-target="#productModal{{ $key }}">
+                          <button type="button" class="btn login font-weight-bold mt-3" data-bs-toggle="modal" data-bs-target="#productModal{{ $key }}">
                             View Details
                           </button>
                       </div>
@@ -210,7 +210,7 @@
                           </div>
                           <div class="modal-body">
                               <div class="row">
-                                  <div class="col-md-6 border p-3 d-flex justify-content-center align-item-center">
+                                  <div class="col-md-6 border p-3">
                                       <img src="{{ asset('uploads/products/' . $item->product_img) }}" alt="{{ $item->product_name }}" class="img-fluid rounded">
                                   </div>
                                   <div class="col-md-6 border p-3">
@@ -234,7 +234,7 @@
                                       {{-- <tr>
                                         <td><strong>Description</strong></td>
                                         <td>:</td>
-                                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, ducimus.</td>
+                                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore totam voluptatum minus ipsa eligendi voluptas perspiciatis necessitatibus expedita a. Quidem, numquam deserunt animi nisi tempora quod voluptates doloremque necessitatibus dolorum maxime, quis, labore dicta! Neque dolorem laudantium, provident aliquam modi id adipisci sunt commodi? Ratione ad distinctio nihil enim quae nam porro id reprehenderit dolorem ducimus, facere veritatis incidunt omnis magni, nemo ipsam, harum quidem perspiciatis praesentium voluptatem. Autem deserunt omnis officia voluptatum ratione consequatur nobis quaerat, vero voluptatem, accusantium ullam ipsam reiciendis dolorem est velit dolorum officiis vel atque quasi? Cupiditate enim autem voluptatum est, amet quo animi! Sit?</td>
                                       </tr> --}}
                                     </table>
                                       {{-- <h4>{{ $item->generic_name }}</h4>
@@ -277,18 +277,8 @@
             <h2>What Makes Our Services Attractive!</h2>
             <p class="text-muted">
               Founded in 2009, <strong>JM INTERNATIONAL</strong> has been dedicated to improving healthcare through the development 
-              and delivery of high-quality, innovative, and affordable medicines...
-              <span class="more-text">
-                Over the years, we have grown from a 
-                small startup with a vision to a trusted name in the pharmaceutical industry, serving patients and healthcare 
-                providers worldwide.At the heart of our mission is a commitment to enhancing lives by addressing diverse 
-                medical needs. Our comprehensive portfolio includes a wide range of prescription drugs, over-the-counter 
-                medications, and wellness products designed to support better health outcomes for individuals and communities.
-              </span>
+              and delivery of high-quality, innovative, and affordable medicines <strong>.....</strong>
             </p>
-            <button class="login " onclick="toggleText()">
-              <i class="fas fa-info-circle"></i>&nbsp; Read More
-            </button>
           </div>
         </div>
       </div>
@@ -319,7 +309,7 @@
                   </div>
                   <div class="col-8 address-content">
                     <p>Phone Number</p>
-                    <p class="text-muted muted-font">+880 1766-592003</p>
+                    <a href="tel:+8801766592003" class="text-muted muted-font">+880 1766-592003</a>
                   </div>
                 </div>
                 <hr class="my-2">
@@ -329,7 +319,7 @@
                   </div>
                   <div class="col-8 address-content">
                     <p>WhatsApp</p>
-                    <p class="text-muted muted-font">+880 1766-592003</p>
+                    <a href="https://wa.me/8801766592003" class="text-muted muted-font">+880 1766-592003</a>
                   </div>
                 </div>
                 <hr class="my-2">
@@ -339,7 +329,7 @@
                   </div>
                   <div class="col-8 address-content">
                     <p>Email Address</p>
-                    <p class="text-muted muted-font">jm.international@jmibd.com</p>
+                    <a href=" mailto:jmi@jmibd.com" class="text-muted muted-font">jmi@jmibd.com</a>
                   </div>
                 </div>
                 <hr class="my-2">
@@ -349,7 +339,7 @@
                   </div>
                   <div class="col-8 address-content">
                     <p>Website</p>
-                    <a href="www.jmibd.com"><p class="text-muted muted-font">www.jmibd.com</p></a>
+                    <a href="https://jmibd.com/"><p class="text-muted muted-font">jmibd.com/</p></a>
                   </div>
                 </div>
                 <hr class="my-2">
