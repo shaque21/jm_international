@@ -102,9 +102,10 @@
                             Specification :<span class="req_star">*</span>
                         </label>
                         <div class="col-sm-10">
-                          <textarea name="specification" id="specification" cols="10" rows="3" class="form-control custom_textarea custom_form_control" placeholder="Specification">
+                            <textarea name="specification" id="specification" class="form-control">{{ old('specification', $product->specification ?? '') }}</textarea>
+                          {{-- <textarea name="specification" id="specification" cols="10" rows="3" class="form-control custom_textarea custom_form_control" placeholder="Specification">
                             {{ $data['specification'] }}
-                          </textarea>
+                          </textarea> --}}
                           @error('specification')
                                 <span class="alert alert-danger">{{ $message }}</span>
                          @enderror
@@ -122,7 +123,12 @@
 </div>
 @endsection
 @section('script')
+<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <script>
+    CKEDITOR.replace('specification');
+
+    // Ensure previously saved data is correctly loaded
+    CKEDITOR.instances.specification.setData(`{!! old('specification', $data->specification ?? '') !!}`);
     function previewFile(input){
         var file = $("input[type=file]").get(0).files[0];
  

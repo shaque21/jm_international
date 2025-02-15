@@ -69,11 +69,11 @@
                                     <td>{{ $data['0']->updated_at->format('d M Y | h:i A') }}</td>
                                 </tr>
                             @endif
-                            <tr>
+                            {{-- <tr>
                                 <td>Specification</td>
                                 <td>:</td>
                                 <td>{{ $data['0']->specification }}</td>
-                            </tr>
+                            </tr> --}}
                         </table>
                     </div>
                 </div>
@@ -84,7 +84,9 @@
                             <tr>
                                 <td>Specification</td>
                                 <td>:</td>
-                                <td>{{ $data['0']->specification }}</td>
+                                <td>
+                                    {{!! $data->first()->specification ?? 'No Specification Available' !!}}
+                                </td>
                             </tr>
                             
                         </table>

@@ -83,7 +83,7 @@ class ProductController extends Controller
             'packing'=>$request->packing,
             // 'quantity'=>$request->quantity,
             // 'alert_stock'=>$request->alert_stock,
-            'specification'=>$request->specification,
+            'specification' => $request->input('specification'), 
             'product_img'=>$fileName,
             'product_slug'=>$slug,
             'created_at'=>Carbon::now()->toDateTimeString(),
@@ -154,7 +154,7 @@ class ProductController extends Controller
             'packing'=>$request->packing,
             // 'quantity'=>$request->quantity,
             // 'alert_stock'=>$request->alert_stock,
-            'specification'=>$request->specification,
+            'specification' => $request->input('specification'),
             'product_slug'=>$url_slug,
             'updated_at'=>Carbon::now()->toDateTimeString(),
         );

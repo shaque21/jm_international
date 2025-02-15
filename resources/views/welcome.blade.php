@@ -210,10 +210,10 @@
                           </div>
                           <div class="modal-body">
                               <div class="row">
-                                  <div class="col-md-6 border p-3">
+                                  <div class="col-md-4 border p-3">
                                       <img src="{{ asset('uploads/products/' . $item->product_img) }}" alt="{{ $item->product_name }}" class="img-fluid rounded">
                                   </div>
-                                  <div class="col-md-6 border p-3">
+                                  <div class="col-md-8 border p-3">
                                     <h3 class="choose">{{ $item->product_name }}</h3>
                                     <table class="mt-4 table table-bordered table-hover table-striped custom_view_table">
                                       <tr>
@@ -229,7 +229,8 @@
                                       <tr>
                                           <td><strong>Specifications</strong></td>
                                           <td>:</td>
-                                          <td>{{ $item->specification }}</td>
+                                          <td>{!! $item->specification ?? 'No Specification Available' !!}</td>
+
                                       </tr>
                                       {{-- <tr>
                                         <td><strong>Description</strong></td>
