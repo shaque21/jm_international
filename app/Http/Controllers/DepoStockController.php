@@ -31,7 +31,7 @@ class DepoStockController extends Controller
         ->get();
         
         $total_stocks = DepoProductStock::orderBy('id','DESC')->get();
-        // dd($total_stocks);
+        // dd($stocks);
         // Pass data to the view
         return view('admin.depo_stocks.all', compact('stocks','total_stocks'));
     }

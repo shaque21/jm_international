@@ -6,101 +6,82 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\OrderMaster;
+use App\Models\User;
+use App\Models\Depo;
+use App\Models\Warehouse;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Auth;
 
 class OrderDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.reports.index');
+        // Fetch customers (role_id = 3) and employees (role_id = 2) for filtering
+        $customers = User::where('role_id', 3)->get();
+        $employees = User::where('role_id', 2)->get();
+        $depos = Depo::all();
+        $warehouses = Warehouse::all();
+
+        return view('admin.reports.index', compact('customers', 'employees', 'depos', 'warehouses'));
     }
 
     public function generateReports(Request $request)
-    {
-        // Get report type (daily, monthly, yearly)
-        // Get report type
-        $reportType = $request->input('report_type', 'daily'); // Default to daily
+{
+    // Get the start and end dates from the form (use current date if not set)
+    $startDate = $request->input('start_date') ? Carbon::parse($request->input('start_date')) : null;
+    $endDate = $request->input('end_date') ? Carbon::parse($request->input('end_date')) : null;
+    $customerId = $request->input('customer_id'); // Get selected customer id
+    $depoId = $request->input('depo_id'); // Get selected depo id
+    $warehouseId = $request->input('warehouse_id'); // Get selected warehouse id
+    $employeeId = $request->input('employee_id'); // Get selected employee id
 
-        // Parse dates as Carbon instances or default to the current month
-        $startDate = $request->input('start_date') 
-            ? Carbon::parse($request->input('start_date')) 
-            : Carbon::now()->startOfMonth();
+    // Base query with joins and selects
+    $query = OrderDetail::with([
+            'product', 
+            'orderMaster.customer', 
+            'orderMaster.creator', 
+            'orderMaster.warehouse', 
+            'orderMaster.depo'
+        ])
+        ->join('order_masters', 'order_details.order_master_id', '=', 'order_masters.id')
+        ->select('order_details.*', 'order_masters.order_date'); // Add the order_date to the select
 
-        $endDate = $request->input('end_date') 
-            ? Carbon::parse($request->input('end_date')) 
-            : Carbon::now()->endOfMonth();
-
-        // Fetch orders grouped by the chosen report type
-        $orders = OrderDetail::with(['orderMaster.customer', 'product'])
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->get()
-            ->groupBy(function ($order) use ($reportType) {
-                if ($reportType === 'daily') {
-                    return $order->created_at->format('Y-m-d'); // Group by day
-                } elseif ($reportType === 'monthly') {
-                    return $order->created_at->format('Y-m'); // Group by month
-                } elseif ($reportType === 'yearly') {
-                    return $order->created_at->format('Y'); // Group by year
-                }
-            });
-
-
-        // Return the view with data
-        return view('admin.reports.index', compact('orders', 'startDate', 'endDate', 'reportType'));
+    // Apply date range filter if start and end date are provided
+    if ($startDate && $endDate) {
+        $query->whereBetween('order_masters.order_date', [$startDate->startOfDay(), $endDate->endOfDay()]);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    // Apply customer filter if customer_id is provided
+    if ($customerId) {
+        $query->where('order_masters.customer_id', $customerId);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    // Apply depo filter if depo_id is provided
+    if ($depoId) {
+        $query->where('order_masters.depo_id', $depoId);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(OrderDetails $orderDetails)
-    {
-        //
+    // Apply warehouse filter if warehouse_id is provided
+    if ($warehouseId) {
+        $query->where('order_masters.warehouse_id', $warehouseId);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(OrderDetails $orderDetails)
-    {
-        //
+    // Apply employee filter if employee_id is provided
+    if ($employeeId) {
+        $query->where('order_masters.user_id', $employeeId);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, OrderDetails $orderDetails)
-    {
-        //
-    }
+    // Order the results in descending order based on order_date
+    $orders = $query->orderBy('order_masters.order_date', 'desc')->get();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(OrderDetails $orderDetails)
-    {
-        //
-    }
+    // Fetch additional data for filtering
+    $customers = \App\Models\User::where('role_id', 3)->get(); // Get customers with role_id 3
+    $employees = \App\Models\User::where('role_id', 2)->get(); // Get employees with role_id 2
+    $depos = \App\Models\Depo::all(); // Get all depos
+    $warehouses = \App\Models\Warehouse::all(); // Get all warehouses
+
+    // Pass the data to the view
+    return view('admin.reports.index', compact('orders', 'customers', 'employees', 'depos', 'warehouses'));
+}
+
+
 }

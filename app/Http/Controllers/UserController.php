@@ -8,6 +8,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use App\Rules\MatchOldPassword;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
@@ -331,6 +333,15 @@ class UserController extends Controller
             return redirect('/admin/profile/user_profile/'.$url_slug);
         }
     }
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
 
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
+    }
 
 }

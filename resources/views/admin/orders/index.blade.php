@@ -76,7 +76,7 @@
                                             <option value="" selected disabled>Select Product</option>
                                             @foreach ($warehouseProduct as $product)
                                                 <option value="{{ $product->product_id }}">
-                                                    {{ $product->product->product_name }}
+                                                    {{ $product->product->product_name ?? 'N/A' }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -99,7 +99,7 @@
                                             <option value="" selected disabled>Select Product</option>
                                             @foreach ($depoProduct as $product)
                                                 <option value="{{ $product->product_id }}">
-                                                    {{ $product->product->product_name }}
+                                                    {{ $product->product->product_name ?? 'N/A' }}
                                                 </option>
                                             @endforeach
                                         </select>

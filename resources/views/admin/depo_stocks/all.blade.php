@@ -72,7 +72,7 @@
                                 <tr class="text-center">
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $item->depo->depo_name }}</td>
-                                    <td>{{ $item->product->product_name }}</td>
+                                    <td>{{ $item->product->product_name ?? 'N/A' }}</td>
                                     <td>{{ $item->total_stock }}</td>
                                     <td>
                                         @if ($item->alert_stock >= $item->total_stock)
@@ -145,7 +145,7 @@
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $item->depo->depo_name?? ''}}</td>
                                     <td>{{ $item->warehouse->name }}</td>
-                                    <td>{{ $item->product->product_name }}</td>
+                                    <td>{{ $item->product->product_name ?? 'N/A' }}</td>
                                     <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->employee->name ?? '' }}</td>
                                     <td>{{ $item->quantity }}</td>
