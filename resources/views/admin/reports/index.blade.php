@@ -65,11 +65,30 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-md-3">
+                    <label for="product_id">Product</label>
+                    <select id="product_id" name="product_id" class="form-control">
+                        <option value="">All Products</option>
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}" {{ request('product_id') == $product->id ? 'selected' : '' }}>
+                                {{ $product->product_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="col-md-3 d-flex align-items-end">
                     <button type="submit" class="btn btn-secondary">Generate Report</button>
                 </div>
             </div>
         </form>
+
+        <!-- Display Total Quantity -->
+        @if(request('product_id') && $totalQty !== null)
+            <div class="alert alert-info">
+                Total Quantity for <strong>{{ $products->find(request('product_id'))->product_name }}</strong>: 
+                <strong>{{ $totalQty }}</strong>
+            </div>
+        @endif
 
         <!-- Reports Table -->
         <div class="card">
@@ -93,19 +112,13 @@
                             @foreach ($orders as $index => $order)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $order->product->product_name ?? 'N/A'}}</td>
+                                    <td>{{ $order->product->product_name ?? 'N/A' }}</td>
                                     <td>{{ $order->delivered_qty }}</td>
                                     <td>{{ $order->orderMaster->customer->name ?? 'N/A' }}</td>
                                     <td>{{ $order->orderMaster->creator->name ?? 'N/A' }}</td>
                                     <td>{{ $order->orderMaster->depo->depo_name ?? 'N/A' }}</td>
                                     <td>{{ $order->orderMaster->warehouse->name ?? 'N/A' }}</td>
-                                    <td>
-                                        @if ($order->orderMaster->order_status == 1)
-                                            <span class="badge badge-success">Delivered</span>
-                                        @else
-                                            <span class="badge badge-warning">Pending</span>
-                                        @endif
-                                    </td>
+                                    <td>{{ $order->orderMaster->order_status == 1 ? 'Delivered' : 'Pending' }}</td>
                                     <td>{{ $order->orderMaster->order_date }}</td>
                                 </tr>
                             @endforeach
@@ -116,26 +129,27 @@
         </div>
     </div>
 @endsection
-
 @section('script')
-    <script>
-        $(document).ready(function(){
+<script>
+    $(document).ready(function() {
         $('#basic-datatables').DataTable({
-            ordering: false,
-            responsive: true,
-            autoWidth: false,
+            "ordering": false,
+            "responsive": true,
+            "autoWidth": false
         });
     });
-    document.addEventListener("DOMContentLoaded", function() {
-            flatpickr("#start_date", {
-                dateFormat: "Y-m-d",
-                allowInput: true
-            });
-            flatpickr("#end_date", {
-                dateFormat: "Y-m-d",
-                allowInput: true
-            });
-    });
 
-    </script>
+    // Initialize Date Pickers
+    document.addEventListener("DOMContentLoaded", function() {
+        flatpickr("#start_date", {
+            dateFormat: "Y-m-d",
+            allowInput: true
+        });
+        flatpickr("#end_date", {
+            dateFormat: "Y-m-d",
+            allowInput: true
+        });
+    });
+</script>
+
 @endsection
