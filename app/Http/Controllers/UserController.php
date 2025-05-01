@@ -33,9 +33,6 @@ class UserController extends Controller
     public function insert(Request $request){
         $request->validate([
             'name'=>'required|max:70|min:5',
-            'mobile'=>'required|min:11|max:15',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:8',
             'role_id'=>'required',
             'photo'=>'mimes:jpeg,jpg,png,gif',
         ],[
@@ -43,11 +40,13 @@ class UserController extends Controller
         ]);
 
         $slug = Str::of($request->name)->slug('-'). '-' .time();
+        $email = preg_replace('/\s+/', '', trim($request->name)) . "@gmail.com";
+        $password = 'customer123';
         $insert=User::insertGetId([
             'name'=>$request->name,
-            'email'=>$request->email,
-            'mobile'=>$request->mobile,
-            'password' => Hash::make($request->password),
+            'email'=> $email,
+            'mobile'=>'01627309844',
+            'password' => Hash::make($password),
             'role_id'=>$request->role_id,
             'slug'=>$slug,
             'created_at'=>Carbon::now()->toDateTimeString(),

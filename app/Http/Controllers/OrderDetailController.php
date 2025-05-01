@@ -26,16 +26,15 @@ class OrderDetailController extends Controller
 
     public function generateReports(Request $request)
     {
-        // Get the start and end dates from the form (use current date if not set)
         $startDate = $request->input('start_date') ? Carbon::parse($request->input('start_date')) : null;
         $endDate = $request->input('end_date') ? Carbon::parse($request->input('end_date')) : null;
-        $customerId = $request->input('customer_id'); // Get selected customer id
-        $depoId = $request->input('depo_id'); // Get selected depo id
-        $warehouseId = $request->input('warehouse_id'); // Get selected warehouse id
-        $employeeId = $request->input('employee_id'); // Get selected employee id
-        $productId = $request->input('product_id'); // Get selected product id
-
-        // Base query with joins and selects
+        $customerId = $request->input('customer_id');
+        $depoId = $request->input('depo_id');
+        $warehouseId = $request->input('warehouse_id');
+        $employeeId = $request->input('employee_id');
+        $productId = $request->input('product_id');
+    
+        // Main query (includes both delivered and cancelled)
         $query = OrderDetail::with([
                 'product', 
                 'orderMaster.customer', 
@@ -44,54 +43,51 @@ class OrderDetailController extends Controller
                 'orderMaster.depo'
             ])
             ->join('order_masters', 'order_details.order_master_id', '=', 'order_masters.id')
-            ->select('order_details.*', 'order_masters.order_date'); // Add the order_date to the select
-
-        // Apply date range filter if start and end date are provided
+            ->select('order_details.*', 'order_masters.order_date');
+    
+        // Filters for both main and total queries
         if ($startDate && $endDate) {
             $query->whereBetween('order_masters.order_date', [$startDate->startOfDay(), $endDate->endOfDay()]);
         }
-
-        // Apply customer filter if customer_id is provided
+    
         if ($customerId) {
             $query->where('order_masters.customer_id', $customerId);
         }
-
-        // Apply depo filter if depo_id is provided
+    
         if ($depoId) {
             $query->where('order_masters.depo_id', $depoId);
         }
-
-        // Apply warehouse filter if warehouse_id is provided
+    
         if ($warehouseId) {
             $query->where('order_masters.warehouse_id', $warehouseId);
         }
-
-        // Apply employee filter if employee_id is provided
+    
         if ($employeeId) {
             $query->where('order_masters.user_id', $employeeId);
         }
-
-        // Apply product filter if product_id is provided
+    
         if ($productId) {
             $query->where('order_details.product_id', $productId);
         }
-
-        // Order the results in descending order based on order_date
+    
         $orders = $query->orderBy('order_masters.order_date', 'desc')->get();
-
-        // Calculate total quantity for the selected product (if any)
-        $totalQty = $productId ? $query->sum('order_details.delivered_qty') : null;
-
-        // Fetch additional data for filtering
-        $customers = \App\Models\User::where('role_id', 3)->get(); // Get customers with role_id 3
-        $employees = \App\Models\User::where('role_id', 2)->get(); // Get employees with role_id 2
-        $depos = \App\Models\Depo::all(); // Get all depos
-        $warehouses = \App\Models\Warehouse::all(); // Get all warehouses
-        $products = \App\Models\Product::all(); // Get all products
-
-        // Pass the data to the view
+    
+        // Clone the query and apply order_status = 1 filter for total only
+        $totalQty = null;
+        if ($productId) {
+            $totalQuery = clone $query;
+            $totalQty = $totalQuery->where('order_masters.order_status', 1)->sum('order_details.delivered_qty');
+        }
+    
+        $customers = \App\Models\User::where('role_id', 3)->get();
+        $employees = \App\Models\User::where('role_id', 2)->get();
+        $depos = \App\Models\Depo::all();
+        $warehouses = \App\Models\Warehouse::all();
+        $products = \App\Models\Product::all();
+    
         return view('admin.reports.index', compact('orders', 'customers', 'employees', 'depos', 'warehouses', 'products', 'totalQty', 'productId'));
     }
+    
 
 
 

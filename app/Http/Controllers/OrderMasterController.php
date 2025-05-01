@@ -210,6 +210,51 @@ class OrderMasterController extends Controller
         return response($html, 200, ['Content-Type' => 'text/html']);
     }
 
+    public function cancelOrder($orderMasterId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $orderMaster = OrderMaster::with('orderDetails')->findOrFail($orderMasterId);
+
+            if ($orderMaster->order_status == 0) {
+                return back()->with('error', 'Order is already canceled.');
+            }
+
+            foreach ($orderMaster->orderDetails as $detail) {
+                $productId = $detail->product_id;
+                $qty = $detail->delivered_qty;
+
+                $user = $orderMaster->creator ?? $orderMaster->user; // fallback
+                $role = $user->role_id ?? null;
+
+                if ($role === 1) {
+                    // Warehouse return
+                    $stock = WarehouseProductStock::firstOrCreate(['product_id' => $productId]);
+                    $stock->total_stock += $qty;
+                    $stock->save();
+                } elseif ($role === 2) {
+                    // Depo return
+                    $stock = DepoProductStock::firstOrCreate([
+                        'product_id' => $productId,
+                        'depo_id' => $orderMaster->depo_id,
+                    ]);
+                    $stock->total_stock += $qty;
+                    $stock->save();
+                }
+                // For customer (role 3), no stock update
+            }
+
+            $orderMaster->order_status = 0;
+            $orderMaster->save();
+
+            DB::commit();
+            return back()->with('success', 'Order canceled and stock returned successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Error canceling order: ' . $e->getMessage());
+        }
+    }
 
 
 

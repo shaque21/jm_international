@@ -52,7 +52,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row border">
+                            {{-- <div class="form-group row border">
                                 <label for="email" class="col-sm-2 col-form-label custom_form_label">
                                     Email :<span class="req_star">*</span>
                                 </label>
@@ -73,7 +73,7 @@
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group row border">
                                 <label for="role_id" class="col-sm-2 col-form-label custom_form_label">
                                     User Role :<span class="req_star">*</span> 
@@ -95,7 +95,7 @@
 
 
                         <div class="col-md-6 border">
-                            <div class="form-group row border">
+                            {{-- <div class="form-group row border">
                                 <label for="password" class="col-sm-2 col-form-label custom_form_label">
                                     Password :<span class="req_star">*</span>
                                 </label>
@@ -116,7 +116,7 @@
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             
                             <div class="form-group row border">
                                 <label for="photo" class="col-sm-2 col-form-label custom_form_label">

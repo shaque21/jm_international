@@ -141,6 +141,9 @@ Route::middleware([AdminMiddleware::class])->group(function () {
 
     // Route::get('/admin/reports',[OrderDetailController::class,'index']);
     Route::post('/admin/reports/check',[OrderDetailController::class,'check_report']);
+    // Route::post('/admin/reports/check',[OrderMasterController::class,'check_report']);
+    Route::patch('/admin/reports/{orderMaster}/cancel', [OrderMasterController::class, 'cancelOrder'])->name('reports.cancel');
+
 
     /*--------------------------------------------------------------------------------- 
     End Route for Report 

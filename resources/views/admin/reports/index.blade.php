@@ -4,6 +4,21 @@
     <div class="container">
         <h1>Order Reports</h1>
 
+        @if (Session::has('success'))
+                <script>
+                    swal({title: "Well Done !",text: "{{ Session::get('success') }}",
+                        icon: "success",timer: 4000
+                        });
+                </script> 
+            @endif
+            @if (Session::has('error'))
+                <script>
+                    swal({title: "Opps !",text: "{{ Session::get('error') }}",
+                        icon: "error",timer: 4000
+                        });
+                </script>
+            @endif
+
         <!-- Filter Form -->
         <form method="GET" action="{{ route('reports.index') }}">
             <div class="row mb-4">
@@ -106,6 +121,7 @@
                                 <th>Warehouse</th>
                                 <th>Status</th>
                                 <th>Order Date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -118,8 +134,22 @@
                                     <td>{{ $order->orderMaster->creator->name ?? 'N/A' }}</td>
                                     <td>{{ $order->orderMaster->depo->depo_name ?? 'N/A' }}</td>
                                     <td>{{ $order->orderMaster->warehouse->name ?? 'N/A' }}</td>
-                                    <td>{{ $order->orderMaster->order_status == 1 ? 'Delivered' : 'Pending' }}</td>
+                                    <td>{{ $order->orderMaster->order_status == 1 ? 'Delivered' : 'Canceled' }}</td>
                                     <td>{{ $order->orderMaster->order_date }}</td>
+                                    <td>
+                                        @if ($order->orderMaster->order_status == 1)
+                                            <form method="POST" action="{{ route('reports.cancel', $order->orderMaster->id) }}" class="cancel-order-form d-inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="btn btn-danger btn-sm cancel-order-btn" title="Cancel Order">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <span class="text-danger">Canceled</span>
+                                        @endif
+                                    </td>                                    
+                                    
                                 </tr>
                             @endforeach
                         </tbody>
@@ -132,6 +162,25 @@
 @section('script')
 <script>
     $(document).ready(function() {
+        // SweetAlert for cancel confirmation
+        $('.cancel-order-btn').on('click', function (event) {
+            event.preventDefault(); // prevent default form submission
+            let form = $(this).closest('form');
+            swal({
+                title: 'Are you sure?',
+                text: 'This will cancel the order and return stock accordingly.',
+                icon: 'warning',
+                buttons: ["No, cancel", "Yes, cancel it!"],
+                dangerMode: true,
+            }).then((willCancel) => {
+                if (willCancel) {
+                    form.submit(); // submit form if confirmed
+                } else {
+                    swal("Cancelled", "Order was not canceled.", "info");
+                }
+            });
+        });
+
         $('#basic-datatables').DataTable({
             "ordering": false,
             "responsive": true,
