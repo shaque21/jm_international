@@ -6,17 +6,84 @@
     <div class="col-sm-9 col-md-8">
         <div class="card card-stats card-round">
             <div class="card-header">
-                <div class="row">
-                    <div class="col-md-8 d-flex align-items-center">
+                <div class="row d-flex justify-content-between align-items-center">
+                    <div class="col-md-4  ">
                         <h2 class="text-uppercase  font-weight-bold custom_h_size">
                             Order Products
                         </h2>
                     </div>
-                    <div class="col-md-4 d-flex justify-content-end">
+                    <div class="col-md-4">
                         <a href="{{ url('/admin/products/create') }}" class="btn btn-sm btn-secondary font-weight-bold text-uppercase">
                             <i class="fas fa-cart-plus"></i>&nbsp 
                             Add new product
                         </a>
+                    </div>
+                    <div class="col-md-4 ">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-sm btn-secondary font-weight-bold text-uppercase" data-toggle="modal" data-target="#userModal">
+                            <i class="fas fa-user-plus"></i>&nbsp 
+                            Add Customer
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg"> <!-- Optional: modal-lg, modal-xl -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="userModalLabel">Add Customer Information</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                {{-- Your full form goes here --}}
+                                <form method="POST" action="{{ url('/admin/users/customer_submit') }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="card">
+                                        
+                                        <div class="card-body" style="background-color: rgba(30, 39, 46, 0.05)">
+                        
+                                            <div class="row">
+                                                <div class="col-md-6 border">
+                                                    <div class="form-group row border">
+                                                        <label for="name" class="col-sm-2 col-form-label custom_form_label">
+                                                            Name :<span class="req_star">*</span>
+                                                        </label>
+                                                        <div class="col-sm-10">
+                                                          <input type="text" id="name" class="form-control custom_form_control" name="name" placeholder="User Name">
+                                                            @error('name')
+                                                                <span class="alert alert-danger">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 border">
+                                                    <div class="form-group row border">
+                                                        <label for="role_id" class="col-sm-2 col-form-label custom_form_label">
+                                                            User Role :<span class="req_star">*</span> 
+                                                        </label>
+                                                        <div class="col-sm-10">
+                                                            <select name="role_id" id="role_id" class="form-control custom_form_control">
+                                                                <option value="" selected disabled>Select Role</option>
+                                                                <option value="1">Admin</option>
+                                                                <option value="2">Employee</option>
+                                                                <option value="3" selected>Customer</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="card-footer text-center border" style="background-color: rgba(30, 39, 46, 0.05)">
+                                            <button class="btn btn-sm btn-secondary font-weight-bold" type="submit">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                     </div>
                     @if (Session::has('success'))
                         <script>
@@ -43,8 +110,10 @@
                             <tr class="text-center">
                                 <th >#</th>
                                 <th >Product Name<span class="order_req_star">*</span></th>
-                                <th >Qty<span class="order_req_star">*</span></th>
+                                
                                 <th >Deliverd Qty<span class="order_req_star">*</span></th>
+                                <th >Price<span class="order_req_star">*</span></th>
+                                <th >Amount<span class="order_req_star">*</span></th>
                                 {{-- <th style="width: 15%">Disc (%)</th>
                                 <th style="width: 15%">Total<span class="order_req_star">*</span></th> --}}
                                 <th  class="text-center">
@@ -108,18 +177,24 @@
                                         @enderror
                                     </td>
                                 @endif
-
-                                <td>
-                                    <input type="number" name="ordered_qty[]" id="ordered_qty"
-                                    class="form-control  custom_form_control_order ordered_qty">
-                                    @error('ordered_qty')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </td>
                                 <td>
                                     <input type="number"  name="delivered_qty[]" id="delivered_qty"
                                     class="form-control  custom_form_control_order delivered_qty">
                                     @error('delivered_qty')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </td>
+                                <td>
+                                    <input type="number" step="0.01" name="product_price[]"
+                                    class="form-control custom_form_control_order product_price">
+                                    @error('product_price')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </td>
+                                <td>
+                                    <input type="text" name="amount[]" 
+                                    class="form-control custom_form_control_order amount" readonly>
+                                    @error('amount')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </td>
@@ -140,7 +215,7 @@
         <div class="card card-stats card-round">
             <div class="card-header d-flex justify-content-center align-items-center">
                 <h2 class="text-uppercase custom_h_size font-weight-bold">
-                    Total Quantity : <b class="total">0</b>  <small class="font-weight-bold">( PCS )</small>
+                    Total Amount : <b class="total">0</b>  <small class="font-weight-bold">( BDT )</small>
                 </h2>
             </div>
             <div class="card-body">
@@ -170,7 +245,7 @@
                                     
                                     @endphp
                                     <label class="font-weight-bold" for="customer_id">Customer Name : </label><span class="order_req_star"> *</span>
-                                    <select name="customer_id" id="customer_id" class="form-control  custom_form_control_order">
+                                    <select name="customer_id" id="customer_id" class="form-control custom_form_control_order select2">
                                         <option value="" selected disabled>Select Customer</option>
                                         @foreach ($customers as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -179,18 +254,9 @@
                                     @error('customer_id')
                                         <span class="alert alert-danger">{{ $message }}</span>
                                     @enderror
-                                    {{-- <label class="font-weight-bold" for="customer_name">Customer Name</label>
-                                    <input type="text" name="customer_name" id="customer_name"
-                                    class="form-control form-control-sm"> --}}
+                                    
                                 </td>
                             @endif
-                            
-                            
-                            {{-- <td>
-                                <label class="font-weight-bold" for="customer_mobile">Phone</label>
-                                <input type="text" name="customer_mobile" id="customer_mobile"
-                                class="form-control form-control-sm">
-                            </td> --}}
                         </tr>
                         <tr>
                             @php
@@ -249,8 +315,11 @@
                 @endphp
                 <div class="form-group">
                     <label class="font-weight-bold" for="order_date">Date :</label>
-                    <input type="date"  readonly class="form-control" value="{{ Carbon::now()->toDateString() }}">
+                    <input type="text" id="order_date" name="order_date" class="form-control"
+                        value="{{ old('order_date', \Carbon\Carbon::now()->toDateString()) }}"
+                        placeholder="Select Date">
                 </div>
+
                 <button class="btn font-weight-bold btn-sm btn-block btn-secondary" type="submit">Confirm Order</button>
             </div>
         </div>
@@ -398,7 +467,11 @@
                 responsive: true,
                 autoWidth: false,
 			});
-            
+            $('.select2').select2({
+                placeholder: "Select Customer",
+                allowClear: true,
+                width: '100%'
+            });
             document.querySelector(".add_more").addEventListener("click", (e) => {
                 e.preventDefault();
                 const productOptions = document.querySelector(".product_id").innerHTML;
@@ -410,11 +483,15 @@
                             <select name="product_id[]" class="form-control custom_form_control_order product_id">${productOptions}</select>
                         </td>
                         <td>
-                            <input type="number" name="ordered_qty[]" class="form-control custom_form_control_order ordered_qty" />
-                        </td>
-                        <td>
                             <input type="number" name="delivered_qty[]" class="form-control custom_form_control_order delivered_qty" />
                         </td>
+                        <td>
+                            <input type="number" step="0.01" name="product_price[]" class="form-control custom_form_control_order product_price">
+                        </td>
+                        <td>
+                            <input type="text" name="amount[]" class="form-control custom_form_control_order amount" readonly>
+                        </td>
+
                         <td class="text-center">
                             <a href="#" class="delete">
                                 <i class="fas fa-times-circle fa-lg text-danger"></i>
@@ -424,30 +501,46 @@
                 document.querySelector(".add_new_product").insertAdjacentHTML("beforeend", newRow);
             });
 
-            // Remove product row
+            // Delete Row
             document.querySelector(".add_new_product").addEventListener("click", (e) => {
                 if (e.target.closest(".delete")) {
                     e.preventDefault();
                     e.target.closest("tr").remove();
-                    calculateTotalQuantity();
+                    calculateTotalAmount();
                 }
             });
 
-            //Total Amount that display In the right head section
-            // Function to calculate total quantity
-            function calculateTotalQuantity() {
+            // Amount Calculation and Total Amount Update
+            $(document).on('input', '.delivered_qty, .product_price', function () {
+                let row = $(this).closest('tr');
+                let qty = parseFloat(row.find('.delivered_qty').val()) || 0;
+                let price = parseFloat(row.find('.product_price').val()) || 0;
+                let amount = qty * price;
+                row.find('.amount').val(amount.toFixed(2));
+
+                // Recalculate total on input
+                calculateTotalAmount();
+            });
+
+            // Function to calculate total amount
+            function calculateTotalAmount() {
                 let total = 0;
-                document.querySelectorAll(".delivered_qty").forEach((input) => {
+                document.querySelectorAll(".amount").forEach((input) => {
                     total += parseFloat(input.value) || 0;
                 });
-                document.querySelector(".total").textContent = total;
+                document.querySelector(".total").textContent = total.toFixed(2);
             }
 
-            // Update total when quantities change
+            // In case amount is manually changed (if not readonly)
             document.querySelector(".add_new_product").addEventListener("input", (e) => {
-                if (e.target.matches(".delivered_qty")) {
-                    calculateTotalQuantity();
+                if (e.target.matches(".amount")) {
+                    calculateTotalAmount();
                 }
+            });
+            flatpickr("#order_date", {
+                dateFormat: "Y-m-d",
+                defaultDate: "{{ old('order_date', \Carbon\Carbon::now()->toDateString()) }}",
+                allowInput: true,
             });
 
             // Fetch last order history

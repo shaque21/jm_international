@@ -31,6 +31,7 @@
 	<link rel="stylesheet" href="{{asset('contents/admin')}}/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{{asset('contents/admin')}}/assets/css/azzara.min.css">
 	<link rel="stylesheet" href="{{asset('contents/admin')}}/assets/css/flatpickr.min.css">
+	<link rel="stylesheet" href="{{asset('contents/admin')}}/assets/css/select2.min.css">
 	
 
 	<!-- CSS Just for demo purpose, don't include it in your project -->
@@ -121,6 +122,7 @@
 <!-- Azzara JS -->
 <script src="{{asset('contents/admin')}}/assets/js/ready.min.js"></script>
 <script src="{{asset('contents/admin')}}/assets/js/flatpickr.js"></script>
+<script src="{{asset('contents/admin')}}/assets/js/select2.min.js"></script>
 
 @yield('script')
 </body>

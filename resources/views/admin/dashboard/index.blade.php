@@ -115,6 +115,37 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="card card-stats card-round">
+                <div class="card-body ">
+                    <div class="row align-items-center">
+                        <div class="col-icon">
+                            <div class="icon-big text-center icon-primary bubble-shadow-small">
+                                <i class="fas fa-money-bill"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="col col-stats ml-3 ml-sm-0">
+                            <div class="numbers">
+                                @php
+                                    $total_amount = App\Models\OrderMaster::sum('total_amount');
+                                @endphp
+                                <p class="card-category">Amounts</p>
+                                <h4 class="card-title">
+                                    @if ($total_amount<10)
+                                        0{{ $total_amount }} <small><b>BDT</b></small>
+                                    @else
+                                        {{ $total_amount }} <small><b>BDT</b></small>
+                                    @endif
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endif
 
 {{-- Everyday Reports --}}

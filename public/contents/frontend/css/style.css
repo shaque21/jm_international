@@ -403,6 +403,7 @@ a{
     box-shadow: none !important;
 }
 
+
 @media screen and (max-width: 991px) {
     .navbar-dark{
         background-color: #000 !important;

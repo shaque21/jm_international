@@ -107,6 +107,63 @@
 
         <!-- Reports Table -->
         <div class="card">
+            <div class="card-header">
+                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#cancelledOrdersModal">
+                    <i class="fas fa-ban"></i> View Cancelled Orders
+                </button>
+                <!-- Cancelled Orders Modal -->
+                <div class="modal fade" id="cancelledOrdersModal" tabindex="-1" role="dialog" aria-labelledby="cancelledOrdersModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="cancelledOrdersModalLabel">Cancelled Orders</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm">
+                            <thead class="thead-dark">
+                                <tr>
+                                <th>#</th>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>Amount</th>
+                                <th>Customer</th>
+                                <th>Employee</th>
+                                <th>Depo</th>
+                                <th>Warehouse</th>
+                                <th>Order Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($cancelledOrders as $index => $order)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $order->product->product_name ?? 'N/A' }}</td>
+                                    <td>{{ $order->delivered_qty }}</td>
+                                    <td>{{ number_format($order->amount, 2) }}</td>
+                                    <td>{{ $order->orderMaster->customer->name ?? 'N/A' }}</td>
+                                    <td>{{ $order->orderMaster->creator->name ?? 'N/A' }}</td>
+                                    <td>{{ $order->orderMaster->depo->depo_name ?? 'N/A' }}</td>
+                                    <td>{{ $order->orderMaster->warehouse->name ?? 'N/A' }}</td>
+                                    <td>{{ $order->orderMaster->order_date }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="9" class="text-center text-danger">No cancelled orders found.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+  
+            </div>
             <div class="card-body">
                 <div class="table-responsive mb-2">
                     <table id="basic-datatables" class="table table-bordered table-striped">
@@ -115,6 +172,7 @@
                                 <th>#</th>
                                 <th>Product Name</th>
                                 <th>Qty</th>
+                                <th>Amount (BDT)</th>
                                 <th>Customer</th>
                                 <th>Employee</th>
                                 <th>Depo</th>
@@ -130,30 +188,27 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $order->product->product_name ?? 'N/A' }}</td>
                                     <td>{{ $order->delivered_qty }}</td>
+                                    <td>{{ number_format($order->amount, 2) }}</td>
                                     <td>{{ $order->orderMaster->customer->name ?? 'N/A' }}</td>
                                     <td>{{ $order->orderMaster->creator->name ?? 'N/A' }}</td>
                                     <td>{{ $order->orderMaster->depo->depo_name ?? 'N/A' }}</td>
                                     <td>{{ $order->orderMaster->warehouse->name ?? 'N/A' }}</td>
-                                    <td>{{ $order->orderMaster->order_status == 1 ? 'Delivered' : 'Canceled' }}</td>
+                                    <td>Delivered</td>
                                     <td>{{ $order->orderMaster->order_date }}</td>
                                     <td>
-                                        @if ($order->orderMaster->order_status == 1)
-                                            <form method="POST" action="{{ route('reports.cancel', $order->orderMaster->id) }}" class="cancel-order-form d-inline">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" class="btn btn-danger btn-sm cancel-order-btn" title="Cancel Order">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </form>
-                                        @else
-                                            <span class="text-danger">Canceled</span>
-                                        @endif
-                                    </td>                                    
-                                    
+                                        <form method="POST" action="{{ route('reports.cancel', $order->orderMaster->id) }}" class="cancel-order-form d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-danger btn-sm cancel-order-btn" title="Cancel Order">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    
                 </div>
             </div>
         </div>

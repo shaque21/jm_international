@@ -159,6 +159,7 @@ Route::middleware([AdminMiddleware::class])->group(function () {
         Route::post('/admin/users/update',[UserController::class,'update']);
         Route::get('/admin/users/soft-delete/{slug}',[UserController::class,'soft_delete']);
         Route::post('/admin/users/submit',[UserController::class,'insert']);
+        Route::post('/admin/users/customer_submit',[UserController::class,'customer_insert']);
         Route::get('/admin/restore/users',[UserController::class,'trash_user']);
         Route::get('/admin/restore/users/{slug}',[UserController::class,'restore_user']);
         Route::get('/admin/restore/users/delete/{slug}',[UserController::class,'destroy']);

@@ -33,6 +33,9 @@ class UserController extends Controller
     public function insert(Request $request){
         $request->validate([
             'name'=>'required|max:70|min:5',
+            'mobile'=>'required|min:11|max:15',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|confirmed|min:8',
             'role_id'=>'required',
             'photo'=>'mimes:jpeg,jpg,png,gif',
         ],[
@@ -40,13 +43,11 @@ class UserController extends Controller
         ]);
 
         $slug = Str::of($request->name)->slug('-'). '-' .time();
-        $email = preg_replace('/\s+/', '', trim($request->name)) . "@gmail.com";
-        $password = 'customer123';
         $insert=User::insertGetId([
             'name'=>$request->name,
-            'email'=> $email,
-            'mobile'=>'01627309844',
-            'password' => Hash::make($password),
+            'email'=>$request->email,
+            'mobile'=>$request->mobile,
+            'password' => Hash::make($request->password),
             'role_id'=>$request->role_id,
             'slug'=>$slug,
             'created_at'=>Carbon::now()->toDateTimeString(),
@@ -84,6 +85,62 @@ class UserController extends Controller
         else{
             $request->session()->flash('error', 'User is not Added!');
             return redirect('/admin/users/add');
+        }
+    }
+    public function customer_insert(Request $request){
+        $request->validate([
+            'name'=>'required|max:70|min:5',
+            'role_id'=>'required',
+            'photo'=>'mimes:jpeg,jpg,png,gif',
+        ],[
+            'name.required'=>'The name field is required!'
+        ]);
+
+        $slug = Str::of($request->name)->slug('-'). '-' .time();
+        $email = preg_replace('/\s+/', '', trim($request->name)) . "@gmail.com";
+        $password = 'customer@123';
+        $insert=User::insertGetId([
+            'name'=>$request->name,
+            'email'=> $email,
+            'mobile'=>'01627309844',
+            'password' => Hash::make($password),
+            'role_id'=>$request->role_id,
+            'slug'=>$slug,
+            'created_at'=>Carbon::now()->toDateTimeString(),
+        ]);
+        if ($request->hasFile('photo')) {
+            // Get the file from the request
+            $image = $request->file('photo');
+    
+            // Generate a unique name for the file
+            $fileName = $slug.'('.$insert.')'.'-'.time() . '.' . $image->getClientOriginalExtension();
+    
+            // Store the file in the 'public/uploads/users' directory
+            $path = $image->move(public_path('/uploads/users'), $fileName);
+            User::where('id',$insert)->update([
+                'photo'=>$fileName,
+                'updated_at'=>Carbon::now()->toDateTimeString(),
+            ]);
+        }
+        // if($request->hasFile('photo')){
+        //     $image = $request->file('photo');
+        //     $image_name = $slug.'('.$insert.')'.'-'.time().'.'.$image->getClientOriginalExtension();
+        //     Image::make($image)->resize(250,250)->save(base_path('public/uploads/users/'.$image_name));
+            
+        //     User::where('id',$insert)->update([
+        //         'photo'=>$image_name,
+        //         'updated_at'=>Carbon::now()->toDateTimeString(),
+        //     ]);
+        // }
+        if($insert){
+            $request->session()->flash('success', 'Customer Added Successfully!');
+            return redirect('/admin/orders');
+
+        return redirect(route('verification.notice'))->with('status', 'A verification link has been sent to your email address.');
+        }
+        else{
+            $request->session()->flash('error', 'User is not Added!');
+            return redirect('/admin/orders');
         }
     }
     // public function insert(Request $request)
